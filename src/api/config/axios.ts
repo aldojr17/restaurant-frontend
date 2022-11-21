@@ -58,7 +58,7 @@ instance.interceptors.response.use(
       if (err.code === "ERR_NETWORK") {
         throw handleHttpResponse("0");
       } else {
-        throw handleHttpResponse(String(error.code), error.message);
+        throw handleHttpResponse(String(err.response.status), error.error);
       }
     }
   }

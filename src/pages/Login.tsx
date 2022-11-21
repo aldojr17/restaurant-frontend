@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { loginApi } from "../api/auth";
 
 const Login = () => {
@@ -10,6 +11,7 @@ const Login = () => {
     email: false,
     password: false,
   });
+  const navigate = useNavigate();
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
     setInput({
@@ -30,7 +32,9 @@ const Login = () => {
     const status = await loginApi(input);
 
     if (status.isSuccess) {
-      alert("success");
+      navigate("/", { replace: true });
+    } else {
+      alert(status);
     }
   };
 
@@ -52,6 +56,7 @@ const Login = () => {
             id="email"
             placeholder="test@test.com"
             onChange={handleChange}
+            required
           />
           {isError.email ? (
             <div className="text-danger mt-3">Email should not be empty</div>
@@ -70,6 +75,7 @@ const Login = () => {
             id="password"
             placeholder="******"
             onChange={handleChange}
+            required
           />
           {isError.password ? (
             <div className="text-danger mt-3">Password should not be empty</div>
@@ -88,7 +94,9 @@ const Login = () => {
       </form>
       <p className="text-center">
         You don't have an account?
-        <span>Sign Up</span>
+        <Link to="/register" className="ms-2 text-decoration-none">
+          <span>Sign Up</span>
+        </Link>
       </p>
     </>
   );
