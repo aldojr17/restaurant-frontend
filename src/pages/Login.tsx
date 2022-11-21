@@ -56,7 +56,6 @@ const Login = () => {
             id="email"
             placeholder="test@test.com"
             onChange={handleChange}
-            required
           />
           {isError.email ? (
             <div className="text-danger mt-3">Email should not be empty</div>
@@ -75,7 +74,6 @@ const Login = () => {
             id="password"
             placeholder="******"
             onChange={handleChange}
-            required
           />
           {isError.password ? (
             <div className="text-danger mt-3">Password should not be empty</div>

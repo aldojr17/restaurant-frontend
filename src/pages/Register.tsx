@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { registerApi } from "../api/auth";
+import AuthModal from "../components/Modal/AuthModal";
 
 const Register = () => {
   const [input, setInput] = useState({
@@ -36,8 +37,10 @@ const Register = () => {
 
     const status = await registerApi(input);
 
-    if (status.code === 200) {
+    if (status.isSuccess) {
       setIsShowModal(true);
+    } else {
+      alert(status);
     }
   };
 
@@ -61,7 +64,9 @@ const Register = () => {
             onChange={handleChange}
           />
           {isError.fullname ? (
-            <div className="text-danger mt-3">Name should not be empty</div>
+            <div className="text-danger mt-3">
+              Full Name should not be empty
+            </div>
           ) : (
             ""
           )}
@@ -117,6 +122,7 @@ const Register = () => {
           <span>Login</span>
         </Link>
       </p>
+      {isShowModal ? <AuthModal /> : ""}
     </>
   );
 };
