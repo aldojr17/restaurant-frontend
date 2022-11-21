@@ -1,6 +1,7 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { AuthRoutes, Login, NotFound, ProtectedRoutes } from "./pages";
+import Register from "./pages/Register";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <Routes>
         <Route element={<AuthRoutes />}>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Route>
         <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<NotFound />} />
