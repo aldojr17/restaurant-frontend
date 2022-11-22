@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { registerApi } from "../api/auth";
-import AuthModal from "../components/Modal/AuthModal";
+import { registerApi } from "../../api/auth";
+import AuthModal from "../../components/Modal/AuthModal";
+import "./auth.scss";
 
 const Register = () => {
   const [input, setInput] = useState({
@@ -45,7 +46,7 @@ const Register = () => {
   };
 
   return (
-    <>
+    <div className="auth-container d-flex flex-column justify-content-center">
       <h1 className="text-center">Register</h1>
       <form
         onSubmit={handleSubmit}
@@ -123,7 +124,7 @@ const Register = () => {
         </Link>
       </p>
       {isShowModal ? <AuthModal /> : ""}
-    </>
+    </div>
   );
 };
 

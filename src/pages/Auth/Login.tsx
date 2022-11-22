@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginApi } from "../api/auth";
+import { loginApi } from "../../api/auth";
+import "./auth.scss";
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -39,7 +40,7 @@ const Login = () => {
   };
 
   return (
-    <>
+    <div className="auth-container d-flex flex-column justify-content-center">
       <h1 className="text-center">Login</h1>
       <form
         onSubmit={handleSubmit}
@@ -96,7 +97,7 @@ const Login = () => {
           <span>Sign Up</span>
         </Link>
       </p>
-    </>
+    </div>
   );
 };
 

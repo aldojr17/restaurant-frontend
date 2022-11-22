@@ -1,11 +1,16 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import { AuthRoutes, Login, NotFound, ProtectedRoutes } from "./pages";
-import Register from "./pages/Register";
+import {
+  AuthRoutes,
+  Login,
+  NotFound,
+  ProtectedRoutes,
+  Register,
+} from "./pages";
 
 function App() {
   return (
-    <div className="container-fluid my-auto">
+    <div className="container-fluid">
       <Routes>
         <Route element={<AuthRoutes />}>
           <Route path="/login" element={<Login />} />
