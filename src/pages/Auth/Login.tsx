@@ -50,7 +50,7 @@ const Login = () => {
           onSubmit={handleSubmit}
           className="row flex-column align-items-center gy-4"
         >
-          <div className="col-lg-5 text-start">
+          <div className="col-lg-5 col-8 text-start">
             <input
               className="form-control p-3"
               type="email"
@@ -65,7 +65,7 @@ const Login = () => {
               ""
             )}
           </div>
-          <div className="col-lg-5 text-start">
+          <div className="col-lg-5 col-8 text-start">
             <input
               className="form-control p-3"
               type="password"
@@ -82,7 +82,7 @@ const Login = () => {
               ""
             )}
           </div>
-          <div className="col-lg-5 text-center mt-5">
+          <div className="col-lg-5 col-8 text-center mt-5">
             <button type="submit" className="btn btn-dark w-75">
               Login
             </button>
