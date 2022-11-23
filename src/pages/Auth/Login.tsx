@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import { RootState } from "../../redux";
-import { login } from "../../redux/user/action";
+import { login, setStatus } from "../../redux/user/action";
 import { UserDispatch } from "../../redux/user/types";
 import "./auth.scss";
 
@@ -38,12 +38,26 @@ const Login = () => {
     }
     dispatch(login(input));
 
-    // if (status.isSuccess) {
-    //   navigate("/", { replace: true });
-    // } else {
-    //   alert(status);
-    // }
+    setIsError({
+      email: false,
+      password: false,
+    });
   };
+
+  useEffect(() => {
+    if (status.isSuccess) {
+      navigate("/", { replace: true });
+    }
+  }, [status]);
+
+  useEffect(() => {
+    dispatch(
+      setStatus({
+        error: "",
+        isSuccess: false,
+      })
+    );
+  }, []);
 
   return (
     <>
@@ -92,14 +106,21 @@ const Login = () => {
                 ""
               )}
             </div>
-            <div className="col-lg-5 col-8 text-center mt-5">
+            <div className="col-lg-5 col-8 text-start">
+              {!status.isSuccess ? (
+                <div className="text-danger mt-3">{status.error}</div>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className="col-lg-5 col-8 text-center">
               <button type="submit" className="btn btn-dark w-75">
                 Login
               </button>
             </div>
           </form>
         </div>
-        <div className="col-12 col-lg-6 my-auto p-0">
+        <div className="col-12 col-lg-6 my-auto p-0 pb-5 pb-lg-0">
           <div className="border border-1 w-75 mx-auto shadow py-5">
             <div className="row flex-column align-items-center text-center justify-content-center gap-5">
               <img

@@ -19,6 +19,10 @@ const Register = () => {
     confirmPassword: false,
     matchPassword: false,
   });
+  const [apiError, setApiError] = useState({
+    error: false,
+    message: "",
+  });
   const [isShowModal, setIsShowModal] = useState(false);
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -57,12 +61,24 @@ const Register = () => {
     }
 
     const status = await registerApi(input);
+    console.log(status);
 
     if (status.isSuccess) {
       setIsShowModal(true);
     } else {
-      alert(status);
+      setApiError({
+        error: true,
+        message: status.error,
+      });
     }
+
+    setIsError({
+      fullname: input.fullname === "",
+      email: input.email === "",
+      password: input.password === "",
+      confirmPassword: input.confirmPassword === "",
+      matchPassword: input.password !== input.confirmPassword,
+    });
   };
 
   return (
@@ -155,7 +171,14 @@ const Register = () => {
                 ""
               )}
             </div>
-            <div className="col-lg-5 col-8 text-center mt-5">
+            <div className="col-lg-5 col-8 text-start">
+              {apiError.error ? (
+                <div className="text-danger mt-3">{apiError.message}</div>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className="col-lg-5 col-8 text-center">
               <button type="submit" className="btn btn-dark w-75">
                 Register
               </button>
@@ -164,7 +187,7 @@ const Register = () => {
           {isShowModal ? <AuthModal /> : ""}
         </div>
 
-        <div className="col-12 col-lg-6 my-auto p-0">
+        <div className="col-12 col-lg-6 my-auto p-0 pb-5 pb-lg-0">
           <div className="border border-1 w-75 mx-auto shadow py-5">
             <div className="row flex-column align-items-center text-center justify-content-center gap-5">
               <img

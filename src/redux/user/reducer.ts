@@ -18,7 +18,7 @@ const initialState: IUserState = {
   },
   status: {
     error: "",
-    isSuccess: true,
+    isSuccess: false,
   },
 };
 

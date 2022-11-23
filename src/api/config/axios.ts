@@ -36,7 +36,7 @@ export const handleHttpResponse = (status: string, message?: string) => {
       return new Error("Internal Server Error");
     }
     default: {
-      return new Error(`${status}${message || ""}`);
+      return new Error(`${message || ""}`);
     }
   }
 };
@@ -50,6 +50,7 @@ instance.interceptors.response.use(
   },
   (err) => {
     const error = err && err.response && err.response.data;
+    console.log(err, error);
     if (error && error.message === "Invalid credential") {
       localStorage.clear();
       window.location.replace("/login");
@@ -58,7 +59,7 @@ instance.interceptors.response.use(
       if (err.code === "ERR_NETWORK") {
         throw handleHttpResponse("0");
       } else {
-        throw handleHttpResponse(String(err.response.status), error.error);
+        throw error;
       }
     }
   }

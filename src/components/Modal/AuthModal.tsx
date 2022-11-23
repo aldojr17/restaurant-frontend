@@ -16,7 +16,7 @@ const AuthModal = () => {
           </div>
           <div className="modal-footer border-0 mx-auto">
             <Link to="/login" replace={true}>
-              <button type="button" className="btn btn-outline-primary fw-bold">
+              <button type="button" className="btn btn-outline-dark">
                 Back to Login
               </button>
             </Link>
