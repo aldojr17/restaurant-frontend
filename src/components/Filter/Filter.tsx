@@ -11,6 +11,8 @@ const Filter = () => {
     category: 0,
     sortBy: "price",
     name: "",
+    sort: "asc",
+    limit: 12,
   });
   const dispatch: MenuDispatch = useDispatch();
   const debounce = useDebounce(searchText, 800);
@@ -42,8 +44,8 @@ const Filter = () => {
 
   return (
     <div className="container mx-auto row justify-content-between align-items-center px-5">
-      <div className="col-lg-3">
-        <div className="row align-items-center">
+      <div className="col-lg-4">
+        <div className="row align-items-center gap-2">
           <span className="col-lg-3">Sort By</span>
           <select
             className="form-select col"
@@ -55,6 +57,15 @@ const Filter = () => {
             <option value="name">Name</option>
             <option value="rating">Rating</option>
             <option value="is_available">Available</option>
+          </select>
+          <select
+            className="form-select col"
+            name="sort"
+            id="sort"
+            onChange={handleChangeFilter}
+          >
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
           </select>
         </div>
       </div>

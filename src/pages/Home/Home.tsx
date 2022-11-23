@@ -26,7 +26,7 @@ const Home = () => {
   }, [filter]);
 
   const handleClick = (id: number) => {
-    setFilter({ category: id, limit: 8 });
+    setFilter({ ...filter, category: id });
   };
 
   return (
@@ -49,7 +49,7 @@ const Home = () => {
         </DivCategory>
       </div>
       <MenuList data={menus} />
-      {menus.length !== 0 ? (
+      {menus.length !== 0 && menus.length >= 8 ? (
         <div className="container mx-auto d-flex justify-content-center mt-3">
           <button className="btn btn-dark">See All</button>
         </div>
