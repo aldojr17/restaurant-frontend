@@ -14,6 +14,7 @@ const Home = () => {
   );
   const [filter, setFilter] = useState<IFilterPayload>({
     category: 1,
+    limit: 8,
   });
 
   useEffect(() => {
@@ -25,7 +26,7 @@ const Home = () => {
   }, [filter]);
 
   const handleClick = (id: number) => {
-    setFilter({ category: id });
+    setFilter({ category: id, limit: 8 });
   };
 
   return (

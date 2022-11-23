@@ -22,6 +22,7 @@ export interface IFilterPayload {
   category?: number;
   sortBy?: string;
   name?: string;
+  limit?: number;
 }
 
 export interface IMenuState {
