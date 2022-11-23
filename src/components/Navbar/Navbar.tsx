@@ -1,10 +1,16 @@
-const Navbar = () => {
+import { Link } from "react-router-dom";
+
+interface NavbarProps {
+  active?: string;
+}
+
+const Navbar = ({ ...props }: NavbarProps) => {
   return (
-    <nav className="navbar navbar-expand-lg">
+    <nav className="navbar navbar-expand-lg mb-4">
       <div className="container">
-        <a className="navbar-brand" href="#">
+        <Link to={"/"} className="navbar-brand">
           Foodie
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -19,9 +25,14 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbar">
           <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link" aria-current="page" href="#">
+              <Link
+                to={"/menu"}
+                className={`nav-link ${
+                  props.active === "menu" ? "active" : ""
+                }`}
+              >
                 Menu
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#">

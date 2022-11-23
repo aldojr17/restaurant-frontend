@@ -20,6 +20,8 @@ export interface ICategoryPayload {
 
 export interface IFilterPayload {
   category?: number;
+  sortBy?: string;
+  name?: string;
 }
 
 export interface IMenuState {

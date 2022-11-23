@@ -22,7 +22,7 @@ export const setCategory = (payload: ICategoryPayload[]): MenuActions => {
   };
 };
 
-export const fetchMenu = (filter: IFilterPayload) => {
+export const fetchMenu = (filter?: IFilterPayload) => {
   return async (dispatch: Dispatch<MenuActions>) => {
     await instance
       .get("/menus", { params: filter })

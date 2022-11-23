@@ -4,6 +4,7 @@ import {
   AuthRoutes,
   Home,
   Login,
+  Menu,
   NotFound,
   ProtectedRoutes,
   Register,
@@ -19,6 +20,7 @@ function App() {
         {/* </Route> */}
         {/* <Route element={<ProtectedRoutes />}> */}
         <Route path="/" element={<Home />} />
+        <Route path="/menu" element={<Menu />} />
         {/* </Route> */}
         <Route path="*" element={<NotFound />} />
       </Routes>
