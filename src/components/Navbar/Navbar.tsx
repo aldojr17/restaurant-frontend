@@ -40,7 +40,13 @@ const Navbar = ({ ...props }: NavbarProps) => {
               </a>
             </li>
           </ul>
-          <button className="btn btn-outline-dark">Login</button>
+          {props.active === "auth" ? (
+            ""
+          ) : (
+            <Link to={"/login"}>
+              <button className="btn btn-outline-dark">Login</button>
+            </Link>
+          )}
         </div>
       </div>
     </nav>
