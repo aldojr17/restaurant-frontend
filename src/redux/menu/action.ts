@@ -26,10 +26,7 @@ export const fetchMenu = (filter?: IFilterPayload) => {
   return async (dispatch: Dispatch<MenuActions>) => {
     await instance
       .get("/menus", { params: filter })
-      .then((response) => response)
-      .then((data) => {
-        dispatch(setMenu(data.data));
-      })
+      .then((response) => dispatch(setMenu(response.data.data)))
       .catch((error) => error);
   };
 };
@@ -38,10 +35,7 @@ export const fetchCategory = () => {
   return async (dispatch: Dispatch<MenuActions>) => {
     await instance
       .get("/categories")
-      .then((response) => response)
-      .then((data) => {
-        dispatch(setCategory(data.data));
-      })
+      .then((response) => dispatch(setCategory(response.data.data)))
       .catch((error) => error);
   };
 };

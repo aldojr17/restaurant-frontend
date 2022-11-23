@@ -46,7 +46,7 @@ instance.interceptors.response.use(
     if (res.data.token) {
       localStorage.setItem("sessionId", `Bearer ${res.data.token}`);
     }
-    return res.data;
+    return res;
   },
   (err) => {
     const error = err && err.response && err.response.data;

@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loginApi } from "../../api/auth";
 import Navbar from "../../components/Navbar/Navbar";
+import { RootState } from "../../redux";
+import { login } from "../../redux/user/action";
+import { UserDispatch } from "../../redux/user/types";
 import "./auth.scss";
 
 const Login = () => {
@@ -14,6 +17,8 @@ const Login = () => {
     password: false,
   });
   const navigate = useNavigate();
+  const dispatch: UserDispatch = useDispatch();
+  const { status } = useSelector((state: RootState) => state.userReducer);
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
     setInput({
@@ -31,13 +36,13 @@ const Login = () => {
       });
       return;
     }
-    const status = await loginApi(input);
+    dispatch(login(input));
 
-    if (status.isSuccess) {
-      navigate("/", { replace: true });
-    } else {
-      alert(status);
-    }
+    // if (status.isSuccess) {
+    //   navigate("/", { replace: true });
+    // } else {
+    //   alert(status);
+    // }
   };
 
   return (
