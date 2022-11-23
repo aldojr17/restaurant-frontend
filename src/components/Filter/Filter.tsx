@@ -43,7 +43,7 @@ const Filter = () => {
   }, [debounce, filter]);
 
   return (
-    <div className="container mx-auto row justify-content-between align-items-center px-5">
+    <div className="container mx-auto row justify-content-between align-items-center px-5 gap-3 gap-lg-0">
       <div className="col-lg-4">
         <div className="row align-items-center gap-2">
           <span className="col-lg-3">Sort By</span>

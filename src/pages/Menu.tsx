@@ -6,10 +6,11 @@ import { RootState } from "../redux";
 
 const Menu = () => {
   const { menus } = useSelector((state: RootState) => state.menuReducer);
+  const { user } = useSelector((state: RootState) => state.userReducer);
 
   return (
     <>
-      <Navbar active="menu" />
+      <Navbar active="menu" isLogged={user.role !== -1} />
       <Filter />
       <MenuList data={menus} />
     </>

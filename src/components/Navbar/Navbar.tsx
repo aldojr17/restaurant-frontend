@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 interface NavbarProps {
   active?: string;
+  isLogged?: boolean;
 }
 
 const Navbar = ({ ...props }: NavbarProps) => {
@@ -42,6 +43,10 @@ const Navbar = ({ ...props }: NavbarProps) => {
           </ul>
           {props.active === "auth" ? (
             ""
+          ) : props.isLogged ? (
+            <Link to={"/login"}>
+              <button className="btn btn-outline-dark">Logout</button>
+            </Link>
           ) : (
             <Link to={"/login"}>
               <button className="btn btn-outline-dark">Login</button>

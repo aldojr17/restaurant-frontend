@@ -12,6 +12,7 @@ const Home = () => {
   const { menus, categories } = useSelector(
     (state: RootState) => state.menuReducer
   );
+  const { user } = useSelector((state: RootState) => state.userReducer);
   const [filter, setFilter] = useState<IFilterPayload>({
     category: 1,
     limit: 8,
@@ -31,7 +32,7 @@ const Home = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar isLogged={user.role !== -1} />
       <div className="container">
         <DivCategory className=" d-flex flex-column flex-wrap justify-content-center">
           {categories.map((category) => (
