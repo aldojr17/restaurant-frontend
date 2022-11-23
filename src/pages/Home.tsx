@@ -50,6 +50,9 @@ const Home = () => {
           ))}
         </div>
       </div>
+      <div className="container mx-auto d-flex justify-content-center mt-3">
+        <button className="btn btn-dark">See All</button>
+      </div>
     </>
   );
 };
