@@ -13,12 +13,23 @@ export interface IMenuPayload {
   is_available: boolean;
 }
 
+export interface ICategoryPayload {
+  id: number;
+  name: string;
+}
+
+export interface IFilterPayload {
+  category?: number;
+}
+
 export interface IMenuState {
   menus: IMenuPayload[];
+  categories: ICategoryPayload[];
 }
 
 export enum MenuActionTypes {
   FETCH_MENU = "FETCH_MENU",
+  FETCH_CATEGORIES = "FETCH_CATEGORIES",
 }
 
 export interface IFetchMenu {
@@ -26,5 +37,10 @@ export interface IFetchMenu {
   payload: IMenuPayload[];
 }
 
-export type MenuActions = IFetchMenu;
+export interface IFetchCategories {
+  type: MenuActionTypes.FETCH_CATEGORIES;
+  payload: ICategoryPayload[];
+}
+
+export type MenuActions = IFetchMenu | IFetchCategories;
 export type MenuDispatch = ThunkDispatch<IMenuState, any, AnyAction>;
