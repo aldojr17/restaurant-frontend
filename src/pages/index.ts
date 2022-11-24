@@ -7,4 +7,4 @@ export { default as Register } from "./Auth/Register";
 export { default as Home } from "./Home/Home";
 export { default as Menu } from "./Menu";
 export { default as Order } from "./Order";
-export { default as MenuDetail } from "./MenuDetail";
+export { default as MenuDetail } from "./MenuDetail/MenuDetail";
