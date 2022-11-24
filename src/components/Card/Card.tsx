@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../redux";
 import { IMenuPayload } from "../../redux/menu/types";
-import { addToFavorites } from "../../redux/user/action";
+import { addToFavorites, deleteFromFavorites } from "../../redux/user/action";
 import { UserDispatch } from "../../redux/user/types";
 import useIsLogged from "../../util/useIsLogged";
 import { formatCurrency } from "../../util/util";
@@ -17,12 +17,14 @@ const Card = ({ ...props }: IMenuPayload) => {
   const navigate = useNavigate();
 
   const handleAddToFavorites = () => {
-    dispatch(
-      addToFavorites({
-        menu_id: props.id,
-        user_id: user.id,
-      })
-    );
+    user.favorites.findIndex((fav) => fav.menu_id === props.id) !== -1
+      ? dispatch(deleteFromFavorites({ menu_id: props.id, user_id: user.id }))
+      : dispatch(
+          addToFavorites({
+            menu_id: props.id,
+            user_id: user.id,
+          })
+        );
   };
 
   return (

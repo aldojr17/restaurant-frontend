@@ -32,6 +32,15 @@ export const addToFavoritesRedux = (
   };
 };
 
+export const deleteFromFavoritesRedux = (
+  payload: IUserFavoritePayload
+): UserActions => {
+  return {
+    type: UserActionTypes.DELETE_FROM_FAVORITES,
+    payload,
+  };
+};
+
 export const login = (payload: ILoginPayload) => {
   return async (dispatch: Dispatch<UserActions>) => {
     await instance
@@ -73,6 +82,17 @@ export const addToFavorites = (payload: IUserFavoritePayload) => {
       .post("/users/favorites", { menu_id: payload.menu_id })
       .then((response) => {
         dispatch(addToFavoritesRedux(payload));
+      })
+      .catch((error) => error);
+  };
+};
+
+export const deleteFromFavorites = (payload: IUserFavoritePayload) => {
+  return async (dispatch: Dispatch<UserActions>) => {
+    await instance
+      .post("/users/favorites", { menu_id: payload.menu_id })
+      .then((response) => {
+        dispatch(deleteFromFavoritesRedux(payload));
       })
       .catch((error) => error);
   };

@@ -37,6 +37,7 @@ export enum UserActionTypes {
   SET_STATUS = "SET_STATUS",
 
   ADD_TO_FAVORITES = "ADD_TO_FAVORITES",
+  DELETE_FROM_FAVORITES = "DELETE_FROM_FAVORITES",
 }
 
 export interface ISetUser {
@@ -54,5 +55,14 @@ export interface IAddToFavorites {
   payload: IUserFavoritePayload;
 }
 
-export type UserActions = ISetUser | ISetStatus | IAddToFavorites;
+export interface IDeleteFromFavorites {
+  type: UserActionTypes.DELETE_FROM_FAVORITES;
+  payload: IUserFavoritePayload;
+}
+
+export type UserActions =
+  | ISetUser
+  | ISetStatus
+  | IAddToFavorites
+  | IDeleteFromFavorites;
 export type UserDispatch = ThunkDispatch<IUserState, any, AnyAction>;

@@ -1,5 +1,6 @@
 import {
   IAddToFavorites,
+  IDeleteFromFavorites,
   ISetStatus,
   ISetUser,
   IUserState,
@@ -42,6 +43,19 @@ const addToFavorites = (state: IUserState, action: IAddToFavorites) => ({
   },
 });
 
+const deleteFromFavorites = (
+  state: IUserState,
+  action: IDeleteFromFavorites
+) => ({
+  ...state,
+  user: {
+    ...state.user,
+    favorites: state.user.favorites.filter(
+      (fav) => fav.menu_id !== action.payload.menu_id
+    ),
+  },
+});
+
 const userReducer = (
   state: IUserState = initialState,
   action: UserActions
@@ -53,6 +67,8 @@ const userReducer = (
       return setStatus(state, action);
     case UserActionTypes.ADD_TO_FAVORITES:
       return addToFavorites(state, action);
+    case UserActionTypes.DELETE_FROM_FAVORITES:
+      return deleteFromFavorites(state, action);
     default:
       return state;
   }
