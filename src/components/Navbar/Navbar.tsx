@@ -47,6 +47,21 @@ const Navbar = ({ ...props }: NavbarProps) => {
                 Promotions
               </a>
             </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">
+                Cart
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">
+                Orders
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">
+                Profile
+              </a>
+            </li>
           </ul>
           {props.active === "auth" ? (
             ""
