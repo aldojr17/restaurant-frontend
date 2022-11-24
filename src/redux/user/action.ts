@@ -3,6 +3,7 @@ import instance from "../../api/config/axios";
 import {
   IApiPayload,
   ILoginPayload,
+  IUserFavoritePayload,
   IUserPayload,
   UserActions,
   UserActionTypes,
@@ -18,6 +19,15 @@ export const setUser = (payload: IUserPayload): UserActions => {
 export const setStatus = (payload: IApiPayload): UserActions => {
   return {
     type: UserActionTypes.SET_STATUS,
+    payload,
+  };
+};
+
+export const addToFavoritesRedux = (
+  payload: IUserFavoritePayload
+): UserActions => {
+  return {
+    type: UserActionTypes.ADD_TO_FAVORITES,
     payload,
   };
 };
@@ -52,6 +62,17 @@ export const getProfile = () => {
       .get("/users/profile")
       .then((response) => {
         dispatch(setUser(response.data.data));
+      })
+      .catch((error) => error);
+  };
+};
+
+export const addToFavorites = (payload: IUserFavoritePayload) => {
+  return async (dispatch: Dispatch<UserActions>) => {
+    await instance
+      .post("/users/favorites", { menu_id: payload.menu_id })
+      .then((response) => {
+        dispatch(addToFavoritesRedux(payload));
       })
       .catch((error) => error);
   };

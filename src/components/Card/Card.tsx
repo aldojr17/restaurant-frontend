@@ -1,6 +1,10 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "../../redux";
 import { IMenuPayload } from "../../redux/menu/types";
+import { addToFavorites } from "../../redux/user/action";
+import { UserDispatch } from "../../redux/user/types";
 import useIsLogged from "../../util/useIsLogged";
 import { formatCurrency } from "../../util/util";
 import { HeartIcon, StarIcon } from "../Icon";
@@ -8,8 +12,18 @@ import "./card.scss";
 import CardImg, { DivFavorite } from "./style";
 
 const Card = ({ ...props }: IMenuPayload) => {
-  const [clicked, setClicked] = useState(false);
+  const { user } = useSelector((state: RootState) => state.userReducer);
+  const dispatch: UserDispatch = useDispatch();
   const navigate = useNavigate();
+
+  const handleAddToFavorites = () => {
+    dispatch(
+      addToFavorites({
+        menu_id: props.id,
+        user_id: user.id,
+      })
+    );
+  };
 
   return (
     <div className="col-lg-3 mb-4 d-flex justify-content-center">
@@ -18,9 +32,14 @@ const Card = ({ ...props }: IMenuPayload) => {
           <DivFavorite
             role={"button"}
             className="rounded-circle border border-1 border-dark p-2 position-absolute top-0 end-0 m-1 bg-light"
-            onClick={() => setClicked(true)}
+            onClick={() => handleAddToFavorites()}
           >
-            {clicked ? <HeartIcon fill /> : <HeartIcon fill={false} />}
+            {user.favorites.findIndex((fav) => fav.menu_id === props.id) !==
+            -1 ? (
+              <HeartIcon fill />
+            ) : (
+              <HeartIcon fill={false} />
+            )}
           </DivFavorite>
         ) : (
           ""

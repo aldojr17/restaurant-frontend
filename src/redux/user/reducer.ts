@@ -1,4 +1,5 @@
 import {
+  IAddToFavorites,
   ISetStatus,
   ISetUser,
   IUserState,
@@ -15,6 +16,7 @@ const initialState: IUserState = {
     phone: "",
     profile_picture: "",
     role: -1,
+    favorites: [],
   },
   status: {
     error: "",
@@ -32,6 +34,14 @@ const setStatus = (state: IUserState, action: ISetStatus) => ({
   status: action.payload,
 });
 
+const addToFavorites = (state: IUserState, action: IAddToFavorites) => ({
+  ...state,
+  user: {
+    ...state.user,
+    favorites: [...state.user.favorites, action.payload],
+  },
+});
+
 const userReducer = (
   state: IUserState = initialState,
   action: UserActions
@@ -41,6 +51,8 @@ const userReducer = (
       return setUser(state, action);
     case UserActionTypes.SET_STATUS:
       return setStatus(state, action);
+    case UserActionTypes.ADD_TO_FAVORITES:
+      return addToFavorites(state, action);
     default:
       return state;
   }

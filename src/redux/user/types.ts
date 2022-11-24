@@ -9,6 +9,7 @@ export interface IUserPayload {
   phone: string;
   profile_picture: string;
   role: number;
+  favorites: IUserFavoritePayload[];
 }
 
 export interface ILoginPayload {
@@ -21,6 +22,11 @@ export interface IApiPayload {
   error: string;
 }
 
+export interface IUserFavoritePayload {
+  user_id: string;
+  menu_id: number;
+}
+
 export interface IUserState {
   user: IUserPayload;
   status: IApiPayload;
@@ -29,6 +35,8 @@ export interface IUserState {
 export enum UserActionTypes {
   SET_USER = "SET_USER",
   SET_STATUS = "SET_STATUS",
+
+  ADD_TO_FAVORITES = "ADD_TO_FAVORITES",
 }
 
 export interface ISetUser {
@@ -41,5 +49,10 @@ export interface ISetStatus {
   payload: IApiPayload;
 }
 
-export type UserActions = ISetUser | ISetStatus;
+export interface IAddToFavorites {
+  type: UserActionTypes.ADD_TO_FAVORITES;
+  payload: IUserFavoritePayload;
+}
+
+export type UserActions = ISetUser | ISetStatus | IAddToFavorites;
 export type UserDispatch = ThunkDispatch<IUserState, any, AnyAction>;

@@ -1,9 +1,10 @@
 import { FormEvent, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { menuDetailApi } from "../../api/menu";
 import { HeartIcon } from "../../components/Icon";
 import Navbar from "../../components/Navbar/Navbar";
+import { RootState } from "../../redux";
 import { addToCart } from "../../redux/cart/action";
 import { CartDispatch, IOrderDetailPayload } from "../../redux/cart/types";
 import { IMenuPayload } from "../../redux/menu/types";
@@ -18,6 +19,9 @@ const MenuDetail = () => {
   const dispatch: CartDispatch = useDispatch();
   const navigate = useNavigate();
   const isLogged = useIsLogged();
+  const { favorites } = useSelector(
+    (state: RootState) => state.userReducer.user
+  );
   const [input, setInput] = useState<IOrderDetailPayload>({
     menu_id: 0,
     options: 0,
@@ -150,7 +154,9 @@ const MenuDetail = () => {
                     onClick={() => setClicked(true)}
                   >
                     Favorite{" "}
-                    {clicked ? (
+                    {clicked ||
+                    favorites.findIndex((fav) => fav.menu_id === menu.id) !==
+                      -1 ? (
                       <HeartIcon fill size={16} />
                     ) : (
                       <HeartIcon size={16} fill={false} />
