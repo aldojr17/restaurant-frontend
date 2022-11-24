@@ -1,6 +1,7 @@
 const CartIcon = () => {
   return (
     <svg
+      role={"button"}
       xmlns="http://www.w3.org/2000/svg"
       width={24}
       height={24}

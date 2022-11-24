@@ -9,9 +9,13 @@ const Card = ({ ...props }: IMenuPayload) => {
   return (
     <div className="col-lg-3 mb-4 d-flex justify-content-center">
       <div className="card rounded rounded-4 shadow">
-        <div className="position-relative" onClick={() => setClicked(true)}>
+        <div className="position-relative">
           <img src="/assets/register.svg" className="card-img-top" alt="menu" />
-          <div className="rounded-circle border border-1 border-dark p-2 position-absolute top-0 m-1 bg-light">
+          <div
+            role={"button"}
+            className="rounded-circle border border-1 border-dark p-2 position-absolute top-0 m-1 bg-light"
+            onClick={() => setClicked(true)}
+          >
             {clicked ? <HeartIcon fill /> : <HeartIcon fill={false} />}
           </div>
         </div>
