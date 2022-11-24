@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { CartIcon } from "../Icon";
+import { CartIcon, HeartIcon } from "../Icon";
 
 interface NavbarProps {
   active?: string;
@@ -62,11 +62,6 @@ const Navbar = ({ ...props }: NavbarProps) => {
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="#">
-                    My Favorites
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
                     Profile
                   </a>
                 </li>
@@ -79,6 +74,7 @@ const Navbar = ({ ...props }: NavbarProps) => {
             ""
           ) : props.isLogged ? (
             <div className="d-flex gap-3 align-items-center">
+              <HeartIcon fill={false} button />
               <CartIcon />
               <button
                 className="btn btn-outline-dark"

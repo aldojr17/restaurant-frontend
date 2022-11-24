@@ -5,6 +5,7 @@ import {
   Home,
   Login,
   Menu,
+  MenuDetail,
   NotFound,
   Order,
   ProtectedRoutes,
@@ -29,6 +30,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/menu" element={<Menu />} />
+        <Route path="/menu/:id" element={<MenuDetail />} />
 
         <Route element={<AuthRoutes />}>
           <Route path="/login" element={<Login />} />

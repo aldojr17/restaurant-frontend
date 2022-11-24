@@ -6,11 +6,19 @@ export interface IMenuPayload {
   name: string;
   price: number;
   photo: string;
-  category_id: number;
-  category_name: string;
+  category: ICategoryPayload;
   rating: number;
   total_review: number;
   is_available: boolean;
+  description: string;
+  menu_option: IMenuOptions[];
+}
+
+export interface IMenuOptions {
+  id: number;
+  menu_id: number;
+  name: string;
+  price: number;
 }
 
 export interface ICategoryPayload {
