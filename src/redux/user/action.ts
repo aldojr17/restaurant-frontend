@@ -45,3 +45,14 @@ export const login = (payload: ILoginPayload) => {
       });
   };
 };
+
+export const getProfile = () => {
+  return async (dispatch: Dispatch<UserActions>) => {
+    await instance
+      .get("/users/profile")
+      .then((response) => {
+        dispatch(setUser(response.data.data));
+      })
+      .catch((error) => error);
+  };
+};

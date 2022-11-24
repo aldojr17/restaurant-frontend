@@ -50,8 +50,7 @@ instance.interceptors.response.use(
   },
   (err) => {
     const error = err && err.response && err.response.data;
-    console.log(err, error);
-    if (error && error.message === "Invalid credential") {
+    if (error && error.error === "unauthorized") {
       localStorage.clear();
       window.location.replace("/login");
       throw "Invalid credential";

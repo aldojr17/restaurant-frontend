@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface NavbarProps {
   active?: string;
@@ -6,6 +6,13 @@ interface NavbarProps {
 }
 
 const Navbar = ({ ...props }: NavbarProps) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/login", { replace: true });
+  };
+
   return (
     <nav className="navbar navbar-expand-lg mb-4">
       <div className="container">
@@ -44,9 +51,12 @@ const Navbar = ({ ...props }: NavbarProps) => {
           {props.active === "auth" ? (
             ""
           ) : props.isLogged ? (
-            <Link to={"/login"}>
-              <button className="btn btn-outline-dark">Logout</button>
-            </Link>
+            <button
+              className="btn btn-outline-dark"
+              onClick={() => handleLogout()}
+            >
+              Logout
+            </button>
           ) : (
             <Link to={"/login"}>
               <button className="btn btn-outline-dark">Login</button>

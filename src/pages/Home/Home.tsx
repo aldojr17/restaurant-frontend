@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MenuList from "../../components/MenuList/MenuList";
 import Navbar from "../../components/Navbar/Navbar";
+import useIsLogged from "../../util/useIsLogged";
 import { RootState } from "../../redux";
 import { fetchCategory, fetchMenu } from "../../redux/menu/action";
 import { IFilterPayload, MenuDispatch } from "../../redux/menu/types";
@@ -12,7 +13,6 @@ const Home = () => {
   const { menus, categories } = useSelector(
     (state: RootState) => state.menuReducer
   );
-  const { user } = useSelector((state: RootState) => state.userReducer);
   const [filter, setFilter] = useState<IFilterPayload>({
     category: 1,
     limit: 8,
@@ -32,7 +32,7 @@ const Home = () => {
 
   return (
     <>
-      <Navbar isLogged={user.role !== -1} />
+      <Navbar isLogged={useIsLogged()} />
       <div className="container">
         <DivCategory className=" d-flex flex-column flex-wrap justify-content-center">
           {categories.map((category) => (
