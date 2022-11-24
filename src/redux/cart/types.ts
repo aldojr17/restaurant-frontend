@@ -6,7 +6,7 @@ export interface IOrderDetailPayload {
   menu_id: number;
   order_id: number;
   qty: number;
-  options: number;
+  option_id: number;
 }
 
 export interface ICartState {

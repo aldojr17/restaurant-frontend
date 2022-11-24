@@ -13,7 +13,7 @@ const updateCart = (state: ICartState, action: IAddToCart) => ({
   ...state,
   cart: state.cart.map((value) =>
     value.menu_id === action.payload.menu_id &&
-    value.options === action.payload.options
+    value.option_id === action.payload.option_id
       ? { ...value, qty: value.qty + action.payload.qty }
       : value
   ),
@@ -29,7 +29,7 @@ const cartReducer = (
         state.cart.find(
           (value) =>
             value.menu_id === action.payload.menu_id &&
-            value.options === action.payload.options
+            value.option_id === action.payload.option_id
         )
       ) {
         return updateCart(state, action);

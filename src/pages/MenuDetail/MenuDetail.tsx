@@ -24,7 +24,7 @@ const MenuDetail = () => {
   );
   const [input, setInput] = useState<IOrderDetailPayload>({
     menu_id: 0,
-    options: 0,
+    option_id: 0,
     order_id: 0,
     qty: 1,
   });
@@ -98,12 +98,12 @@ const MenuDetail = () => {
                   <div className="d-flex flex-column">
                     <span className="form-label">Select Options</span>
                     <select
-                      name="options"
-                      id="options"
+                      name="option_id"
+                      id="option_id"
                       className="form-select"
                       onChange={handleChange}
                     >
-                      <option value={input.options}>None</option>
+                      <option value={input.option_id}>None</option>
                       {menu.menu_option.map((option) => (
                         <option key={option.id} value={option.id}>
                           {option.name}
