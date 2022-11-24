@@ -6,6 +6,7 @@ import {
   Login,
   Menu,
   NotFound,
+  Order,
   ProtectedRoutes,
   Register,
 } from "./pages";
@@ -26,14 +27,18 @@ function App() {
   return (
     <div className="container-fluid">
       <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/menu" element={<Menu />} />
+
         <Route element={<AuthRoutes />}>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Route>
-        <Route path="/" element={<Home />} />
-        <Route path="/menu" element={<Menu />} />
-        {/* <Route element={<ProtectedRoutes />}>
-        </Route> */}
+
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/orders" element={<Order />} />
+        </Route>
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

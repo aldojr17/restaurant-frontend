@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { CartIcon } from "../Icon";
 
 interface NavbarProps {
   active?: string;
@@ -47,31 +48,45 @@ const Navbar = ({ ...props }: NavbarProps) => {
                 Promotions
               </a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Cart
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Orders
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Profile
-              </a>
-            </li>
+            {props.isLogged ? (
+              <>
+                <li className="nav-item">
+                  <Link
+                    to={"/orders"}
+                    className={`nav-link ${
+                      props.active === "orders" ? "active" : ""
+                    }`}
+                  >
+                    Orders
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
+                    My Favorites
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
+                    Profile
+                  </a>
+                </li>
+              </>
+            ) : (
+              ""
+            )}
           </ul>
           {props.active === "auth" ? (
             ""
           ) : props.isLogged ? (
-            <button
-              className="btn btn-outline-dark"
-              onClick={() => handleLogout()}
-            >
-              Logout
-            </button>
+            <div className="d-flex gap-3 align-items-center">
+              <CartIcon />
+              <button
+                className="btn btn-outline-dark"
+                onClick={() => handleLogout()}
+              >
+                Logout
+              </button>
+            </div>
           ) : (
             <Link to={"/login"}>
               <button className="btn btn-outline-dark">Login</button>
