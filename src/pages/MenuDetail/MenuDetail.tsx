@@ -109,16 +109,16 @@ const MenuDetail = () => {
                   </div>
                   <div className="d-flex flex-column">
                     <span className="form-label">Quantity</span>
-                    <div className="row gap-3 ms-1">
+                    <div className="row gap-3 mx-1">
                       <button
-                        className="btn btn-outline-dark col-lg-1"
+                        className="btn btn-outline-dark col-lg-1 col-2"
                         onClick={() =>
                           setInput({ ...input, qty: input.qty - 1 })
                         }
                       >
                         -
                       </button>
-                      <div className="col-lg-2">
+                      <div className="col-lg-2 col">
                         <InputNumber
                           type="number"
                           className="form-control text-center"
@@ -128,7 +128,7 @@ const MenuDetail = () => {
                         />
                       </div>
                       <button
-                        className="btn btn-outline-dark col-lg-1"
+                        className="btn btn-outline-dark col-lg-1 col-2"
                         onClick={() =>
                           setInput({ ...input, qty: input.qty + 1 })
                         }
