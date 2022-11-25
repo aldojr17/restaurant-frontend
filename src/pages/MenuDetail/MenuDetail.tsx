@@ -8,6 +8,8 @@ import { RootState } from "../../redux";
 import { addToCart } from "../../redux/cart/action";
 import { CartDispatch, IOrderDetailPayload } from "../../redux/cart/types";
 import { IMenuPayload } from "../../redux/menu/types";
+import { addToFavorites, deleteFromFavorites } from "../../redux/user/action";
+import { UserDispatch } from "../../redux/user/types";
 import useIsLogged from "../../util/useIsLogged";
 import { formatCurrency } from "../../util/util";
 import NotFound from "../NotFound";
@@ -15,13 +17,11 @@ import InputNumber from "./style";
 
 const MenuDetail = () => {
   const { id } = useParams();
-  const [clicked, setClicked] = useState(false);
   const dispatch: CartDispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatchUser: UserDispatch = useDispatch();
   const isLogged = useIsLogged();
-  const { favorites } = useSelector(
-    (state: RootState) => state.userReducer.user
-  );
+  const { user } = useSelector((state: RootState) => state.userReducer);
+  const navigate = useNavigate();
   const [input, setInput] = useState<IOrderDetailPayload>({
     menu_id: 0,
     option_id: 0,
@@ -43,6 +43,19 @@ const MenuDetail = () => {
     rating: 0,
     total_review: 0,
   });
+
+  const handleAddToFavorites = () => {
+    user.favorites.findIndex((fav) => fav.menu_id === parseInt(id!)) !== -1
+      ? dispatchUser(
+          deleteFromFavorites({ menu_id: parseInt(id!), user_id: user.id })
+        )
+      : dispatchUser(
+          addToFavorites({
+            menu_id: parseInt(id!),
+            user_id: user.id,
+          })
+        );
+  };
 
   const handleChange = (e: FormEvent<HTMLInputElement | HTMLSelectElement>) => {
     setInput({
@@ -73,7 +86,7 @@ const MenuDetail = () => {
 
   return (
     <>
-      <Navbar isLogged={useIsLogged()} />
+      <Navbar isLogged={isLogged} />
       {menu.id === 0 ? (
         <NotFound />
       ) : (
@@ -149,19 +162,23 @@ const MenuDetail = () => {
                   >
                     Add To Cart
                   </button>
-                  <button
-                    className="btn btn-outline-dark"
-                    onClick={() => setClicked(true)}
-                  >
-                    Favorite{" "}
-                    {clicked ||
-                    favorites.findIndex((fav) => fav.menu_id === menu.id) !==
-                      -1 ? (
-                      <HeartIcon fill size={16} />
-                    ) : (
-                      <HeartIcon size={16} fill={false} />
-                    )}
-                  </button>
+                  {isLogged ? (
+                    <button
+                      className="btn btn-outline-dark"
+                      onClick={() => handleAddToFavorites()}
+                    >
+                      Favorite{" "}
+                      {user.favorites.findIndex(
+                        (fav) => fav.menu_id === menu.id
+                      ) !== -1 ? (
+                        <HeartIcon fill size={16} />
+                      ) : (
+                        <HeartIcon size={16} fill={false} />
+                      )}
+                    </button>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             </div>
