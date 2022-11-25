@@ -6,3 +6,14 @@ export const addToCart = (payload: IOrderDetailPayload): CartActions => {
     payload,
   };
 };
+
+export const updateCart = (
+  payload: boolean,
+  data: IOrderDetailPayload
+): CartActions => {
+  return {
+    type: CartActionTypes.UPDATE_CART,
+    isAdd: payload,
+    data,
+  };
+};

@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { TrashIcon } from "../../components/Icon";
 import Navbar from "../../components/Navbar/Navbar";
-import Quantity from "../../components/Quantity/Quantity";
 import { RootState } from "../../redux";
-import { IOrderDetailPayload } from "../../redux/cart/types";
+import { updateCart } from "../../redux/cart/action";
+import { CartDispatch } from "../../redux/cart/types";
 import useIsLogged from "../../util/useIsLogged";
 import { formatCurrency } from "../../util/util";
 import InputNumber from "../MenuDetail/style";
@@ -12,6 +12,14 @@ import Title, { DivOrder, SpanHeader } from "./style";
 
 const Cart = () => {
   const { cart } = useSelector((state: RootState) => state.cartReducer);
+  const dispatch: CartDispatch = useDispatch();
+  const [total, setTotal] = useState(
+    cart.reduce((acc, val) => acc + val.menu.price * val.qty, 0)
+  );
+
+  useEffect(() => {
+    setTotal(cart.reduce((acc, val) => acc + val.menu.price * val.qty, 0));
+  }, [cart]);
 
   return (
     <>
@@ -48,7 +56,16 @@ const Cart = () => {
                 </div>
                 <div className="col-lg-3">
                   <div className="d-flex align-items-end gap-3">
-                    <button className="btn btn-outline-dark col-lg-2">-</button>
+                    <button
+                      className="btn btn-outline-dark col-lg-2"
+                      onClick={() => {
+                        if (val.qty - 1 !== 0) {
+                          dispatch(updateCart(false, val));
+                        }
+                      }}
+                    >
+                      -
+                    </button>
                     <div className="col-lg-5">
                       <InputNumber
                         type="number"
@@ -58,7 +75,14 @@ const Cart = () => {
                         readOnly
                       />
                     </div>
-                    <button className="btn btn-outline-dark col-lg-2">+</button>
+                    <button
+                      className="btn btn-outline-dark col-lg-2"
+                      onClick={() => {
+                        dispatch(updateCart(true, val));
+                      }}
+                    >
+                      +
+                    </button>
                   </div>
                 </div>
                 <div className="col-lg-1">
@@ -80,11 +104,11 @@ const Cart = () => {
                 <div className="d-flex flex-column gap-2">
                   <div className="d-flex justify-content-between">
                     <span>Items</span>
-                    <span>{cart.length}</span>
+                    <span>{cart.reduce((acc, val) => acc + val.qty, 0)}</span>
                   </div>
                   <div className="d-flex justify-content-between">
                     <span>Total</span>
-                    <span>Rp.100.000</span>
+                    <span>Rp.{formatCurrency(total)}</span>
                   </div>
                 </div>
               </div>

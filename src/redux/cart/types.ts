@@ -16,6 +16,7 @@ export interface ICartState {
 
 export enum CartActionTypes {
   ADD_TO_CART = "ADD_TO_CART",
+  UPDATE_CART = "UPDATE_CART",
 }
 
 export interface IAddToCart {
@@ -23,5 +24,11 @@ export interface IAddToCart {
   payload: IOrderDetailPayload;
 }
 
-export type CartActions = IAddToCart;
+export interface IUpdateCart {
+  type: CartActionTypes.UPDATE_CART;
+  data: IOrderDetailPayload;
+  isAdd: boolean;
+}
+
+export type CartActions = IAddToCart | IUpdateCart;
 export type CartDispatch = ThunkDispatch<ICartState, any, AnyAction>;
