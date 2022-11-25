@@ -2,6 +2,7 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import {
   AuthRoutes,
+  Cart,
   Home,
   Login,
   Menu,
@@ -39,6 +40,7 @@ function App() {
 
         <Route element={<ProtectedRoutes />}>
           <Route path="/orders" element={<Order />} />
+          <Route path="/cart" element={<Cart />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

@@ -75,7 +75,9 @@ const Navbar = ({ ...props }: NavbarProps) => {
           ) : props.isLogged ? (
             <div className="d-flex gap-3 align-items-center">
               <HeartIcon fill={false} button />
-              <CartIcon />
+              <Link to={"/cart"} className={`nav-link`}>
+                <CartIcon />
+              </Link>
               <button
                 className="btn btn-outline-dark"
                 onClick={() => handleLogout()}

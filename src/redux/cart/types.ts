@@ -3,6 +3,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { IMenuPayload } from "../menu/types";
 
 export interface IOrderDetailPayload {
+  menu: IMenuPayload;
   menu_id: number;
   order_id: number;
   qty: number;

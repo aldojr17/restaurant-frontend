@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { menuDetailApi } from "../../api/menu";
 import { HeartIcon } from "../../components/Icon";
 import Navbar from "../../components/Navbar/Navbar";
+import Quantity from "../../components/Quantity/Quantity";
 import { RootState } from "../../redux";
 import { addToCart } from "../../redux/cart/action";
 import { CartDispatch, IOrderDetailPayload } from "../../redux/cart/types";
@@ -22,12 +23,6 @@ const MenuDetail = () => {
   const isLogged = useIsLogged();
   const { user } = useSelector((state: RootState) => state.userReducer);
   const navigate = useNavigate();
-  const [input, setInput] = useState<IOrderDetailPayload>({
-    menu_id: 0,
-    option_id: 0,
-    order_id: 0,
-    qty: 1,
-  });
   const [menu, setMenu] = useState<IMenuPayload>({
     category: {
       id: 0,
@@ -42,6 +37,13 @@ const MenuDetail = () => {
     price: 0,
     rating: 0,
     total_review: 0,
+  });
+  const [input, setInput] = useState<IOrderDetailPayload>({
+    menu_id: 0,
+    option_id: -1,
+    order_id: 0,
+    qty: 1,
+    menu: menu,
   });
 
   const handleAddToFavorites = () => {
@@ -68,7 +70,7 @@ const MenuDetail = () => {
     const status = await menuDetailApi(parseInt(id!));
     if (status.isSuccess) {
       setMenu(status.data);
-      setInput({ ...input, menu_id: status.data.id });
+      setInput({ ...input, menu_id: status.data.id, menu: status.data });
     }
   };
 
@@ -105,7 +107,10 @@ const MenuDetail = () => {
                   <span className="fs-2 d-block">
                     Rp.{formatCurrency(menu.price)}
                   </span>
-                  <span className="fs-4 d-block mt-3">{menu.description}</span>
+                  <div className="d-flex flex-column mt-3">
+                    <span className="fs-4">Description:</span>
+                    <span className="fs-6">{menu.description}</span>
+                  </div>
                 </div>
                 <div className="d-flex flex-column gap-3">
                   <div className="d-flex flex-column">
@@ -127,31 +132,7 @@ const MenuDetail = () => {
                   <div className="d-flex flex-column">
                     <span className="form-label">Quantity</span>
                     <div className="row gap-3 mx-1">
-                      <button
-                        className="btn btn-outline-dark col-lg-1 col-2"
-                        onClick={() =>
-                          setInput({ ...input, qty: input.qty - 1 })
-                        }
-                      >
-                        -
-                      </button>
-                      <div className="col-lg-2 col">
-                        <InputNumber
-                          type="number"
-                          className="form-control text-center"
-                          name="qty"
-                          value={input.qty}
-                          readOnly
-                        />
-                      </div>
-                      <button
-                        className="btn btn-outline-dark col-lg-1 col-2"
-                        onClick={() =>
-                          setInput({ ...input, qty: input.qty + 1 })
-                        }
-                      >
-                        +
-                      </button>
+                      <Quantity input={input} setInput={setInput} />
                     </div>
                   </div>
                 </div>
