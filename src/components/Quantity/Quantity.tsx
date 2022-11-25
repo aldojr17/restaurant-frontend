@@ -1,6 +1,6 @@
 import React from "react";
 import InputNumber from "../../pages/MenuDetail/style";
-import { IOrderDetailPayload } from "../../redux/cart/types";
+import { IOrderDetailPayload } from "../../redux/order/types";
 
 interface IQuantityProps {
   setInput: React.Dispatch<React.SetStateAction<IOrderDetailPayload>>;

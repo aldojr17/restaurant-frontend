@@ -7,8 +7,9 @@ import Navbar from "../../components/Navbar/Navbar";
 import Quantity from "../../components/Quantity/Quantity";
 import { RootState } from "../../redux";
 import { addToCart } from "../../redux/cart/action";
-import { CartDispatch, IOrderDetailPayload } from "../../redux/cart/types";
+import { CartDispatch } from "../../redux/cart/types";
 import { IMenuPayload } from "../../redux/menu/types";
+import { IOrderDetailPayload } from "../../redux/order/types";
 import { addToFavorites, deleteFromFavorites } from "../../redux/user/action";
 import { UserDispatch } from "../../redux/user/types";
 import useIsLogged from "../../util/useIsLogged";
@@ -40,7 +41,7 @@ const MenuDetail = () => {
   });
   const [input, setInput] = useState<IOrderDetailPayload>({
     menu_id: 0,
-    option_id: -1,
+    option_id: null,
     order_id: 0,
     qty: 1,
     menu: menu,
@@ -121,7 +122,7 @@ const MenuDetail = () => {
                       className="form-select"
                       onChange={handleChange}
                     >
-                      <option value={input.option_id}>None</option>
+                      <option value={input.option_id!}>None</option>
                       {menu.menu_option.map((option) => (
                         <option key={option.id} value={option.id}>
                           {option.name}

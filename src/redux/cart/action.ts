@@ -1,4 +1,5 @@
-import { CartActions, CartActionTypes, IOrderDetailPayload } from "./types";
+import { IOrderDetailPayload } from "../order/types";
+import { CartActions, CartActionTypes } from "./types";
 
 export const addToCart = (payload: IOrderDetailPayload): CartActions => {
   return {

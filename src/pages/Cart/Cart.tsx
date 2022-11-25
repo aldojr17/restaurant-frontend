@@ -5,6 +5,12 @@ import Navbar from "../../components/Navbar/Navbar";
 import { RootState } from "../../redux";
 import { updateCart } from "../../redux/cart/action";
 import { CartDispatch } from "../../redux/cart/types";
+import {
+  createOrder,
+  createOrderDetails,
+  setOrder,
+} from "../../redux/order/action";
+import { OrderDispatch } from "../../redux/order/types";
 import useIsLogged from "../../util/useIsLogged";
 import { formatCurrency } from "../../util/util";
 import InputNumber from "../MenuDetail/style";
@@ -12,14 +18,54 @@ import Title, { DivOrder, SpanHeader } from "./style";
 
 const Cart = () => {
   const { cart } = useSelector((state: RootState) => state.cartReducer);
+  const { order } = useSelector((state: RootState) => state.orderReducer);
   const dispatch: CartDispatch = useDispatch();
+  const dispatchOrder: OrderDispatch = useDispatch();
   const [total, setTotal] = useState(
-    cart.reduce((acc, val) => acc + val.menu.price * val.qty, 0)
+    cart.reduce((acc, val) => acc + val.menu?.price! * val.qty, 0)
   );
 
   useEffect(() => {
-    setTotal(cart.reduce((acc, val) => acc + val.menu.price * val.qty, 0));
+    setTotal(cart.reduce((acc, val) => acc + val.menu?.price! * val.qty, 0));
   }, [cart]);
+
+  const handleCheckout = () => {
+    dispatchOrder(
+      createOrder({
+        coupon_id: "",
+        id: 0,
+        notes: null,
+        payment_id: 1,
+        status: "",
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (order.id !== 0) {
+      dispatchOrder(
+        createOrderDetails(
+          cart.map((val) => {
+            return {
+              menu_id: val.menu_id,
+              order_id: order.id,
+              option_id: val.option_id,
+              qty: val.qty,
+            };
+          })
+        )
+      );
+      dispatchOrder(
+        setOrder({
+          coupon_id: "",
+          id: 0,
+          notes: null,
+          payment_id: 1,
+          status: "",
+        })
+      );
+    }
+  }, [order]);
 
   return (
     <>
@@ -28,7 +74,7 @@ const Cart = () => {
         <Title>CART</Title>
         <div className="row my-3 d-none d-lg-block">
           <div className="col-lg-10 row me-3">
-            <SpanHeader className="col-lg-5 fs-4">ITEMS</SpanHeader>
+            <SpanHeader className="col-lg-6 fs-4">ITEMS</SpanHeader>
             <SpanHeader className="col-lg-3 fs-4 px-2">QUANTITY</SpanHeader>
             <SpanHeader className="col-lg-2 fs-4 px-2">PRICE</SpanHeader>
           </div>
@@ -44,11 +90,13 @@ const Cart = () => {
                     className="w-100"
                   />
                 </div>
-                <div className="col-lg-2 d-flex flex-column gap-2">
-                  <span className="text-break">{val.menu.name}</span>
+                <div className="col-lg-3 d-flex flex-column gap-2">
+                  <span className="text-break">{val.menu?.name}</span>
                   {val.option_id !== -1 ? (
                     <span className="text-muted">
-                      {val.menu.menu_option[val.option_id].name}
+                      {val.option_id
+                        ? val.menu?.menu_option[val.option_id].name
+                        : ""}
                     </span>
                   ) : (
                     ""
@@ -85,8 +133,8 @@ const Cart = () => {
                     </button>
                   </div>
                 </div>
-                <div className="col-lg-1">
-                  <span>Rp.{formatCurrency(val.menu.price * val.qty)}</span>
+                <div className="col-lg-2">
+                  <span>Rp.{formatCurrency(val.menu?.price! * val.qty)}</span>
                 </div>
                 <div
                   role={"button"}
@@ -113,7 +161,9 @@ const Cart = () => {
                 </div>
               </div>
               <div className="col-12 d-flex justify-content-center">
-                <button className="btn btn-dark">CHECKOUT</button>
+                <button className="btn btn-dark" onClick={handleCheckout}>
+                  CHECKOUT
+                </button>
               </div>
             </DivOrder>
           </div>
