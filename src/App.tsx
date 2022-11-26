@@ -9,13 +9,14 @@ import {
   MenuDetail,
   NotFound,
   Order,
+  Profile,
   ProtectedRoutes,
   Register,
 } from "./pages";
 import { UserDispatch } from "./redux/user/types";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getProfile } from "./redux/user/action";
+import { fetchCoupons, getProfile } from "./redux/user/action";
 
 function App() {
   const dispatch: UserDispatch = useDispatch();
@@ -23,6 +24,7 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("sessionId") !== null) {
       dispatch(getProfile());
+      dispatch(fetchCoupons());
     }
   }, []);
 
@@ -41,6 +43,7 @@ function App() {
         <Route element={<ProtectedRoutes />}>
           <Route path="/orders" element={<Order />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

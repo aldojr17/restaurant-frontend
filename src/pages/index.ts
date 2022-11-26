@@ -9,3 +9,4 @@ export { default as Menu } from "./Menu";
 export { default as Order } from "./Order";
 export { default as Cart } from "./Cart/Cart";
 export { default as MenuDetail } from "./MenuDetail/MenuDetail";
+export { default as Profile } from "./Profile/Profile";

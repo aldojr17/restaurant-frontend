@@ -1,6 +1,7 @@
 import {
   IAddToFavorites,
   IDeleteFromFavorites,
+  IFetchCoupons,
   ISetStatus,
   ISetUser,
   IUserState,
@@ -23,6 +24,7 @@ const initialState: IUserState = {
     error: "",
     isSuccess: false,
   },
+  coupons: [],
 };
 
 const setUser = (state: IUserState, action: ISetUser) => ({
@@ -56,6 +58,11 @@ const deleteFromFavorites = (
   },
 });
 
+const setCoupons = (state: IUserState, action: IFetchCoupons) => ({
+  ...state,
+  coupons: action.payload,
+});
+
 const userReducer = (
   state: IUserState = initialState,
   action: UserActions
@@ -69,6 +76,8 @@ const userReducer = (
       return addToFavorites(state, action);
     case UserActionTypes.DELETE_FROM_FAVORITES:
       return deleteFromFavorites(state, action);
+    case UserActionTypes.FETCH_COUPONS:
+      return setCoupons(state, action);
     default:
       return state;
   }

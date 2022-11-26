@@ -61,9 +61,14 @@ const Navbar = ({ ...props }: NavbarProps) => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
+                  <Link
+                    to={"/profile"}
+                    className={`nav-link ${
+                      props.active === "profile" ? "active" : ""
+                    }`}
+                  >
                     Profile
-                  </a>
+                  </Link>
                 </li>
               </>
             ) : (

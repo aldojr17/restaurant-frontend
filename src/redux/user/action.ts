@@ -3,6 +3,7 @@ import instance from "../../api/config/axios";
 import {
   IApiPayload,
   ILoginPayload,
+  IUserCoupons,
   IUserFavoritePayload,
   IUserPayload,
   UserActions,
@@ -37,6 +38,13 @@ export const deleteFromFavoritesRedux = (
 ): UserActions => {
   return {
     type: UserActionTypes.DELETE_FROM_FAVORITES,
+    payload,
+  };
+};
+
+export const setCoupons = (payload: IUserCoupons[]): UserActions => {
+  return {
+    type: UserActionTypes.FETCH_COUPONS,
     payload,
   };
 };
@@ -93,6 +101,17 @@ export const deleteFromFavorites = (payload: IUserFavoritePayload) => {
       .post("/users/favorites", { menu_id: payload.menu_id })
       .then((response) => {
         dispatch(deleteFromFavoritesRedux(payload));
+      })
+      .catch((error) => error);
+  };
+};
+
+export const fetchCoupons = () => {
+  return async (dispatch: Dispatch<UserActions>) => {
+    await instance
+      .get("/users/coupons")
+      .then((response) => {
+        dispatch(setCoupons(response.data.data));
       })
       .catch((error) => error);
   };

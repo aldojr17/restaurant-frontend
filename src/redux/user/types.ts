@@ -27,9 +27,24 @@ export interface IUserFavoritePayload {
   menu_id: number;
 }
 
+export interface ICoupon {
+  id: string;
+  code: string;
+  discount: number;
+  valid_until: string;
+}
+
+export interface IUserCoupons {
+  user_id: string;
+  expired_at: string;
+  qty: number;
+  coupon: ICoupon;
+}
+
 export interface IUserState {
   user: IUserPayload;
   status: IApiPayload;
+  coupons: IUserCoupons[];
 }
 
 export enum UserActionTypes {
@@ -38,6 +53,8 @@ export enum UserActionTypes {
 
   ADD_TO_FAVORITES = "ADD_TO_FAVORITES",
   DELETE_FROM_FAVORITES = "DELETE_FROM_FAVORITES",
+
+  FETCH_COUPONS = "FETCH_COUPONS",
 }
 
 export interface ISetUser {
@@ -60,9 +77,15 @@ export interface IDeleteFromFavorites {
   payload: IUserFavoritePayload;
 }
 
+export interface IFetchCoupons {
+  type: UserActionTypes.FETCH_COUPONS;
+  payload: IUserCoupons[];
+}
+
 export type UserActions =
   | ISetUser
   | ISetStatus
   | IAddToFavorites
-  | IDeleteFromFavorites;
+  | IDeleteFromFavorites
+  | IFetchCoupons;
 export type UserDispatch = ThunkDispatch<IUserState, any, AnyAction>;

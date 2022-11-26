@@ -52,7 +52,7 @@ instance.interceptors.response.use(
     const error = err && err.response && err.response.data;
     if (error && error.error === "unauthorized") {
       localStorage.clear();
-      window.location.replace("/login");
+      window.location.replace("/");
       throw "Invalid credential";
     } else {
       if (err.code === "ERR_NETWORK") {
