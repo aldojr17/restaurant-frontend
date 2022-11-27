@@ -18,3 +18,9 @@ export const updateCart = (
     data,
   };
 };
+
+export const deleteAllFromCart = () => {
+  return {
+    type: CartActionTypes.DELETE_ALL_FROM_CART,
+  };
+};

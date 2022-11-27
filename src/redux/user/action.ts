@@ -1,5 +1,6 @@
 import { Dispatch } from "react";
 import instance from "../../api/config/axios";
+import { IOrderPayload } from "../order/types";
 import {
   IApiPayload,
   ILoginPayload,
@@ -45,6 +46,13 @@ export const deleteFromFavoritesRedux = (
 export const setCoupons = (payload: IUserCoupons[]): UserActions => {
   return {
     type: UserActionTypes.FETCH_COUPONS,
+    payload,
+  };
+};
+
+export const setOrders = (payload: IOrderPayload[]): UserActions => {
+  return {
+    type: UserActionTypes.FETCH_ORDERS,
     payload,
   };
 };
@@ -112,6 +120,17 @@ export const fetchCoupons = () => {
       .get("/users/coupons")
       .then((response) => {
         dispatch(setCoupons(response.data.data));
+      })
+      .catch((error) => error);
+  };
+};
+
+export const fetchOrders = () => {
+  return async (dispatch: Dispatch<UserActions>) => {
+    await instance
+      .get("/users/orders")
+      .then((response) => {
+        dispatch(setOrders(response.data.data));
       })
       .catch((error) => error);
   };

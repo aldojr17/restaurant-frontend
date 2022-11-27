@@ -12,6 +12,7 @@ const initialState: IOrderState = {
     notes: null,
     payment_id: 1,
     status: "",
+    total_price: 0,
   },
 };
 

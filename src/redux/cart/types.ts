@@ -9,6 +9,7 @@ export interface ICartState {
 export enum CartActionTypes {
   ADD_TO_CART = "ADD_TO_CART",
   UPDATE_CART = "UPDATE_CART",
+  DELETE_ALL_FROM_CART = "DELETE_ALL_FROM_CART",
 }
 
 export interface IAddToCart {
@@ -22,5 +23,9 @@ export interface IUpdateCart {
   isAdd: boolean;
 }
 
-export type CartActions = IAddToCart | IUpdateCart;
+export interface IDeleteAllFromCart {
+  type: CartActionTypes.DELETE_ALL_FROM_CART;
+}
+
+export type CartActions = IAddToCart | IUpdateCart | IDeleteAllFromCart;
 export type CartDispatch = ThunkDispatch<ICartState, any, AnyAction>;

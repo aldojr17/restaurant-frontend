@@ -2,6 +2,7 @@ import {
   IAddToFavorites,
   IDeleteFromFavorites,
   IFetchCoupons,
+  IFetchOrders,
   ISetStatus,
   ISetUser,
   IUserState,
@@ -25,6 +26,7 @@ const initialState: IUserState = {
     isSuccess: false,
   },
   coupons: [],
+  orders: [],
 };
 
 const setUser = (state: IUserState, action: ISetUser) => ({
@@ -63,6 +65,11 @@ const setCoupons = (state: IUserState, action: IFetchCoupons) => ({
   coupons: action.payload,
 });
 
+const setOrders = (state: IUserState, action: IFetchOrders) => ({
+  ...state,
+  orders: action.payload,
+});
+
 const userReducer = (
   state: IUserState = initialState,
   action: UserActions
@@ -78,6 +85,8 @@ const userReducer = (
       return deleteFromFavorites(state, action);
     case UserActionTypes.FETCH_COUPONS:
       return setCoupons(state, action);
+    case UserActionTypes.FETCH_ORDERS:
+      return setOrders(state, action);
     default:
       return state;
   }

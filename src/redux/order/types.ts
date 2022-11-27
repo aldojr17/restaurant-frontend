@@ -16,6 +16,9 @@ export interface IOrderPayload {
   notes: string | null;
   payment_id: number;
   status: string;
+  order_date?: string;
+  order_details?: IOrderDetailPayload[];
+  total_price: number;
 }
 
 export interface IOrderState {

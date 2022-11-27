@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { TrashIcon } from "../../components/Icon";
 import Navbar from "../../components/Navbar/Navbar";
 import { RootState } from "../../redux";
-import { updateCart } from "../../redux/cart/action";
+import { deleteAllFromCart, updateCart } from "../../redux/cart/action";
 import { CartDispatch } from "../../redux/cart/types";
 import {
   createOrder,
@@ -37,6 +37,7 @@ const Cart = () => {
         notes: null,
         payment_id: 1,
         status: "",
+        total_price: total,
       })
     );
   };
@@ -62,8 +63,10 @@ const Cart = () => {
           notes: null,
           payment_id: 1,
           status: "",
+          total_price: 0,
         })
       );
+      dispatch(deleteAllFromCart());
     }
   }, [order]);
 
@@ -81,8 +84,11 @@ const Cart = () => {
         </div>
         <div className="row flex-column-reverse flex-lg-row gap-5 gap-lg-0">
           <div className="col-lg-10 d-flex flex-column gap-5">
-            {cart.map((val) => (
-              <div className="row border-bottom pb-3 me-lg-3 border-2 align-items-center gap-3 gap-lg-0">
+            {cart.map((val, index) => (
+              <div
+                key={index}
+                className="row border-bottom pb-3 me-lg-3 border-2 align-items-center gap-3 gap-lg-0"
+              >
                 <div className="col-lg-3">
                   <img
                     src={`https://plus.unsplash.com/premium_photo-1667682209935-b6c87cced668?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80`}

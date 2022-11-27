@@ -1,5 +1,6 @@
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
+import { IOrderPayload } from "../order/types";
 
 export interface IUserPayload {
   id: string;
@@ -45,6 +46,7 @@ export interface IUserState {
   user: IUserPayload;
   status: IApiPayload;
   coupons: IUserCoupons[];
+  orders: IOrderPayload[];
 }
 
 export enum UserActionTypes {
@@ -55,6 +57,7 @@ export enum UserActionTypes {
   DELETE_FROM_FAVORITES = "DELETE_FROM_FAVORITES",
 
   FETCH_COUPONS = "FETCH_COUPONS",
+  FETCH_ORDERS = "FETCH_ORDERS",
 }
 
 export interface ISetUser {
@@ -82,10 +85,16 @@ export interface IFetchCoupons {
   payload: IUserCoupons[];
 }
 
+export interface IFetchOrders {
+  type: UserActionTypes.FETCH_ORDERS;
+  payload: IOrderPayload[];
+}
+
 export type UserActions =
   | ISetUser
   | ISetStatus
   | IAddToFavorites
   | IDeleteFromFavorites
-  | IFetchCoupons;
+  | IFetchCoupons
+  | IFetchOrders;
 export type UserDispatch = ThunkDispatch<IUserState, any, AnyAction>;

@@ -3,6 +3,7 @@ import {
   CartActionTypes,
   IAddToCart,
   ICartState,
+  IDeleteAllFromCart,
   IUpdateCart,
 } from "./types";
 
@@ -45,6 +46,11 @@ const reduceQty = (state: ICartState, action: IUpdateCart) => ({
   ),
 });
 
+const deleteAllFromCart = (state: ICartState, action: IDeleteAllFromCart) => ({
+  ...state,
+  cart: [],
+});
+
 const cartReducer = (
   state: ICartState = initialState,
   action: CartActions
@@ -68,6 +74,8 @@ const cartReducer = (
       } else {
         return reduceQty(state, action);
       }
+    case CartActionTypes.DELETE_ALL_FROM_CART:
+      return deleteAllFromCart(state, action);
     default:
       return state;
   }

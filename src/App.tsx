@@ -16,7 +16,7 @@ import {
 import { UserDispatch } from "./redux/user/types";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { fetchCoupons, getProfile } from "./redux/user/action";
+import { fetchCoupons, fetchOrders, getProfile } from "./redux/user/action";
 
 function App() {
   const dispatch: UserDispatch = useDispatch();
@@ -25,6 +25,7 @@ function App() {
     if (localStorage.getItem("sessionId") !== null) {
       dispatch(getProfile());
       dispatch(fetchCoupons());
+      dispatch(fetchOrders());
     }
   }, []);
 
