@@ -7,7 +7,13 @@ import {
 } from "./types";
 
 const initialState: IMenuState = {
-  menus: [],
+  menus: {
+    current_page: 0,
+    data: [],
+    limit: 0,
+    total: 0,
+    total_page: 0,
+  },
   categories: [],
 };
 

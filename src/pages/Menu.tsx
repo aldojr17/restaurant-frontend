@@ -23,7 +23,7 @@ const Menu = () => {
       <div className="container px-lg-5 row flex-column mx-auto gap-4 align-items-center align-items-lg-start">
         <Filter filter={filter} setFilter={setFilter} type={"menu"} />
       </div>
-      <MenuList data={menus} />
+      <MenuList data={menus.data} />
     </>
   );
 };

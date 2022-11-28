@@ -35,8 +35,16 @@ export interface IFilterPayload {
   page?: number;
 }
 
+export interface IMenuPagination {
+  data: IMenuPayload[];
+  current_page: number;
+  limit: number;
+  total: number;
+  total_page: number;
+}
+
 export interface IMenuState {
-  menus: IMenuPayload[];
+  menus: IMenuPagination;
   categories: ICategoryPayload[];
 }
 
@@ -47,7 +55,7 @@ export enum MenuActionTypes {
 
 export interface IFetchMenu {
   type: MenuActionTypes.FETCH_MENU;
-  payload: IMenuPayload[];
+  payload: IMenuPagination;
 }
 
 export interface IFetchCategories {

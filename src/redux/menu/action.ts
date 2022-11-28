@@ -3,12 +3,13 @@ import instance from "../../api/config/axios";
 import {
   ICategoryPayload,
   IFilterPayload,
+  IMenuPagination,
   IMenuPayload,
   MenuActions,
   MenuActionTypes,
 } from "./types";
 
-export const setMenu = (payload: IMenuPayload[]): MenuActions => {
+export const setMenu = (payload: IMenuPagination): MenuActions => {
   return {
     type: MenuActionTypes.FETCH_MENU,
     payload,
@@ -26,7 +27,7 @@ export const fetchMenu = (filter?: IFilterPayload) => {
   return async (dispatch: Dispatch<MenuActions>) => {
     await instance
       .get("/menus", { params: filter })
-      .then((response) => dispatch(setMenu(response.data.data)))
+      .then((response) => dispatch(setMenu(response.data)))
       .catch((error) => error);
   };
 };
