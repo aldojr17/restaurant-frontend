@@ -50,6 +50,13 @@ export interface IOrderPagination {
   data: IOrderPayload[];
 }
 
+export interface IChangeProfilePayload {
+  address: string;
+  full_name: string;
+  phone: string;
+  profile_picture: string;
+}
+
 export interface IUserState {
   user: IUserPayload;
   status: IApiPayload;
@@ -66,6 +73,8 @@ export enum UserActionTypes {
 
   FETCH_COUPONS = "FETCH_COUPONS",
   FETCH_ORDERS = "FETCH_ORDERS",
+
+  CHANGE_PROFILE = "CHANGE_PROFILE",
 }
 
 export interface ISetUser {
@@ -98,11 +107,17 @@ export interface IFetchOrders {
   payload: IOrderPagination;
 }
 
+export interface IChangeProfile {
+  type: UserActionTypes.CHANGE_PROFILE;
+  payload: IChangeProfilePayload;
+}
+
 export type UserActions =
   | ISetUser
   | ISetStatus
   | IAddToFavorites
   | IDeleteFromFavorites
   | IFetchCoupons
-  | IFetchOrders;
+  | IFetchOrders
+  | IChangeProfile;
 export type UserDispatch = ThunkDispatch<IUserState, any, AnyAction>;

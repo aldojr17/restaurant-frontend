@@ -1,10 +1,14 @@
 import { FormEvent, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../components/Navbar/Navbar";
 import { RootState } from "../../redux";
 import useIsLogged from "../../util/useIsLogged";
 import moment from "moment";
 import { CouponWrapper } from "./style";
+import instance from "../../api/config/axios";
+import axios from "axios";
+import { UserDispatch } from "../../redux/user/types";
+import { changeProfile } from "../../redux/user/action";
 
 const Profile = () => {
   const { user, coupons } = useSelector(
@@ -12,12 +16,42 @@ const Profile = () => {
   );
   const [input, setInput] = useState(user);
   const [isDisabled, setIsDisabled] = useState(true);
+  const dispatch: UserDispatch = useDispatch();
+  const [file, setFile] = useState<Blob>();
+  const reader = new FileReader();
 
   const handleChange = (event: FormEvent<HTMLInputElement>) => {
     setInput({
       ...input,
       [event.currentTarget.name]: event.currentTarget.value,
     });
+  };
+
+  const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      return;
+    }
+    setFile(e.target.files[0]);
+  };
+
+  const handleClick = async () => {
+    const formData = new FormData();
+    formData.append("file", file!);
+    formData.append("upload_preset", "final-project");
+    const uploadPost = await axios.post(
+      "https://api.cloudinary.com/v1_1/dcdexrr4n/image/upload",
+      formData
+    );
+
+    dispatch(
+      changeProfile({
+        address: input.address,
+        full_name: input.full_name,
+        phone: input.phone,
+        profile_picture: uploadPost.data.secure_url,
+      })
+    );
+    setIsDisabled(true);
   };
 
   useEffect(() => {
@@ -35,6 +69,34 @@ const Profile = () => {
         <div className="row gap-4 gap-lg-0">
           <div className="col-lg-6 d-flex flex-column gap-3">
             <h1 className="d-block d-lg-none">Profile</h1>
+            <div className="d-flex flex-column gap-3">
+              <div className="col-lg-6">
+                <img
+                  className="w-100"
+                  src={
+                    input.profile_picture === "" ||
+                    input.profile_picture === null
+                      ? "/assets/default-profile-picture.png"
+                      : input.profile_picture
+                  }
+                  alt="profile"
+                />
+              </div>
+              <div className="d-flex flex-column">
+                <label htmlFor="photo" className="form-label">
+                  Change Profile Picture
+                </label>
+                <input
+                  type="file"
+                  name="photo"
+                  id="photo"
+                  onChange={handleChangeImage}
+                  disabled={isDisabled}
+                  className="form-control"
+                  accept="image/*"
+                />
+              </div>
+            </div>
             <div className="d-flex flex-column">
               <label className="form-label" htmlFor="full_name">
                 Fullname
@@ -107,7 +169,9 @@ const Profile = () => {
                   >
                     Cancel
                   </button>
-                  <button className="btn btn-dark">Save Profile</button>
+                  <button className="btn btn-dark" onClick={handleClick}>
+                    Save Profile
+                  </button>
                 </div>
               )}
             </div>

@@ -4,6 +4,7 @@ import { IFilterPayload } from "../menu/types";
 import { IOrderPayload } from "../order/types";
 import {
   IApiPayload,
+  IChangeProfilePayload,
   ILoginPayload,
   IOrderPagination,
   IUserCoupons,
@@ -133,6 +134,17 @@ export const fetchOrders = (filter?: IFilterPayload) => {
       .get("/users/orders", { params: filter })
       .then((response) => {
         dispatch(setOrders(response.data));
+      })
+      .catch((error) => error);
+  };
+};
+
+export const changeProfile = (payload: IChangeProfilePayload) => {
+  return async (dispatch: Dispatch<UserActions>) => {
+    await instance
+      .put("/users/change-profile", payload)
+      .then((response) => {
+        dispatch(setUser(response.data));
       })
       .catch((error) => error);
   };
