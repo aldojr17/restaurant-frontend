@@ -57,6 +57,12 @@ export interface IChangeProfilePayload {
   profile_picture: string;
 }
 
+export interface IAddReviewPayload {
+  menu_id: number;
+  description: string;
+  rating: number;
+}
+
 export interface IUserState {
   user: IUserPayload;
   status: IApiPayload;
@@ -75,6 +81,7 @@ export enum UserActionTypes {
   FETCH_ORDERS = "FETCH_ORDERS",
 
   CHANGE_PROFILE = "CHANGE_PROFILE",
+  ADD_REVIEW = "ADD_REVIEW",
 }
 
 export interface ISetUser {
@@ -112,6 +119,11 @@ export interface IChangeProfile {
   payload: IChangeProfilePayload;
 }
 
+export interface IAddReview {
+  type: UserActionTypes.ADD_REVIEW;
+  payload: IAddReviewPayload;
+}
+
 export type UserActions =
   | ISetUser
   | ISetStatus
@@ -119,5 +131,6 @@ export type UserActions =
   | IDeleteFromFavorites
   | IFetchCoupons
   | IFetchOrders
-  | IChangeProfile;
+  | IChangeProfile
+  | IAddReview;
 export type UserDispatch = ThunkDispatch<IUserState, any, AnyAction>;

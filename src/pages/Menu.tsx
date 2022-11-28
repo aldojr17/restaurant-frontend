@@ -14,7 +14,7 @@ const Menu = () => {
     sortBy: "price",
     name: "",
     sort: "asc",
-    limit: 4,
+    limit: 8,
   });
   const [pagination, setPagination] = useState<string[]>([]);
 

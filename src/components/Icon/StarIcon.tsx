@@ -1,8 +1,13 @@
-const StarIcon = () => {
+interface StarIconProps {
+  size?: number;
+}
+
+const StarIcon = ({ size }: StarIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={16}
+      width={size ? size : 16}
+      height={size ? size : 16}
       fill="orange"
       className="bi bi-star-fill"
       viewBox="0 0 16 16"

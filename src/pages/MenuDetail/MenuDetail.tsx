@@ -44,7 +44,7 @@ const MenuDetail = () => {
     option_id: null,
     order_id: 0,
     qty: 1,
-    menu: menu,
+    menu_detail: menu,
   });
 
   const handleAddToFavorites = () => {
@@ -71,7 +71,11 @@ const MenuDetail = () => {
     const status = await menuDetailApi(parseInt(id!));
     if (status.isSuccess) {
       setMenu(status.data);
-      setInput({ ...input, menu_id: status.data.id, menu: status.data });
+      setInput({
+        ...input,
+        menu_id: status.data.id,
+        menu_detail: status.data,
+      });
     }
   };
 

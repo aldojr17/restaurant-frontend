@@ -22,11 +22,13 @@ const Cart = () => {
   const dispatch: CartDispatch = useDispatch();
   const dispatchOrder: OrderDispatch = useDispatch();
   const [total, setTotal] = useState(
-    cart.reduce((acc, val) => acc + val.menu?.price! * val.qty, 0)
+    cart.reduce((acc, val) => acc + val.menu_detail?.price! * val.qty, 0)
   );
 
   useEffect(() => {
-    setTotal(cart.reduce((acc, val) => acc + val.menu?.price! * val.qty, 0));
+    setTotal(
+      cart.reduce((acc, val) => acc + val.menu_detail?.price! * val.qty, 0)
+    );
   }, [cart]);
 
   const handleCheckout = () => {
@@ -97,11 +99,11 @@ const Cart = () => {
                   />
                 </div>
                 <div className="col-lg-3 d-flex flex-column gap-2">
-                  <span className="text-break">{val.menu?.name}</span>
+                  <span className="text-break">{val.menu_detail?.name}</span>
                   {val.option_id !== -1 ? (
                     <span className="text-muted">
                       {val.option_id
-                        ? val.menu?.menu_option[val.option_id].name
+                        ? val.menu_detail?.menu_option[val.option_id].name
                         : ""}
                     </span>
                   ) : (
@@ -140,7 +142,9 @@ const Cart = () => {
                   </div>
                 </div>
                 <div className="col-lg-2">
-                  <span>Rp.{formatCurrency(val.menu?.price! * val.qty)}</span>
+                  <span>
+                    Rp.{formatCurrency(val.menu_detail?.price! * val.qty)}
+                  </span>
                 </div>
                 <div
                   role={"button"}

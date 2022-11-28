@@ -3,6 +3,7 @@ import instance from "../../api/config/axios";
 import { IFilterPayload } from "../menu/types";
 import { IOrderPayload } from "../order/types";
 import {
+  IAddReviewPayload,
   IApiPayload,
   IChangeProfilePayload,
   ILoginPayload,
@@ -145,6 +146,17 @@ export const changeProfile = (payload: IChangeProfilePayload) => {
       .put("/users/change-profile", payload)
       .then((response) => {
         dispatch(setUser(response.data));
+      })
+      .catch((error) => error);
+  };
+};
+
+export const addReview = (payload: IAddReviewPayload) => {
+  return async (dispatch: Dispatch<UserActions>) => {
+    await instance
+      .post("/users/reviews", payload)
+      .then((response) => {
+        return response;
       })
       .catch((error) => error);
   };
