@@ -26,7 +26,13 @@ const initialState: IUserState = {
     isSuccess: false,
   },
   coupons: [],
-  orders: [],
+  orders: {
+    current_page: 0,
+    data: [],
+    limit: 0,
+    total: 0,
+    total_page: 0,
+  },
 };
 
 const setUser = (state: IUserState, action: ISetUser) => ({

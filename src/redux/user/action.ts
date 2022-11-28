@@ -1,9 +1,11 @@
 import { Dispatch } from "react";
 import instance from "../../api/config/axios";
+import { IFilterPayload } from "../menu/types";
 import { IOrderPayload } from "../order/types";
 import {
   IApiPayload,
   ILoginPayload,
+  IOrderPagination,
   IUserCoupons,
   IUserFavoritePayload,
   IUserPayload,
@@ -50,7 +52,7 @@ export const setCoupons = (payload: IUserCoupons[]): UserActions => {
   };
 };
 
-export const setOrders = (payload: IOrderPayload[]): UserActions => {
+export const setOrders = (payload: IOrderPagination): UserActions => {
   return {
     type: UserActionTypes.FETCH_ORDERS,
     payload,
@@ -125,12 +127,12 @@ export const fetchCoupons = () => {
   };
 };
 
-export const fetchOrders = () => {
+export const fetchOrders = (filter?: IFilterPayload) => {
   return async (dispatch: Dispatch<UserActions>) => {
     await instance
-      .get("/users/orders")
+      .get("/users/orders", { params: filter })
       .then((response) => {
-        dispatch(setOrders(response.data.data));
+        dispatch(setOrders(response.data));
       })
       .catch((error) => error);
   };

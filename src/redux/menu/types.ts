@@ -32,6 +32,7 @@ export interface IFilterPayload {
   name?: string;
   limit?: number;
   sort?: string;
+  page?: number;
 }
 
 export interface IMenuState {

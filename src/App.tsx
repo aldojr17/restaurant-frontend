@@ -14,20 +14,21 @@ import {
   Register,
 } from "./pages";
 import { UserDispatch } from "./redux/user/types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchCoupons, fetchOrders, getProfile } from "./redux/user/action";
+import { RootState } from "./redux";
 
 function App() {
   const dispatch: UserDispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.userReducer);
 
   useEffect(() => {
     if (localStorage.getItem("sessionId") !== null) {
       dispatch(getProfile());
       dispatch(fetchCoupons());
-      dispatch(fetchOrders());
     }
-  }, []);
+  }, [user.id]);
 
   return (
     <div className="container-fluid">

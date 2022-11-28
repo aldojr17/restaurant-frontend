@@ -42,11 +42,19 @@ export interface IUserCoupons {
   coupon: ICoupon;
 }
 
+export interface IOrderPagination {
+  current_page: number;
+  limit: number;
+  total: number;
+  total_page: number;
+  data: IOrderPayload[];
+}
+
 export interface IUserState {
   user: IUserPayload;
   status: IApiPayload;
   coupons: IUserCoupons[];
-  orders: IOrderPayload[];
+  orders: IOrderPagination;
 }
 
 export enum UserActionTypes {
@@ -87,7 +95,7 @@ export interface IFetchCoupons {
 
 export interface IFetchOrders {
   type: UserActionTypes.FETCH_ORDERS;
-  payload: IOrderPayload[];
+  payload: IOrderPagination;
 }
 
 export type UserActions =

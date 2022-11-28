@@ -1,20 +1,22 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useDebounce from "../../hooks/useDebounce";
 import { RootState } from "../../redux";
 import { fetchCategory, fetchMenu } from "../../redux/menu/action";
 import { IFilterPayload, MenuDispatch } from "../../redux/menu/types";
+import { OrderDispatch } from "../../redux/order/types";
+import { fetchOrders } from "../../redux/user/action";
 
-const Filter = () => {
+interface IFilterProps {
+  filter: IFilterPayload;
+  setFilter: React.Dispatch<React.SetStateAction<IFilterPayload>>;
+  type: string;
+}
+
+const Filter = ({ filter, setFilter, type }: IFilterProps) => {
   const [searchText, setSearchText] = useState("");
-  const [filter, setFilter] = useState<IFilterPayload>({
-    category: 0,
-    sortBy: "price",
-    name: "",
-    sort: "asc",
-    limit: 12,
-  });
   const dispatch: MenuDispatch = useDispatch();
+  const dispatchOrder: OrderDispatch = useDispatch();
   const debounce = useDebounce(searchText, 800);
   const { categories } = useSelector((state: RootState) => state.menuReducer);
 
@@ -34,16 +36,25 @@ const Filter = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(
-      fetchMenu({
-        ...filter,
-        name: searchText,
-      })
-    );
+    if (type == "menu") {
+      dispatch(
+        fetchMenu({
+          ...filter,
+          name: searchText,
+        })
+      );
+    } else if (type == "orders") {
+      dispatchOrder(
+        fetchOrders({
+          ...filter,
+          name: searchText,
+        })
+      );
+    }
   }, [debounce, filter]);
 
   return (
-    <div className="container px-lg-5 row flex-column mx-auto gap-4 align-items-center align-items-lg-start">
+    <>
       <div className="col d-flex form-control align-items-center gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +71,7 @@ const Filter = () => {
           name="search"
           id="search"
           className="border-0 form-control"
-          placeholder="Search Menu Name"
+          placeholder="Search by menu name"
           value={searchText}
           onChange={handleSearch}
         />
@@ -112,7 +123,7 @@ const Filter = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
