@@ -19,14 +19,6 @@ const Order = () => {
     limit: 5,
   });
   const [pagination, setPagination] = useState<string[]>([]);
-  const dispatch: UserDispatch = useDispatch();
-
-  const handleChange = (event: FormEvent<HTMLSelectElement>) => {
-    setFilter({
-      ...filter,
-      limit: parseInt(event.currentTarget.value),
-    });
-  };
 
   const handleClick = (page: number) => {
     setFilter({
@@ -91,10 +83,6 @@ const Order = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchOrders(filter));
-  }, [filter]);
-
-  useEffect(() => {
     handlePagination(orders.total_page, orders.current_page);
   }, [orders]);
 
@@ -104,36 +92,16 @@ const Order = () => {
       <div className="container">
         <h1>Orders</h1>
         <div className="my-4 row flex-column mx-auto gap-4 align-items-center align-items-lg-start">
-          <Filter filter={filter} setFilter={setFilter} type={"orders"} />
-          <div className="d-flex align-items-center p-0">
-            <div className="col">
-              <span>
-                Showing {orders.limit * orders.current_page - orders.limit + 1}{" "}
-                to{" "}
-                {orders.limit * orders.current_page + 1 <= orders.total
-                  ? orders.limit * orders.current_page
-                  : orders.total}{" "}
-                of {orders.total}
-              </span>
-            </div>
-            <div className="col d-flex align-items-center gap-3 justify-content-end">
-              <span>Row per page</span>
-              <div className="col-lg-2">
-                <select
-                  name="limit"
-                  id="limit"
-                  className="form-select"
-                  value={filter.limit}
-                  onChange={handleChange}
-                >
-                  <option value={5}>5</option>
-                  <option value={10}>10</option>
-                  <option value={20}>20</option>
-                  <option value={50}>50</option>
-                </select>
-              </div>
-            </div>
-          </div>
+          <Filter
+            filter={filter}
+            setFilter={setFilter}
+            type={"orders"}
+            pagination={{
+              current_page: orders.current_page,
+              limit: orders.limit,
+              total: orders.total,
+            }}
+          />
         </div>
         <div className="row gap-3 flex-column">
           {orders.data.map((order) => (

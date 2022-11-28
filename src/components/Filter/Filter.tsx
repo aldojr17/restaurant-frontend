@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useDebounce from "../../hooks/useDebounce";
 import { RootState } from "../../redux";
@@ -11,14 +11,26 @@ interface IFilterProps {
   filter: IFilterPayload;
   setFilter: React.Dispatch<React.SetStateAction<IFilterPayload>>;
   type: string;
+  pagination: {
+    current_page: number;
+    limit: number;
+    total: number;
+  };
 }
 
-const Filter = ({ filter, setFilter, type }: IFilterProps) => {
+const Filter = ({ filter, setFilter, type, pagination }: IFilterProps) => {
   const [searchText, setSearchText] = useState("");
   const dispatch: MenuDispatch = useDispatch();
   const dispatchOrder: OrderDispatch = useDispatch();
   const debounce = useDebounce(searchText, 800);
   const { categories } = useSelector((state: RootState) => state.menuReducer);
+
+  const handleChange = (event: FormEvent<HTMLSelectElement>) => {
+    setFilter({
+      ...filter,
+      limit: parseInt(event.currentTarget.value),
+    });
+  };
 
   const handleChangeFilter = (event: React.FormEvent<HTMLSelectElement>) => {
     setFilter({
@@ -32,7 +44,9 @@ const Filter = ({ filter, setFilter, type }: IFilterProps) => {
   };
 
   useEffect(() => {
-    dispatch(fetchCategory());
+    if (type == "menu") {
+      dispatch(fetchCategory());
+    }
   }, []);
 
   useEffect(() => {
@@ -119,6 +133,49 @@ const Filter = ({ filter, setFilter, type }: IFilterProps) => {
                   {category.name}
                 </option>
               ))}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div className="d-flex align-items-center p-0">
+        <div className="col">
+          <span>
+            Showing{" "}
+            {pagination.limit * pagination.current_page - pagination.limit + 1}{" "}
+            to{" "}
+            {pagination.limit * pagination.current_page + 1 <= pagination.total
+              ? pagination.limit * pagination.current_page
+              : pagination.total}{" "}
+            of {pagination.total}
+          </span>
+        </div>
+        <div className="col d-flex align-items-center gap-3 justify-content-end">
+          <span>Row per page</span>
+          <div className="col-lg-2">
+            <select
+              name="limit"
+              id="limit"
+              className="form-select"
+              value={filter.limit}
+              onChange={handleChange}
+            >
+              {type === "menu" ? (
+                <>
+                  {" "}
+                  <option value={4}>4</option>
+                  <option value={8}>8</option>
+                  <option value={12}>12</option>
+                  <option value={20}>20</option>
+                </>
+              ) : (
+                <>
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                  <option value={50}>50</option>
+                </>
+              )}
             </select>
           </div>
         </div>
