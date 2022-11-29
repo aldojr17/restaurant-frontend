@@ -32,6 +32,7 @@ const initialState: IMenuState = {
     price: 0,
     rating: 0,
     total_review: 0,
+    reviews: [],
   },
   status: {
     error: null,

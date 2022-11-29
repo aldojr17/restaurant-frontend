@@ -12,6 +12,15 @@ export interface IMenuPayload {
   is_available: boolean;
   description: string;
   menu_option: IMenuOptions[];
+  reviews: IReviewPayload[];
+}
+
+export interface IReviewPayload {
+  id: number;
+  user_id: string;
+  menu_id: number;
+  description: string;
+  rating: number;
 }
 
 export interface IMenuOptions {
