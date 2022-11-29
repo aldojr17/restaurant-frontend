@@ -1,6 +1,8 @@
 import {
   ICreateOrder,
   IOrderState,
+  ISetError,
+  ISetLoading,
   OrderActions,
   OrderActionTypes,
 } from "./types";
@@ -14,11 +16,31 @@ const initialState: IOrderState = {
     status: "",
     total_price: 0,
   },
+  status: {
+    error: null,
+    isLoading: false,
+  },
 };
 
 const setOrder = (state: IOrderState, action: ICreateOrder) => ({
   ...state,
   order: action.payload,
+});
+
+const setLoading = (state: IOrderState, action: ISetLoading) => ({
+  ...state,
+  status: {
+    ...state.status,
+    isLoading: action.payload,
+  },
+});
+
+const setError = (state: IOrderState, action: ISetError) => ({
+  ...state,
+  status: {
+    ...state.status,
+    error: action.payload,
+  },
 });
 
 const orderReducer = (
@@ -28,6 +50,10 @@ const orderReducer = (
   switch (action.type) {
     case OrderActionTypes.CREATE_ORDER:
       return setOrder(state, action);
+    case OrderActionTypes.SET_ERROR:
+      return setError(state, action);
+    case OrderActionTypes.SET_LOADING:
+      return setLoading(state, action);
     default:
       return state;
   }

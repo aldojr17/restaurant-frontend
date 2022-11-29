@@ -12,4 +12,8 @@ export const DivOrder = styled.div`
   height: 400px;
 `;
 
+export const LoadingWrapper = styled.div`
+  height: 80vh;
+`;
+
 export default Title;

@@ -14,20 +14,40 @@ export const setOrder = (payload: IOrderPayload): OrderActions => {
   };
 };
 
+export const setLoading = (payload: boolean): OrderActions => {
+  return {
+    type: OrderActionTypes.SET_LOADING,
+    payload,
+  };
+};
+
+export const setError = (payload: string | null): OrderActions => {
+  return {
+    type: OrderActionTypes.SET_ERROR,
+    payload,
+  };
+};
+
 export const createOrder = (payload: IOrderPayload) => {
   return async (dispatch: Dispatch<OrderActions>) => {
+    dispatch(setLoading(true));
+    dispatch(setError(null));
     await instance
       .post("/orders", payload)
       .then((response) => dispatch(setOrder(response.data.data)))
-      .catch((error) => error);
+      .catch((error) => dispatch(setError(error)))
+      .finally(() => setLoading(false));
   };
 };
 
 export const createOrderDetails = (payload: IOrderDetailPayload[]) => {
   return async (dispatch: Dispatch<OrderActions>) => {
+    dispatch(setLoading(true));
+    dispatch(setError(null));
     await instance
       .post("/order-details", { orders: payload })
       .then((response) => response)
-      .catch((error) => error);
+      .catch((error) => dispatch(setError(error)))
+      .finally(() => dispatch(setLoading(false)));
   };
 };
