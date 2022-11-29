@@ -29,9 +29,10 @@ const MenuDetail = () => {
   const isLogged = useIsLogged();
   const navigate = useNavigate();
 
+  const [showToast, setShowToast] = useState(false);
   const [input, setInput] = useState<IOrderDetailPayload>({
     menu_id: 0,
-    option_id: null,
+    option_id: 0,
     order_id: 0,
     qty: 1,
     menu_detail: menu,
@@ -66,7 +67,16 @@ const MenuDetail = () => {
     if (!isLogged) {
       navigate("/login", { replace: true });
     } else {
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+      }, 5000);
       dispatch(addToCart(input));
+      setInput({
+        ...input,
+        option_id: 0,
+        qty: 1,
+      });
     }
   };
 
@@ -99,6 +109,32 @@ const MenuDetail = () => {
         </LoadingWrapper>
       ) : (
         <>
+          <div className="position-relative">
+            <div className="toast-container position-absolute end-0">
+              {showToast ? (
+                <div
+                  className="toast show"
+                  role="alert"
+                  aria-live="assertive"
+                  aria-atomic="true"
+                >
+                  <div className="toast-header">
+                    <strong className="me-auto">Cart</strong>
+                    <small className="text-muted">just now</small>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="toast"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div className="toast-body">Item added to cart!</div>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
           <div className="container py-5">
             <div className="row gap-4 gap-lg-0">
               <img
@@ -126,8 +162,9 @@ const MenuDetail = () => {
                       id="option_id"
                       className="form-select"
                       onChange={handleChange}
+                      value={input.option_id!}
                     >
-                      <option value={input.option_id!}>None</option>
+                      <option value={0}>None</option>
                       {menu.menu_option.map((option) => (
                         <option key={option.id} value={option.id}>
                           {option.name}
