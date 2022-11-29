@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TrashIcon } from "../../components/Icon";
 import Navbar from "../../components/Navbar/Navbar";
@@ -23,22 +23,38 @@ import Title, { DivOrder, SpanHeader } from "./style";
 const Cart = () => {
   const { cart } = useSelector((state: RootState) => state.cartReducer);
   const { order } = useSelector((state: RootState) => state.orderReducer);
+  const { coupons } = useSelector((state: RootState) => state.userReducer);
   const dispatch: CartDispatch = useDispatch();
   const dispatchOrder: OrderDispatch = useDispatch();
-  const [total, setTotal] = useState(
+  const [subtotal, setSubtotal] = useState(
     cart.reduce((acc, val) => acc + val.menu_detail?.price! * val.qty, 0)
   );
+  const [total, setTotal] = useState(subtotal);
+  const [coupon, setCoupon] = useState("");
 
   useEffect(() => {
-    setTotal(
+    setSubtotal(
       cart.reduce((acc, val) => acc + val.menu_detail?.price! * val.qty, 0)
     );
   }, [cart]);
 
+  useEffect(() => {
+    setTotal(
+      coupons.length !== 0 && coupon !== ""
+        ? subtotal -
+            coupons.find((c) => c.coupon.id === coupon)?.coupon.discount! >=
+          0
+          ? subtotal -
+            coupons.find((c) => c.coupon.id === coupon)?.coupon.discount!
+          : 0
+        : subtotal
+    );
+  }, [subtotal, coupon]);
+
   const handleCheckout = () => {
     dispatchOrder(
       createOrder({
-        coupon_id: "",
+        coupon_id: coupon,
         id: 0,
         notes: null,
         payment_id: 1,
@@ -50,6 +66,10 @@ const Cart = () => {
 
   const handleDeleteFromCart = (item: IOrderDetailPayload) => {
     dispatch(deleteFromCart(item));
+  };
+
+  const handleCoupon = (event: FormEvent<HTMLSelectElement>) => {
+    setCoupon(event.currentTarget.value);
   };
 
   useEffect(() => {
@@ -179,8 +199,47 @@ const Cart = () => {
                       <span>{cart.reduce((acc, val) => acc + val.qty, 0)}</span>
                     </div>
                     <div className="d-flex justify-content-between">
+                      <span>Subtotal</span>
+                      <span>Rp.{formatCurrency(subtotal)}</span>
+                    </div>
+                    <div className="my-3 d-flex flex-column gap-2">
+                      <span>Coupon</span>
+                      <select
+                        name="coupon"
+                        id="coupon"
+                        className="form-select"
+                        onChange={handleCoupon}
+                      >
+                        <option value="">Select coupon</option>
+                        {coupons.length !== 0 &&
+                          coupons.map((coupon) => (
+                            <option
+                              key={coupon.coupon.id}
+                              value={coupon.coupon.id}
+                            >
+                              {coupon.coupon.code}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                      <span>Discount</span>
+                      <span>
+                        Rp.
+                        {formatCurrency(
+                          coupons.length !== 0 && coupon !== ""
+                            ? coupons.find((c) => c.coupon.id === coupon)
+                                ?.coupon.discount!
+                            : 0
+                        )}
+                      </span>
+                    </div>
+                    <div className="d-flex justify-content-between">
                       <span>Total</span>
-                      <span>Rp.{formatCurrency(total)}</span>
+                      <span>
+                        Rp.
+                        {formatCurrency(total)}
+                      </span>
                     </div>
                   </div>
                 </div>

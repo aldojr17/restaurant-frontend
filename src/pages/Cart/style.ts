@@ -9,7 +9,7 @@ export const SpanHeader = styled.span`
 `;
 
 export const DivOrder = styled.div`
-  height: 250px;
+  height: 400px;
 `;
 
 export default Title;
