@@ -45,6 +45,13 @@ export const setMenuDetail = (payload: IMenuPayload): MenuActions => {
   };
 };
 
+export const setNewMenu = (payload: IMenuPayload[]): MenuActions => {
+  return {
+    type: MenuActionTypes.FETCH_NEW_MENU,
+    payload,
+  };
+};
+
 export const fetchMenu = (filter?: IFilterPayload) => {
   return async (dispatch: Dispatch<MenuActions>) => {
     await instance
@@ -72,5 +79,19 @@ export const getMenuDetail = (payload: number) => {
       .then((response) => dispatch(setMenuDetail(response.data.data)))
       .catch((error) => dispatch(setError(error)))
       .finally(() => dispatch(setLoading(false)));
+  };
+};
+
+export const fetchNewMenu = () => {
+  return async (dispatch: Dispatch<MenuActions>) => {
+    await instance
+      .get("/menus", {
+        params: {
+          sortBy: "date",
+          limit: 3,
+        },
+      })
+      .then((response) => dispatch(setNewMenu(response.data.data)))
+      .catch((error) => error);
   };
 };

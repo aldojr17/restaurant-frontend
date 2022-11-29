@@ -24,4 +24,31 @@ const DivCategory = styled.div`
   }
 `;
 
+export const HomeWrapper = styled.div`
+  min-height: 65vh;
+`;
+
+export const MenuTitle = styled.h1`
+  font-size: 108px;
+  word-break: break-word;
+
+  @media screen and (max-width: 768px) {
+    font-size: 72px;
+  }
+
+  @media screen and (max-width: 576px) {
+    font-size: 48px;
+  }
+`;
+
+export const AddToCartButton = styled.button`
+  width: 4rem;
+  height: 4rem;
+  right: -2rem;
+`;
+
+export const ButtonWrapper = styled.div`
+  height: 6rem;
+`;
+
 export default DivCategory;

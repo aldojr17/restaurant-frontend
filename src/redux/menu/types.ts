@@ -62,6 +62,7 @@ export interface IMenuState {
   categories: ICategoryPayload[];
   menu: IMenuPayload;
   status: IStatusPayload;
+  newMenus: IMenuPayload[];
 }
 
 export enum MenuActionTypes {
@@ -71,6 +72,8 @@ export enum MenuActionTypes {
   SET_LOADING = "SET_LOADING",
   SET_ERROR = "SET_ERROR",
   SET_MENU = "SET_MENU",
+
+  FETCH_NEW_MENU = "FETCH_NEW_MENU",
 }
 
 export interface IFetchMenu {
@@ -98,10 +101,16 @@ export interface ISetMenu {
   payload: IMenuPayload;
 }
 
+export interface IFetchNewMenu {
+  type: MenuActionTypes.FETCH_NEW_MENU;
+  payload: IMenuPayload[];
+}
+
 export type MenuActions =
   | IFetchMenu
   | IFetchCategories
   | ISetLoading
   | ISetError
-  | ISetMenu;
+  | ISetMenu
+  | IFetchNewMenu;
 export type MenuDispatch = ThunkDispatch<IMenuState, any, AnyAction>;

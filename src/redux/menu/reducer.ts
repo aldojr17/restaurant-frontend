@@ -1,6 +1,7 @@
 import {
   IFetchCategories,
   IFetchMenu,
+  IFetchNewMenu,
   IMenuState,
   ISetError,
   ISetLoading,
@@ -38,6 +39,7 @@ const initialState: IMenuState = {
     error: null,
     isLoading: false,
   },
+  newMenus: [],
 };
 
 const fetchMenu = (state: IMenuState, action: IFetchMenu) => ({
@@ -71,6 +73,11 @@ const setError = (state: IMenuState, action: ISetError) => ({
   },
 });
 
+const setNewMenu = (state: IMenuState, action: IFetchNewMenu) => ({
+  ...state,
+  newMenus: action.payload,
+});
+
 const menuReducer = (
   state: IMenuState = initialState,
   action: MenuActions
@@ -86,6 +93,8 @@ const menuReducer = (
       return setLoading(state, action);
     case MenuActionTypes.SET_MENU:
       return setMenu(state, action);
+    case MenuActionTypes.FETCH_NEW_MENU:
+      return setNewMenu(state, action);
     default:
       return state;
   }

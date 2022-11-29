@@ -103,7 +103,6 @@ const Filter = ({ filter, setFilter, type, pagination }: IFilterProps) => {
               <option value="price">Price</option>
               <option value="name">Name</option>
               <option value="rating">Rating</option>
-              <option value="is_available">Available</option>
             </select>
             <select
               className="form-select col"
