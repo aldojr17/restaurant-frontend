@@ -7,6 +7,7 @@ export { default as Register } from "./Auth/Register";
 export { default as Home } from "./Home/Home";
 export { default as Menu } from "./Menu";
 export { default as Order } from "./Order";
+export { default as Favorites } from "./Favorites";
 export { default as Cart } from "./Cart/Cart";
 export { default as MenuDetail } from "./MenuDetail/MenuDetail";
 export { default as Profile } from "./Profile/Profile";

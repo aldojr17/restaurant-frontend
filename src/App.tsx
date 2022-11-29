@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import {
   AuthRoutes,
   Cart,
+  Favorites,
   Home,
   Login,
   Menu,
@@ -46,6 +47,7 @@ function App() {
           <Route path="/orders" element={<Order />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/favorites" element={<Favorites />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

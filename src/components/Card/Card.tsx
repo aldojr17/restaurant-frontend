@@ -17,11 +17,18 @@ const Card = ({ ...props }: IMenuPayload) => {
 
   const handleAddToFavorites = () => {
     user.favorites.findIndex((fav) => fav.menu_id === props.id) !== -1
-      ? dispatch(deleteFromFavorites({ menu_id: props.id, user_id: user.id }))
+      ? dispatch(
+          deleteFromFavorites({
+            menu_id: props.id,
+            user_id: user.id,
+            menu: props,
+          })
+        )
       : dispatch(
           addToFavorites({
             menu_id: props.id,
             user_id: user.id,
+            menu: props,
           })
         );
   };

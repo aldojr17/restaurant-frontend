@@ -79,7 +79,9 @@ const Navbar = ({ ...props }: NavbarProps) => {
             ""
           ) : props.isLogged ? (
             <div className="d-flex gap-3 align-items-center">
-              <HeartIcon fill={false} button />
+              <Link to={"/favorites"} className={`nav-link`}>
+                <HeartIcon fill={false} button />
+              </Link>
               <Link to={"/cart"} className={`nav-link`}>
                 <CartIcon />
               </Link>

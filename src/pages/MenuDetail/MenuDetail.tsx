@@ -50,12 +50,17 @@ const MenuDetail = () => {
   const handleAddToFavorites = () => {
     user.favorites.findIndex((fav) => fav.menu_id === parseInt(id!)) !== -1
       ? dispatchUser(
-          deleteFromFavorites({ menu_id: parseInt(id!), user_id: user.id })
+          deleteFromFavorites({
+            menu_id: parseInt(id!),
+            user_id: user.id,
+            menu: menu,
+          })
         )
       : dispatchUser(
           addToFavorites({
             menu_id: parseInt(id!),
             user_id: user.id,
+            menu: menu,
           })
         );
   };

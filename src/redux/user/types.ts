@@ -1,5 +1,6 @@
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
+import { IMenuPayload } from "../menu/types";
 import { IOrderPayload } from "../order/types";
 
 export interface IUserPayload {
@@ -26,6 +27,7 @@ export interface IApiPayload {
 export interface IUserFavoritePayload {
   user_id: string;
   menu_id: number;
+  menu: IMenuPayload;
 }
 
 export interface ICoupon {
