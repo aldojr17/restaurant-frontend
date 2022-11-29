@@ -24,3 +24,10 @@ export const deleteAllFromCart = () => {
     type: CartActionTypes.DELETE_ALL_FROM_CART,
   };
 };
+
+export const deleteFromCart = (payload: IOrderDetailPayload) => {
+  return {
+    type: CartActionTypes.DELETE_FROM_CART,
+    payload,
+  };
+};

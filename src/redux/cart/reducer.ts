@@ -4,6 +4,7 @@ import {
   IAddToCart,
   ICartState,
   IDeleteAllFromCart,
+  IDeleteFromCart,
   IUpdateCart,
 } from "./types";
 
@@ -51,6 +52,16 @@ const deleteAllFromCart = (state: ICartState, action: IDeleteAllFromCart) => ({
   cart: [],
 });
 
+const deleteFromCart = (state: ICartState, action: IDeleteFromCart) => ({
+  ...state,
+  cart: state.cart.filter((value) =>
+    value.menu_id === action.payload.menu_id &&
+    value.option_id === action.payload.option_id
+      ? false
+      : true
+  ),
+});
+
 const cartReducer = (
   state: ICartState = initialState,
   action: CartActions
@@ -76,6 +87,8 @@ const cartReducer = (
       }
     case CartActionTypes.DELETE_ALL_FROM_CART:
       return deleteAllFromCart(state, action);
+    case CartActionTypes.DELETE_FROM_CART:
+      return deleteFromCart(state, action);
     default:
       return state;
   }

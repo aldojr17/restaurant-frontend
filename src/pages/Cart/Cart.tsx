@@ -3,14 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { TrashIcon } from "../../components/Icon";
 import Navbar from "../../components/Navbar/Navbar";
 import { RootState } from "../../redux";
-import { deleteAllFromCart, updateCart } from "../../redux/cart/action";
+import {
+  deleteAllFromCart,
+  deleteFromCart,
+  updateCart,
+} from "../../redux/cart/action";
 import { CartDispatch } from "../../redux/cart/types";
 import {
   createOrder,
   createOrderDetails,
   setOrder,
 } from "../../redux/order/action";
-import { OrderDispatch } from "../../redux/order/types";
+import { IOrderDetailPayload, OrderDispatch } from "../../redux/order/types";
 import useIsLogged from "../../util/useIsLogged";
 import { formatCurrency } from "../../util/util";
 import InputNumber from "../MenuDetail/style";
@@ -44,6 +48,10 @@ const Cart = () => {
     );
   };
 
+  const handleDeleteFromCart = (item: IOrderDetailPayload) => {
+    dispatch(deleteFromCart(item));
+  };
+
   useEffect(() => {
     if (order.id !== 0) {
       dispatchOrder(
@@ -52,7 +60,7 @@ const Cart = () => {
             return {
               menu_id: val.menu_id,
               order_id: order.id,
-              option_id: val.option_id,
+              option_id: val.option_id !== 0 ? val.option_id : null,
               qty: val.qty,
             };
           })
@@ -77,13 +85,17 @@ const Cart = () => {
       <Navbar isLogged={useIsLogged()} />
       <div className="container">
         <Title>CART</Title>
-        <div className="row my-3 d-none d-lg-block">
-          <div className="col-lg-10 row me-3">
-            <SpanHeader className="col-lg-6 fs-4">ITEMS</SpanHeader>
-            <SpanHeader className="col-lg-3 fs-4 px-2">QUANTITY</SpanHeader>
-            <SpanHeader className="col-lg-2 fs-4 px-2">PRICE</SpanHeader>
+        {cart.length !== 0 ? (
+          <div className="row my-3 d-none d-lg-block">
+            <div className="col-lg-10 row me-3">
+              <SpanHeader className="col-lg-6 fs-4">ITEMS</SpanHeader>
+              <SpanHeader className="col-lg-3 fs-4 px-2">QUANTITY</SpanHeader>
+              <SpanHeader className="col-lg-2 fs-4 px-2">PRICE</SpanHeader>
+            </div>
           </div>
-        </div>
+        ) : (
+          ""
+        )}
         <div className="row flex-column-reverse flex-lg-row gap-5 gap-lg-0">
           <div className="col-lg-10 d-flex flex-column gap-5">
             {cart.map((val, index) => (
@@ -149,34 +161,39 @@ const Cart = () => {
                 <div
                   role={"button"}
                   className="col-lg-1 d-flex justify-content-center align-items-center"
+                  onClick={() => handleDeleteFromCart(val)}
                 >
                   <TrashIcon />
                 </div>
               </div>
             ))}
           </div>
-          <div className="col-lg-2">
-            <DivOrder className="shadow row flex-column border border-1 gap-3 justify-content-between py-3">
-              <div className="col-12 d-flex gap-3 flex-column">
-                <span className="fs-4 text-start">Your Order</span>
-                <div className="d-flex flex-column gap-2">
-                  <div className="d-flex justify-content-between">
-                    <span>Items</span>
-                    <span>{cart.reduce((acc, val) => acc + val.qty, 0)}</span>
-                  </div>
-                  <div className="d-flex justify-content-between">
-                    <span>Total</span>
-                    <span>Rp.{formatCurrency(total)}</span>
+          {cart.length !== 0 ? (
+            <div className="col-lg-2">
+              <DivOrder className="shadow row flex-column border border-1 gap-3 justify-content-between py-3">
+                <div className="col-12 d-flex gap-3 flex-column">
+                  <span className="fs-4 text-start">Your Order</span>
+                  <div className="d-flex flex-column gap-2">
+                    <div className="d-flex justify-content-between">
+                      <span>Items</span>
+                      <span>{cart.reduce((acc, val) => acc + val.qty, 0)}</span>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                      <span>Total</span>
+                      <span>Rp.{formatCurrency(total)}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-12 d-flex justify-content-center">
-                <button className="btn btn-dark" onClick={handleCheckout}>
-                  CHECKOUT
-                </button>
-              </div>
-            </DivOrder>
-          </div>
+                <div className="col-12 d-flex justify-content-center">
+                  <button className="btn btn-dark" onClick={handleCheckout}>
+                    CHECKOUT
+                  </button>
+                </div>
+              </DivOrder>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </>
