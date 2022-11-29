@@ -8,4 +8,8 @@ const InputNumber = styled.input`
   }
 `;
 
+export const LoadingWrapper = styled.div`
+  height: 80vh;
+`;
+
 export default InputNumber;

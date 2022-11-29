@@ -1,44 +1,34 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { menuDetailApi } from "../../api/menu";
 import { HeartIcon } from "../../components/Icon";
 import Navbar from "../../components/Navbar/Navbar";
 import Quantity from "../../components/Quantity/Quantity";
 import { RootState } from "../../redux";
 import { addToCart } from "../../redux/cart/action";
 import { CartDispatch } from "../../redux/cart/types";
-import { IMenuPayload } from "../../redux/menu/types";
+import { getMenuDetail } from "../../redux/menu/action";
+import { MenuDispatch } from "../../redux/menu/types";
 import { IOrderDetailPayload } from "../../redux/order/types";
 import { addToFavorites, deleteFromFavorites } from "../../redux/user/action";
 import { UserDispatch } from "../../redux/user/types";
 import useIsLogged from "../../util/useIsLogged";
 import { formatCurrency } from "../../util/util";
-import NotFound from "../NotFound";
-import InputNumber from "./style";
+import { LoadingWrapper } from "./style";
 
 const MenuDetail = () => {
   const { id } = useParams();
+
+  const { user } = useSelector((state: RootState) => state.userReducer);
+  const { menu, status } = useSelector((state: RootState) => state.menuReducer);
+
   const dispatch: CartDispatch = useDispatch();
   const dispatchUser: UserDispatch = useDispatch();
+  const dispatchMenu: MenuDispatch = useDispatch();
+
   const isLogged = useIsLogged();
-  const { user } = useSelector((state: RootState) => state.userReducer);
   const navigate = useNavigate();
-  const [menu, setMenu] = useState<IMenuPayload>({
-    category: {
-      id: 0,
-      name: "",
-    },
-    description: "",
-    id: 0,
-    is_available: false,
-    name: "",
-    menu_option: [],
-    photo: "",
-    price: 0,
-    rating: 0,
-    total_review: 0,
-  });
+
   const [input, setInput] = useState<IOrderDetailPayload>({
     menu_id: 0,
     option_id: null,
@@ -72,18 +62,6 @@ const MenuDetail = () => {
     });
   };
 
-  const getMenuDetail = async () => {
-    const status = await menuDetailApi(parseInt(id!));
-    if (status.isSuccess) {
-      setMenu(status.data);
-      setInput({
-        ...input,
-        menu_id: status.data.id,
-        menu_detail: status.data,
-      });
-    }
-  };
-
   const handleAddToCart = () => {
     if (!isLogged) {
       navigate("/login", { replace: true });
@@ -93,14 +71,32 @@ const MenuDetail = () => {
   };
 
   useEffect(() => {
-    getMenuDetail();
+    dispatchMenu(getMenuDetail(parseInt(id!)));
   }, []);
+
+  useEffect(() => {
+    if (status.error === null) {
+      setInput({
+        ...input,
+        menu_id: menu.id,
+        menu_detail: menu,
+      });
+    }
+  }, [menu]);
 
   return (
     <>
       <Navbar isLogged={isLogged} />
-      {menu.id === 0 ? (
-        <NotFound />
+      {status.isLoading ? (
+        <LoadingWrapper className="d-flex justify-content-center align-items-center">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </LoadingWrapper>
+      ) : status.error !== null ? (
+        <LoadingWrapper className="d-flex justify-content-center align-items-center">
+          <span>{status.error}</span>
+        </LoadingWrapper>
       ) : (
         <>
           <div className="container py-5">

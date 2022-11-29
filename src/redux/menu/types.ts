@@ -35,6 +35,11 @@ export interface IFilterPayload {
   page?: number;
 }
 
+export interface IStatusPayload {
+  isLoading: boolean;
+  error: string | null;
+}
+
 export interface IMenuPagination {
   data: IMenuPayload[];
   current_page: number;
@@ -46,11 +51,17 @@ export interface IMenuPagination {
 export interface IMenuState {
   menus: IMenuPagination;
   categories: ICategoryPayload[];
+  menu: IMenuPayload;
+  status: IStatusPayload;
 }
 
 export enum MenuActionTypes {
   FETCH_MENU = "FETCH_MENU",
   FETCH_CATEGORIES = "FETCH_CATEGORIES",
+
+  SET_LOADING = "SET_LOADING",
+  SET_ERROR = "SET_ERROR",
+  SET_MENU = "SET_MENU",
 }
 
 export interface IFetchMenu {
@@ -63,5 +74,25 @@ export interface IFetchCategories {
   payload: ICategoryPayload[];
 }
 
-export type MenuActions = IFetchMenu | IFetchCategories;
+export interface ISetLoading {
+  type: MenuActionTypes.SET_LOADING;
+  payload: boolean;
+}
+
+export interface ISetError {
+  type: MenuActionTypes.SET_ERROR;
+  payload: string | null;
+}
+
+export interface ISetMenu {
+  type: MenuActionTypes.SET_MENU;
+  payload: IMenuPayload;
+}
+
+export type MenuActions =
+  | IFetchMenu
+  | IFetchCategories
+  | ISetLoading
+  | ISetError
+  | ISetMenu;
 export type MenuDispatch = ThunkDispatch<IMenuState, any, AnyAction>;
