@@ -1,5 +1,6 @@
 import {
   ICreateOrder,
+  IFetchAllOrder,
   IOrderState,
   ISetError,
   ISetLoading,
@@ -19,6 +20,13 @@ const initialState: IOrderState = {
   status: {
     error: null,
     isLoading: false,
+  },
+  orders: {
+    current_page: 0,
+    data: [],
+    limit: 0,
+    total: 0,
+    total_page: 0,
   },
 };
 
@@ -43,6 +51,11 @@ const setError = (state: IOrderState, action: ISetError) => ({
   },
 });
 
+const setOrders = (state: IOrderState, action: IFetchAllOrder) => ({
+  ...state,
+  orders: action.payload,
+});
+
 const orderReducer = (
   state: IOrderState = initialState,
   action: OrderActions
@@ -54,6 +67,8 @@ const orderReducer = (
       return setError(state, action);
     case OrderActionTypes.SET_LOADING:
       return setLoading(state, action);
+    case OrderActionTypes.FETCH_ALL_ORDER:
+      return setOrders(state, action);
     default:
       return state;
   }

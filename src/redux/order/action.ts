@@ -1,5 +1,7 @@
 import { Dispatch } from "react";
 import instance from "../../api/config/axios";
+import { IFilterPayload } from "../menu/types";
+import { IOrderPagination } from "../user/types";
 import {
   IOrderDetailPayload,
   IOrderPayload,
@@ -28,6 +30,13 @@ export const setError = (payload: string | null): OrderActions => {
   };
 };
 
+export const setOrders = (payload: IOrderPagination): OrderActions => {
+  return {
+    type: OrderActionTypes.FETCH_ALL_ORDER,
+    payload,
+  };
+};
+
 export const createOrder = (payload: IOrderPayload) => {
   return async (dispatch: Dispatch<OrderActions>) => {
     dispatch(setLoading(true));
@@ -49,5 +58,16 @@ export const createOrderDetails = (payload: IOrderDetailPayload[]) => {
       .then((response) => response)
       .catch((error) => dispatch(setError(error)))
       .finally(() => dispatch(setLoading(false)));
+  };
+};
+
+export const fetchAllOrder = (filter?: IFilterPayload) => {
+  return async (dispatch: Dispatch<OrderActions>) => {
+    await instance
+      .get("/admin/orders", { params: filter })
+      .then((response) => {
+        dispatch(setOrders(response.data));
+      })
+      .catch((error) => error);
   };
 };

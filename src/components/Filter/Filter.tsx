@@ -100,9 +100,18 @@ const Filter = ({ filter, setFilter, type, pagination }: IFilterProps) => {
               id="sortBy"
               onChange={handleChangeFilter}
             >
-              <option value="price">Price</option>
-              <option value="name">Name</option>
-              <option value="rating">Rating</option>
+              {type === "menu" ? (
+                <>
+                  <option value="price">Price</option>
+                  <option value="name">Name</option>
+                  <option value="rating">Rating</option>
+                </>
+              ) : (
+                <>
+                  <option value="order_date">Date</option>
+                  <option value="total_price">Price</option>
+                </>
+              )}
             </select>
             <select
               className="form-select col"

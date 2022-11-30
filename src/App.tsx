@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import {
   AuthRoutes,
   Cart,
+  Dashboard,
   Favorites,
   Home,
   Login,
@@ -17,8 +18,10 @@ import {
 import { UserDispatch } from "./redux/user/types";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { fetchCoupons, fetchOrders, getProfile } from "./redux/user/action";
+import { fetchCoupons, getProfile } from "./redux/user/action";
 import { RootState } from "./redux";
+import AdminRoutes from "./pages/AdminRoutes";
+import UserRoutes from "./pages/UserRoutes";
 
 function App() {
   const dispatch: UserDispatch = useDispatch();
@@ -44,10 +47,16 @@ function App() {
         </Route>
 
         <Route element={<ProtectedRoutes />}>
-          <Route path="/orders" element={<Order />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/favorites" element={<Favorites />} />
+          <Route element={<UserRoutes />}>
+            <Route path="/orders" element={<Order />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/favorites" element={<Favorites />} />
+          </Route>
+
+          <Route element={<AdminRoutes />}>
+            <Route path="/admin" element={<Dashboard />} />
+          </Route>
         </Route>
 
         <Route path="*" element={<NotFound />} />

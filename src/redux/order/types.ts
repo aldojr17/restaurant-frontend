@@ -1,6 +1,7 @@
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { IMenuPayload, IStatusPayload } from "../menu/types";
+import { IOrderPagination } from "../user/types";
 
 export interface IOrderDetailPayload {
   menu_detail?: IMenuPayload;
@@ -12,6 +13,7 @@ export interface IOrderDetailPayload {
 
 export interface IOrderPayload {
   id: number;
+  user_id?: string | null;
   coupon_id: string | null;
   notes: string | null;
   payment_id: number;
@@ -24,6 +26,7 @@ export interface IOrderPayload {
 export interface IOrderState {
   order: IOrderPayload;
   status: IStatusPayload;
+  orders: IOrderPagination;
 }
 
 export enum OrderActionTypes {
@@ -32,6 +35,8 @@ export enum OrderActionTypes {
 
   SET_LOADING = "SET_LOADING",
   SET_ERROR = "SET_ERROR",
+
+  FETCH_ALL_ORDER = "FETCH_ALL_ORDER",
 }
 
 export interface ICreateOrder {
@@ -49,6 +54,11 @@ export interface ISetError {
   payload: string | null;
 }
 
+export interface IFetchAllOrder {
+  type: OrderActionTypes.FETCH_ALL_ORDER;
+  payload: IOrderPagination;
+}
+
 export interface ICreateOrderDetails {
   type: OrderActionTypes.CREATE_ORDER_DETAILS;
   payload: IOrderDetailPayload[];
@@ -58,5 +68,6 @@ export type OrderActions =
   | ICreateOrder
   | ICreateOrderDetails
   | ISetError
-  | ISetLoading;
+  | ISetLoading
+  | IFetchAllOrder;
 export type OrderDispatch = ThunkDispatch<ICreateOrder, any, AnyAction>;

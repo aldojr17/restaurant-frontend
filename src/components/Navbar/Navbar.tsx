@@ -4,6 +4,7 @@ import { CartIcon, HeartIcon } from "../Icon";
 interface NavbarProps {
   active?: string;
   isLogged?: boolean;
+  isAdmin?: boolean;
 }
 
 const Navbar = ({ ...props }: NavbarProps) => {
@@ -33,58 +34,86 @@ const Navbar = ({ ...props }: NavbarProps) => {
         </button>
         <div className="collapse navbar-collapse" id="navbar">
           <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link
-                to={"/menu"}
-                className={`nav-link ${
-                  props.active === "menu" ? "active" : ""
-                }`}
-              >
-                Menu
-              </Link>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Promotions
-              </a>
-            </li>
-            {props.isLogged ? (
+            {props.isAdmin ? (
               <>
                 <li className="nav-item">
                   <Link
-                    to={"/orders"}
+                    to={"/menu"}
                     className={`nav-link ${
-                      props.active === "orders" ? "active" : ""
+                      props.active === "menu" ? "active" : ""
                     }`}
                   >
-                    Orders
+                    Menu
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link
-                    to={"/profile"}
-                    className={`nav-link ${
-                      props.active === "profile" ? "active" : ""
-                    }`}
-                  >
-                    Profile
-                  </Link>
+                  <a className="nav-link" href="#">
+                    Coupon
+                  </a>
                 </li>
               </>
             ) : (
-              ""
+              <>
+                <li className="nav-item">
+                  <Link
+                    to={"/menu"}
+                    className={`nav-link ${
+                      props.active === "menu" ? "active" : ""
+                    }`}
+                  >
+                    Menu
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
+                    Promotions
+                  </a>
+                </li>
+                {props.isLogged ? (
+                  <>
+                    <li className="nav-item">
+                      <Link
+                        to={"/orders"}
+                        className={`nav-link ${
+                          props.active === "orders" ? "active" : ""
+                        }`}
+                      >
+                        Orders
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        to={"/profile"}
+                        className={`nav-link ${
+                          props.active === "profile" ? "active" : ""
+                        }`}
+                      >
+                        Profile
+                      </Link>
+                    </li>
+                  </>
+                ) : (
+                  ""
+                )}
+              </>
             )}
           </ul>
           {props.active === "auth" ? (
             ""
           ) : props.isLogged ? (
             <div className="d-flex gap-3 align-items-center">
-              <Link to={"/favorites"} className={`nav-link`}>
-                <HeartIcon fill={false} button />
-              </Link>
-              <Link to={"/cart"} className={`nav-link`}>
-                <CartIcon />
-              </Link>
+              {!props.isAdmin ? (
+                <>
+                  <Link to={"/favorites"} className={`nav-link`}>
+                    <HeartIcon fill={false} button />
+                  </Link>
+                  <Link to={"/cart"} className={`nav-link`}>
+                    <CartIcon />
+                  </Link>
+                </>
+              ) : (
+                ""
+              )}
               <button
                 className="btn btn-outline-dark"
                 onClick={() => handleLogout()}

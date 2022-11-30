@@ -18,7 +18,7 @@ const Login = () => {
   });
   const navigate = useNavigate();
   const dispatch: UserDispatch = useDispatch();
-  const { status } = useSelector((state: RootState) => state.userReducer);
+  const { status, user } = useSelector((state: RootState) => state.userReducer);
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
     setInput({
@@ -27,7 +27,7 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (input.email === "" || input.password === "") {
       setIsError({
@@ -43,12 +43,6 @@ const Login = () => {
       password: false,
     });
   };
-
-  useEffect(() => {
-    if (status.isSuccess) {
-      navigate("/", { replace: true });
-    }
-  }, [status]);
 
   useEffect(() => {
     dispatch(
