@@ -51,4 +51,12 @@ export const ButtonWrapper = styled.div`
   height: 6rem;
 `;
 
+export const HomeImg = styled.img`
+  height: auto;
+
+  @media screen and (min-width: 992px) {
+    height: 500px;
+  }
+`;
+
 export default DivCategory;

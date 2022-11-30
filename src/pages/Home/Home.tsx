@@ -13,15 +13,19 @@ import { IFilterPayload, MenuDispatch } from "../../redux/menu/types";
 import DivCategory, {
   AddToCartButton,
   ButtonWrapper,
+  HomeImg,
   HomeWrapper,
   MenuTitle,
 } from "./style";
 import { formatCurrency } from "../../util/util";
 import LeftIcon from "../../components/Icon/LeftIcon";
 import RightIcon from "../../components/Icon/RightIcon";
+import { CartDispatch } from "../../redux/cart/types";
+import { addToCart } from "../../redux/cart/action";
 
 const Home = () => {
   const dispatch: MenuDispatch = useDispatch();
+  const dispatchCart: CartDispatch = useDispatch();
   const { menus, categories, newMenus } = useSelector(
     (state: RootState) => state.menuReducer
   );
@@ -44,6 +48,18 @@ const Home = () => {
     setFilter({ ...filter, category: id });
   };
 
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        menu_id: newMenus.at(index)?.id!,
+        option_id: null,
+        order_id: 0,
+        qty: 1,
+        menu_detail: newMenus.at(index),
+      })
+    );
+  };
+
   return (
     <>
       <Navbar isLogged={useIsLogged()} />
@@ -60,8 +76,8 @@ const Home = () => {
               ))}
           </div>
           <div className="col-lg-6 pt-5">
-            <img
-              src={`https://plus.unsplash.com/premium_photo-1667682209935-b6c87cced668?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80`}
+            <HomeImg
+              src={newMenus.at(index)?.photo}
               className="w-100"
               alt="menu"
             />
@@ -72,7 +88,10 @@ const Home = () => {
             <span className="fs-3">Only</span>
             <h2>Rp.{formatCurrency(newMenus.at(index)?.price!)}</h2>
           </div>
-          <AddToCartButton className="btn border-2 border border-dark rounded-circle fs-1 p-0 d-flex justify-content-center align-items-center position-absolute btn-light pb-1">
+          <AddToCartButton
+            className="btn border-2 border border-dark rounded-circle fs-1 p-0 d-flex justify-content-center align-items-center position-absolute btn-light pb-1"
+            onClick={handleAddToCart}
+          >
             +
           </AddToCartButton>
         </ButtonWrapper>
