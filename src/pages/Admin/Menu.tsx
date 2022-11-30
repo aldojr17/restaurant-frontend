@@ -7,11 +7,10 @@ import { StarIcon } from "../../components/Icon";
 import Modal from "../../components/Modal/Modal";
 import Navbar from "../../components/Navbar/Navbar";
 import { RootState } from "../../redux";
-import { createMenu, updateMenu } from "../../redux/menu/action";
+import { createMenu, deleteMenu, updateMenu } from "../../redux/menu/action";
 import {
   ICreateUpdateMenuPayload,
   IFilterPayload,
-  IMenuPayload,
 } from "../../redux/menu/types";
 import { OrderDispatch } from "../../redux/order/types";
 import useIsLogged from "../../util/useIsLogged";
@@ -118,6 +117,11 @@ const Menu = () => {
         id
       )
     );
+    setShowModal(false);
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteMenu(id));
     setShowModal(false);
   };
 
@@ -296,6 +300,7 @@ const Menu = () => {
         isUpdate={isUpdate}
         input={input}
         handleUpdateMenu={handleUpdateMenu}
+        handleDelete={handleDelete}
       />
     </>
   );

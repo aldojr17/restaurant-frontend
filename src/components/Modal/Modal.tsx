@@ -17,6 +17,7 @@ interface IModalProps {
   categories: ICategoryPayload[];
   handleAddMenu: () => void;
   handleUpdateMenu: () => void;
+  handleDelete: () => void;
   isUpdate: boolean;
   input: ICreateUpdateMenuPayload;
 }
@@ -32,6 +33,7 @@ const Modal = ({
   isUpdate,
   handleUpdateMenu,
   input,
+  handleDelete,
 }: IModalProps) => {
   return (
     <ModalWrapper
@@ -141,21 +143,36 @@ const Modal = ({
                 />
               </div>
             </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-outline-dark"
-                onClick={handleClose}
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                className="btn btn-dark"
-                onClick={isUpdate ? handleUpdateMenu : handleAddMenu}
-              >
-                {isUpdate ? "Update Menu" : "Add Menu"}
-              </button>
+            <div
+              className={`modal-footer px-0 ${
+                isUpdate ? "justify-content-between" : ""
+              }`}
+            >
+              {isUpdate ? (
+                <div>
+                  <button className="btn btn-danger" onClick={handleDelete}>
+                    Delete
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
+              <div className="d-flex gap-3">
+                <button
+                  type="button"
+                  className="btn btn-outline-dark"
+                  onClick={handleClose}
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-dark"
+                  onClick={isUpdate ? handleUpdateMenu : handleAddMenu}
+                >
+                  {isUpdate ? "Update Menu" : "Add Menu"}
+                </button>
+              </div>
             </div>
           </div>
         </div>

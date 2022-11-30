@@ -86,6 +86,7 @@ export enum MenuActionTypes {
 
   CREATE_MENU = "CREATE_MENU",
   UPDATE_MENU = "UPDATE_MENU",
+  DELETE_MENU = "DELETE_MENU",
 }
 
 export interface IFetchMenu {
@@ -129,6 +130,11 @@ export interface IUpdateMenu {
   id: number;
 }
 
+export interface IDeleteMenu {
+  type: MenuActionTypes.DELETE_MENU;
+  payload: number;
+}
+
 export type MenuActions =
   | IFetchMenu
   | IFetchCategories
@@ -137,5 +143,6 @@ export type MenuActions =
   | ISetMenu
   | IFetchNewMenu
   | ICreateMenu
-  | IUpdateMenu;
+  | IUpdateMenu
+  | IDeleteMenu;
 export type MenuDispatch = ThunkDispatch<IMenuState, any, AnyAction>;

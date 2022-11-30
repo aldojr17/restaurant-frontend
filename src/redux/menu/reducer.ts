@@ -1,5 +1,6 @@
 import {
   ICreateMenu,
+  IDeleteMenu,
   IFetchCategories,
   IFetchMenu,
   IFetchNewMenu,
@@ -129,6 +130,14 @@ const updateMenuDetail = (state: IMenuState, action: IUpdateMenu) => ({
   },
 });
 
+const deleteMenu = (state: IMenuState, action: IDeleteMenu) => ({
+  ...state,
+  menus: {
+    ...state.menus,
+    data: state.menus.data.filter((menu) => menu.id !== action.payload),
+  },
+});
+
 const menuReducer = (
   state: IMenuState = initialState,
   action: MenuActions
@@ -150,6 +159,9 @@ const menuReducer = (
       return addMenu(state, action);
     case MenuActionTypes.UPDATE_MENU:
       return updateMenuDetail(state, action);
+    case MenuActionTypes.DELETE_MENU:
+      return deleteMenu(state, action);
+
     default:
       return state;
   }

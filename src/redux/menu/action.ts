@@ -71,6 +71,13 @@ export const updateMenuDetail = (
   };
 };
 
+export const deleteMenuDetail = (payload: number): MenuActions => {
+  return {
+    type: MenuActionTypes.DELETE_MENU,
+    payload,
+  };
+};
+
 export const fetchMenu = (filter?: IFilterPayload) => {
   return async (dispatch: Dispatch<MenuActions>) => {
     await instance
@@ -129,6 +136,15 @@ export const updateMenu = (payload: ICreateUpdateMenuPayload, id: number) => {
     await instance
       .put(`/admin/menus/${id}`, payload)
       .then((response) => dispatch(updateMenuDetail(response.data.data, id)))
+      .catch((error) => error);
+  };
+};
+
+export const deleteMenu = (payload: number) => {
+  return async (dispatch: Dispatch<MenuActions>) => {
+    await instance
+      .delete(`/admin/menus/${payload}`)
+      .then((response) => dispatch(deleteMenuDetail(payload)))
       .catch((error) => error);
   };
 };
