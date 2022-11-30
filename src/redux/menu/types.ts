@@ -85,6 +85,7 @@ export enum MenuActionTypes {
   FETCH_NEW_MENU = "FETCH_NEW_MENU",
 
   CREATE_MENU = "CREATE_MENU",
+  UPDATE_MENU = "UPDATE_MENU",
 }
 
 export interface IFetchMenu {
@@ -122,6 +123,12 @@ export interface ICreateMenu {
   payload: ICreateUpdateMenuPayload;
 }
 
+export interface IUpdateMenu {
+  type: MenuActionTypes.UPDATE_MENU;
+  payload: ICreateUpdateMenuPayload;
+  id: number;
+}
+
 export type MenuActions =
   | IFetchMenu
   | IFetchCategories
@@ -129,5 +136,6 @@ export type MenuActions =
   | ISetError
   | ISetMenu
   | IFetchNewMenu
-  | ICreateMenu;
+  | ICreateMenu
+  | IUpdateMenu;
 export type MenuDispatch = ThunkDispatch<IMenuState, any, AnyAction>;

@@ -7,6 +7,7 @@ import {
   ISetError,
   ISetLoading,
   ISetMenu,
+  IUpdateMenu,
   MenuActions,
   MenuActionTypes,
 } from "./types";
@@ -105,6 +106,29 @@ const addMenu = (state: IMenuState, action: ICreateMenu) => ({
   },
 });
 
+const updateMenuDetail = (state: IMenuState, action: IUpdateMenu) => ({
+  ...state,
+  menus: {
+    ...state.menus,
+    data: state.menus.data.map((menu) =>
+      menu.id === action.id
+        ? {
+            ...menu,
+            category: {
+              ...menu.category,
+              id: action.payload.category_id,
+            },
+            description: action.payload.description,
+            is_available: action.payload.is_available,
+            name: action.payload.name,
+            photo: action.payload.photo,
+            price: action.payload.price,
+          }
+        : menu
+    ),
+  },
+});
+
 const menuReducer = (
   state: IMenuState = initialState,
   action: MenuActions
@@ -124,6 +148,8 @@ const menuReducer = (
       return setNewMenu(state, action);
     case MenuActionTypes.CREATE_MENU:
       return addMenu(state, action);
+    case MenuActionTypes.UPDATE_MENU:
+      return updateMenuDetail(state, action);
     default:
       return state;
   }

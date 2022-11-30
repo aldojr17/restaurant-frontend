@@ -11,14 +11,17 @@ interface IFilterProps {
   filter: IFilterPayload;
   setFilter: React.Dispatch<React.SetStateAction<IFilterPayload>>;
   type: string;
-  pagination: {
-    current_page: number;
-    limit: number;
-    total: number;
-  };
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const FilterAdmin = ({ filter, setFilter, type }: IFilterProps) => {
+const FilterAdmin = ({
+  filter,
+  setFilter,
+  type,
+  setShowModal,
+  setIsUpdate,
+}: IFilterProps) => {
   const [searchText, setSearchText] = useState("");
   const dispatch: MenuDispatch = useDispatch();
   const dispatchOrder: OrderDispatch = useDispatch();
@@ -119,8 +122,10 @@ const FilterAdmin = ({ filter, setFilter, type }: IFilterProps) => {
         <div className="col-lg-2 d-flex justify-content-end p-0">
           <button
             className="btn btn-dark"
-            data-bs-toggle="modal"
-            data-bs-target="#addMenuModal"
+            onClick={() => {
+              setShowModal(true);
+              setIsUpdate(false);
+            }}
           >
             Add Menu
           </button>

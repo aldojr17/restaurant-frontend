@@ -1,17 +1,17 @@
 import axios from "axios";
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CardImg from "../../components/Card/style";
-import Filter from "../../components/Filter/Filter";
 import FilterAdmin from "../../components/Filter/FilterAdmin";
 import { StarIcon } from "../../components/Icon";
-import MenuList from "../../components/MenuList/MenuList";
+import Modal from "../../components/Modal/Modal";
 import Navbar from "../../components/Navbar/Navbar";
 import { RootState } from "../../redux";
-import { addMenu, createMenu } from "../../redux/menu/action";
+import { createMenu, updateMenu } from "../../redux/menu/action";
 import {
   ICreateUpdateMenuPayload,
   IFilterPayload,
+  IMenuPayload,
 } from "../../redux/menu/types";
 import { OrderDispatch } from "../../redux/order/types";
 import useIsLogged from "../../util/useIsLogged";
@@ -40,6 +40,14 @@ const Menu = () => {
   const [selectedFile, setSelectedFile] = useState<File>();
   const [previewImage, setPreviewImage] = useState<string | undefined>();
   const dispatch: OrderDispatch = useDispatch();
+  const [showModal, setShowModal] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [id, setId] = useState(0);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setPreviewImage(undefined);
+  };
 
   const handleClick = (page: number) => {
     setFilter({
@@ -85,6 +93,32 @@ const Menu = () => {
         photo: uploadPost.data.secure_url,
       })
     );
+
+    setShowModal(false);
+  };
+
+  const handleUpdateMenu = async () => {
+    let uploadPost;
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile!);
+      formData.append("upload_preset", "final-project");
+      uploadPost = await axios.post(
+        "https://api.cloudinary.com/v1_1/dcdexrr4n/image/upload",
+        formData
+      );
+    }
+
+    dispatch(
+      updateMenu(
+        {
+          ...input,
+          photo: selectedFile ? uploadPost?.data.secure_url : input.photo,
+        },
+        id
+      )
+    );
+    setShowModal(false);
   };
 
   const handlePagination = (totalPage: number, currentPage: number) => {
@@ -167,11 +201,8 @@ const Menu = () => {
           filter={filter}
           setFilter={setFilter}
           type={"menu"}
-          pagination={{
-            current_page: menus.current_page,
-            limit: menus.limit,
-            total: menus.total,
-          }}
+          setShowModal={setShowModal}
+          setIsUpdate={setIsUpdate}
         />
       </div>
       <div className="container mx-auto row mt-4">
@@ -180,6 +211,19 @@ const Menu = () => {
             <div
               key={menu.id}
               className="col-lg-3 mb-4 d-flex justify-content-center"
+              onClick={() => {
+                setShowModal(true);
+                setIsUpdate(true);
+                setInput({
+                  category_id: menu.category.id,
+                  description: menu.description,
+                  is_available: menu.is_available,
+                  name: menu.name,
+                  photo: menu.photo,
+                  price: menu.price,
+                });
+                setId(menu.id);
+              }}
             >
               <div className="position-relative">
                 <div className="card rounded rounded-4 shadow" role={"button"}>
@@ -241,117 +285,18 @@ const Menu = () => {
         </div>
       </div>
 
-      <div
-        className="modal fade"
-        id="addMenuModal"
-        tabIndex={-1}
-        aria-labelledby="addMenuModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5" id="addMenuModalLabel">
-                Add Menu
-              </h1>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <div className="d-flex flex-column gap-3">
-                <div className="d-flex flex-column gap-2">
-                  <div className="col-lg-6 mx-auto">
-                    <img src={previewImage} className="w-100" alt="menu" />
-                  </div>
-                  <label htmlFor="photo">Menu Image</label>
-                  <input
-                    type="file"
-                    id="photo"
-                    name="photo"
-                    className="form-control"
-                    onChange={(e) => handleOnSelect(e)}
-                    accept="image/*"
-                  />
-                </div>
-                <div className="d-flex flex-column gap-1">
-                  <label htmlFor="name" className="form-label">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    className="form-control"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="d-flex flex-column gap-1">
-                  <label htmlFor="price" className="form-label">
-                    Price
-                  </label>
-                  <input
-                    type="number"
-                    id="price"
-                    className="form-control"
-                    name="price"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="d-flex flex-column gap-1">
-                  <label htmlFor="category_id" className="form-label">
-                    Category
-                  </label>
-                  <select
-                    name="category_id"
-                    id="category_id"
-                    className="form-select"
-                    onChange={handleChange}
-                  >
-                    <option value="0">Select Category</option>
-                    {categories.map((category) => (
-                      <option key={category.id} value={category.id}>
-                        {category.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="d-flex flex-column gap-1">
-                  <label htmlFor="description" className="form-label">
-                    Description
-                  </label>
-                  <textarea
-                    id="description"
-                    name="description"
-                    className="form-control"
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-outline-dark"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-dark"
-                  data-bs-dismiss="modal"
-                  onClick={handleAddMenu}
-                >
-                  Add Menu
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Modal
+        categories={categories}
+        handleAddMenu={handleAddMenu}
+        handleChange={handleChange}
+        handleClose={handleCloseModal}
+        handleOnSelect={handleOnSelect}
+        previewImage={previewImage}
+        show={showModal}
+        isUpdate={isUpdate}
+        input={input}
+        handleUpdateMenu={handleUpdateMenu}
+      />
     </>
   );
 };

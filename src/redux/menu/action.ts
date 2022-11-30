@@ -60,6 +60,17 @@ export const addMenu = (payload: ICreateUpdateMenuPayload): MenuActions => {
   };
 };
 
+export const updateMenuDetail = (
+  payload: ICreateUpdateMenuPayload,
+  id: number
+): MenuActions => {
+  return {
+    type: MenuActionTypes.UPDATE_MENU,
+    payload,
+    id,
+  };
+};
+
 export const fetchMenu = (filter?: IFilterPayload) => {
   return async (dispatch: Dispatch<MenuActions>) => {
     await instance
@@ -108,7 +119,16 @@ export const createMenu = (payload: ICreateUpdateMenuPayload) => {
   return async (dispatch: Dispatch<MenuActions>) => {
     await instance
       .post("/admin/menus", payload)
-      .then((response) => dispatch(setNewMenu(response.data.data)))
+      .then((response) => dispatch(addMenu(response.data.data)))
+      .catch((error) => error);
+  };
+};
+
+export const updateMenu = (payload: ICreateUpdateMenuPayload, id: number) => {
+  return async (dispatch: Dispatch<MenuActions>) => {
+    await instance
+      .put(`/admin/menus/${id}`, payload)
+      .then((response) => dispatch(updateMenuDetail(response.data.data, id)))
       .catch((error) => error);
   };
 };
