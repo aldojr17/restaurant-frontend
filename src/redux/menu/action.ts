@@ -2,6 +2,7 @@ import { Dispatch } from "react";
 import instance from "../../api/config/axios";
 import {
   ICategoryPayload,
+  ICreateUpdateMenuPayload,
   IFilterPayload,
   IMenuPagination,
   IMenuPayload,
@@ -52,6 +53,13 @@ export const setNewMenu = (payload: IMenuPayload[]): MenuActions => {
   };
 };
 
+export const addMenu = (payload: ICreateUpdateMenuPayload): MenuActions => {
+  return {
+    type: MenuActionTypes.CREATE_MENU,
+    payload,
+  };
+};
+
 export const fetchMenu = (filter?: IFilterPayload) => {
   return async (dispatch: Dispatch<MenuActions>) => {
     await instance
@@ -91,6 +99,15 @@ export const fetchNewMenu = () => {
           limit: 3,
         },
       })
+      .then((response) => dispatch(setNewMenu(response.data.data)))
+      .catch((error) => error);
+  };
+};
+
+export const createMenu = (payload: ICreateUpdateMenuPayload) => {
+  return async (dispatch: Dispatch<MenuActions>) => {
+    await instance
+      .post("/admin/menus", payload)
       .then((response) => dispatch(setNewMenu(response.data.data)))
       .catch((error) => error);
   };

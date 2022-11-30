@@ -1,4 +1,5 @@
 import {
+  ICreateMenu,
   IFetchCategories,
   IFetchMenu,
   IFetchNewMenu,
@@ -78,6 +79,32 @@ const setNewMenu = (state: IMenuState, action: IFetchNewMenu) => ({
   newMenus: action.payload,
 });
 
+const addMenu = (state: IMenuState, action: ICreateMenu) => ({
+  ...state,
+  menus: {
+    ...state.menus,
+    data: [
+      ...state.menus.data,
+      {
+        category: {
+          id: action.payload.category_id,
+          name: "",
+        },
+        description: action.payload.description,
+        id: 0,
+        is_available: action.payload.is_available,
+        name: action.payload.name,
+        menu_option: [],
+        photo: action.payload.photo,
+        price: action.payload.price,
+        rating: 0,
+        total_review: 0,
+        reviews: [],
+      },
+    ],
+  },
+});
+
 const menuReducer = (
   state: IMenuState = initialState,
   action: MenuActions
@@ -95,6 +122,8 @@ const menuReducer = (
       return setMenu(state, action);
     case MenuActionTypes.FETCH_NEW_MENU:
       return setNewMenu(state, action);
+    case MenuActionTypes.CREATE_MENU:
+      return addMenu(state, action);
     default:
       return state;
   }

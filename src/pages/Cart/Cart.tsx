@@ -148,7 +148,9 @@ const Cart = () => {
                     {val.option_id !== -1 ? (
                       <span className="text-muted">
                         {val.option_id
-                          ? val.menu_detail?.menu_option[val.option_id].name
+                          ? val.menu_detail?.menu_option.find(
+                              (opt) => val.option_id === opt.id
+                            )?.name
                           : ""}
                       </span>
                     ) : (

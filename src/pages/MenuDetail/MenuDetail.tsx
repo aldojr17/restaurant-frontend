@@ -226,11 +226,11 @@ const MenuDetail = () => {
                     )}
                   </div>
                   <div>
-                    {Array.from(Array(val.rating).keys(), () => (
-                      <StarIcon size={24} />
+                    {Array.from(Array(val.rating).keys(), (index) => (
+                      <StarIcon key={index} size={24} />
                     ))}
-                    {Array.from(Array(5 - val.rating).keys(), () => (
-                      <UnfillStarIcon />
+                    {Array.from(Array(5 - val.rating).keys(), (index) => (
+                      <UnfillStarIcon key={index} />
                     ))}
                   </div>
                 </div>

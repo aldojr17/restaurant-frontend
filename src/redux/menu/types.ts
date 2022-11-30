@@ -57,6 +57,15 @@ export interface IMenuPagination {
   total_page: number;
 }
 
+export interface ICreateUpdateMenuPayload {
+  name: string;
+  price: number;
+  photo: string;
+  category_id: number;
+  is_available: boolean;
+  description: string;
+}
+
 export interface IMenuState {
   menus: IMenuPagination;
   categories: ICategoryPayload[];
@@ -74,6 +83,8 @@ export enum MenuActionTypes {
   SET_MENU = "SET_MENU",
 
   FETCH_NEW_MENU = "FETCH_NEW_MENU",
+
+  CREATE_MENU = "CREATE_MENU",
 }
 
 export interface IFetchMenu {
@@ -106,11 +117,17 @@ export interface IFetchNewMenu {
   payload: IMenuPayload[];
 }
 
+export interface ICreateMenu {
+  type: MenuActionTypes.CREATE_MENU;
+  payload: ICreateUpdateMenuPayload;
+}
+
 export type MenuActions =
   | IFetchMenu
   | IFetchCategories
   | ISetLoading
   | ISetError
   | ISetMenu
-  | IFetchNewMenu;
+  | IFetchNewMenu
+  | ICreateMenu;
 export type MenuDispatch = ThunkDispatch<IMenuState, any, AnyAction>;

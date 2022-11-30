@@ -8,6 +8,7 @@ import {
   Home,
   Login,
   Menu,
+  MenuAdmin,
   MenuDetail,
   NotFound,
   Order,
@@ -56,6 +57,7 @@ function App() {
 
           <Route element={<AdminRoutes />}>
             <Route path="/admin" element={<Dashboard />} />
+            <Route path="/admin/menu" element={<MenuAdmin />} />
           </Route>
         </Route>
 
