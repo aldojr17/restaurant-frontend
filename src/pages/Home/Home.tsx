@@ -22,6 +22,7 @@ import LeftIcon from "../../components/Icon/LeftIcon";
 import RightIcon from "../../components/Icon/RightIcon";
 import { CartDispatch } from "../../redux/cart/types";
 import { addToCart } from "../../redux/cart/action";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const dispatch: MenuDispatch = useDispatch();
@@ -31,9 +32,10 @@ const Home = () => {
   );
   const [filter, setFilter] = useState<IFilterPayload>({
     category: 1,
-    limit: 8,
+    limit: 4,
   });
   const [index, setIndex] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchCategory());
@@ -49,7 +51,7 @@ const Home = () => {
   };
 
   const handleAddToCart = () => {
-    dispatch(
+    dispatchCart(
       addToCart({
         menu_id: newMenus.at(index)?.id!,
         option_id: null,
@@ -61,7 +63,7 @@ const Home = () => {
   };
 
   return (
-    <>
+    <div className="pb-5">
       <Navbar isLogged={useIsLogged()} />
       <HomeWrapper className="container px-5 mx-auto">
         <div className="row align-items-center">
@@ -132,14 +134,17 @@ const Home = () => {
         </DivCategory>
       </div>
       <MenuList data={menus.data} />
-      {menus.data.length !== 0 && menus.data.length >= 8 ? (
-        <div className="container mx-auto d-flex justify-content-center mt-3">
-          <button className="btn btn-dark">See All</button>
-        </div>
-      ) : (
-        ""
-      )}
-    </>
+      <div className="container mx-auto d-flex justify-content-center mt-3">
+        <button
+          className="btn btn-dark"
+          onClick={() => {
+            navigate("/menu", { replace: true });
+          }}
+        >
+          See All Menu
+        </button>
+      </div>
+    </div>
   );
 };
 
