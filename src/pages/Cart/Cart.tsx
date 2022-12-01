@@ -76,6 +76,10 @@ const Cart = () => {
     setCoupon(event.currentTarget.value);
   };
 
+  const handleClearCart = () => {
+    dispatch(deleteAllFromCart());
+  };
+
   useEffect(() => {
     if (order.id !== 0) {
       dispatchOrder(
@@ -121,7 +125,13 @@ const Cart = () => {
               <div className="col-lg-10 row me-3">
                 <SpanHeader className="col-lg-6 fs-4">ITEMS</SpanHeader>
                 <SpanHeader className="col-lg-3 fs-4 px-2">QUANTITY</SpanHeader>
-                <SpanHeader className="col-lg-2 fs-4 px-2">PRICE</SpanHeader>
+                <SpanHeader className="col-lg-1 fs-4 px-2">PRICE</SpanHeader>
+                <button
+                  className="col-lg-2 btn text-danger text-end"
+                  onClick={handleClearCart}
+                >
+                  Clear Cart
+                </button>
               </div>
             </div>
           ) : (

@@ -72,7 +72,7 @@ const MenuDetail = () => {
       setShowToast(true);
       setTimeout(() => {
         setShowToast(false);
-      }, 5000);
+      }, 2000);
       dispatch(addToCart(input));
       setInput({
         ...input,
