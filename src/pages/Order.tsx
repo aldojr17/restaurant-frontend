@@ -10,6 +10,7 @@ import { IFilterPayload, IMenuPayload } from "../redux/menu/types";
 import { addReview } from "../redux/user/action";
 import { IAddReviewPayload, UserDispatch } from "../redux/user/types";
 import { formatCurrency } from "../util/util";
+import Title from "./Cart/style";
 
 const Order = () => {
   const { orders } = useSelector((state: RootState) => state.userReducer);
@@ -111,7 +112,7 @@ const Order = () => {
     <>
       <Navbar active="orders" isLogged />
       <div className="container">
-        <h1>Orders</h1>
+        <Title>ORDERS</Title>
         <div className="my-4 row flex-column mx-auto gap-4 align-items-center align-items-lg-start">
           <Filter
             filter={filter}

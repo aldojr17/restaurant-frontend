@@ -10,6 +10,7 @@ import axios from "axios";
 import { UserDispatch } from "../../redux/user/types";
 import { changeProfile } from "../../redux/user/action";
 import { formatCurrency } from "../../util/util";
+import Title from "../Cart/style";
 
 const Profile = () => {
   const { user, coupons } = useSelector(
@@ -84,8 +85,8 @@ const Profile = () => {
       <Navbar isLogged={useIsLogged()} active={"profile"} />
       <div className="container">
         <div className="row d-none d-lg-flex">
-          <h1 className="col-lg-6">Profile</h1>
-          <h1 className="col-lg-6">Coupons</h1>
+          <Title className="col-lg-6">PROFILE</Title>
+          <Title className="col-lg-6">COUPONS</Title>
         </div>
         <div className="row gap-4 gap-lg-0">
           <div className="col-lg-6 d-flex flex-column gap-3">
