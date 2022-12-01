@@ -13,6 +13,9 @@ import { IMenuState } from "./menu/types";
 import { IUserState } from "./user/types";
 import { ICartState } from "./cart/types";
 import { IOrderState } from "./order/types";
+import storage from "redux-persist/lib/storage";
+import persistReducer from "redux-persist/lib/persistReducer";
+import persistStore from "redux-persist/lib/persistStore";
 
 export interface RootState {
   menuReducer: IMenuState;
@@ -21,14 +24,24 @@ export interface RootState {
   orderReducer: IOrderState;
 }
 
-const store = createStore(
+const persistConfig = {
+  key: "persistedRedux",
+  storage,
+  whitelist: ["cartReducer"],
+};
+
+const persistedReducer = persistReducer(
+  persistConfig,
   combineReducers<RootState>({
     menuReducer,
     userReducer,
     cartReducer,
     orderReducer,
-  }),
-  applyMiddleware(logger, thunk)
+  })
 );
+
+const store = createStore(persistedReducer, applyMiddleware(logger, thunk));
+
+export const persistor = persistStore(store);
 
 export default store;
