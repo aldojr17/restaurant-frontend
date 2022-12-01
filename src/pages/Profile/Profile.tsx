@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../components/Navbar/Navbar";
 import { RootState } from "../../redux";
@@ -18,7 +18,7 @@ const Profile = () => {
   const [isDisabled, setIsDisabled] = useState(true);
   const dispatch: UserDispatch = useDispatch();
   const [file, setFile] = useState<Blob>();
-  const reader = new FileReader();
+  const [previewImage, setPreviewImage] = useState<string | undefined>();
 
   const handleChange = (event: FormEvent<HTMLInputElement>) => {
     setInput({
@@ -27,28 +27,35 @@ const Profile = () => {
     });
   };
 
-  const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {
+      setFile(undefined);
       return;
     }
+
     setFile(e.target.files[0]);
   };
 
   const handleClick = async () => {
-    const formData = new FormData();
-    formData.append("file", file!);
-    formData.append("upload_preset", "final-project");
-    const uploadPost = await axios.post(
-      "https://api.cloudinary.com/v1_1/dcdexrr4n/image/upload",
-      formData
-    );
+    let uploadPost;
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file!);
+      formData.append("upload_preset", "final-project");
+      uploadPost = await axios.post(
+        "https://api.cloudinary.com/v1_1/dcdexrr4n/image/upload",
+        formData
+      );
+    }
 
     dispatch(
       changeProfile({
         address: input.address,
         full_name: input.full_name,
         phone: input.phone,
-        profile_picture: uploadPost.data.secure_url,
+        profile_picture: file
+          ? uploadPost?.data.secure_url
+          : input.profile_picture,
       })
     );
     setIsDisabled(true);
@@ -57,6 +64,19 @@ const Profile = () => {
   useEffect(() => {
     setInput(user);
   }, [user, isDisabled]);
+
+  useEffect(() => {
+    if (!file) {
+      setPreviewImage(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(file);
+    setPreviewImage(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [file]);
 
   return (
     <>
@@ -74,8 +94,10 @@ const Profile = () => {
                 <img
                   className="w-100"
                   src={
-                    input.profile_picture === "" ||
-                    input.profile_picture === null
+                    previewImage
+                      ? previewImage
+                      : input.profile_picture === "" ||
+                        input.profile_picture === null
                       ? "/assets/default-profile-picture.png"
                       : input.profile_picture
                   }
@@ -98,20 +120,6 @@ const Profile = () => {
               </div>
             </div>
             <div className="d-flex flex-column">
-              <label className="form-label" htmlFor="full_name">
-                Fullname
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                name="full_name"
-                id="full_name"
-                value={input.full_name ? input.full_name : ""}
-                onChange={handleChange}
-                disabled={isDisabled}
-              />
-            </div>
-            <div className="d-flex flex-column">
               <label className="form-label" htmlFor="email">
                 Email
               </label>
@@ -121,6 +129,20 @@ const Profile = () => {
                 name="email"
                 id="email"
                 value={input.email}
+                onChange={handleChange}
+                disabled
+              />
+            </div>
+            <div className="d-flex flex-column">
+              <label className="form-label" htmlFor="full_name">
+                Fullname
+              </label>
+              <input
+                className="form-control"
+                type="text"
+                name="full_name"
+                id="full_name"
+                value={input.full_name ? input.full_name : ""}
                 onChange={handleChange}
                 disabled={isDisabled}
               />
@@ -165,7 +187,10 @@ const Profile = () => {
                 <div className="d-flex gap-3">
                   <button
                     className="btn btn-outline-dark"
-                    onClick={() => setIsDisabled(true)}
+                    onClick={() => {
+                      setPreviewImage(undefined);
+                      setIsDisabled(true);
+                    }}
                   >
                     Cancel
                   </button>
@@ -178,54 +203,6 @@ const Profile = () => {
           </div>
           <h1 className="d-block d-lg-none">Coupons</h1>
           <CouponWrapper className="col-lg-6 row gap-3">
-            {coupons.map((coupon) => (
-              <div className="col-lg-12" key={coupon.coupon.id}>
-                <div className="col d-flex flex-row justify-content-between border border-2 rounded rounded-3 p-3">
-                  <div className="d-flex flex-column">
-                    <span className="fs-3">{coupon.coupon.code}</span>
-                    <span className="fs-4">{coupon.coupon.discount}</span>
-                  </div>
-                  <div className="d-flex flex-column align-items-end justify-content-between">
-                    <span className="fs-5">
-                      {moment(coupon.expired_at).fromNow()}
-                    </span>
-                    <span className="fs-5">x{coupon.qty}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-            {coupons.map((coupon) => (
-              <div className="col-lg-12" key={coupon.coupon.id}>
-                <div className="col d-flex flex-row justify-content-between border border-2 rounded rounded-3 p-3">
-                  <div className="d-flex flex-column">
-                    <span className="fs-3">{coupon.coupon.code}</span>
-                    <span className="fs-4">{coupon.coupon.discount}</span>
-                  </div>
-                  <div className="d-flex flex-column align-items-end justify-content-between">
-                    <span className="fs-5">
-                      {moment(coupon.expired_at).fromNow()}
-                    </span>
-                    <span className="fs-5">x{coupon.qty}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-            {coupons.map((coupon) => (
-              <div className="col-lg-12" key={coupon.coupon.id}>
-                <div className="col d-flex flex-row justify-content-between border border-2 rounded rounded-3 p-3">
-                  <div className="d-flex flex-column">
-                    <span className="fs-3">{coupon.coupon.code}</span>
-                    <span className="fs-4">{coupon.coupon.discount}</span>
-                  </div>
-                  <div className="d-flex flex-column align-items-end justify-content-between">
-                    <span className="fs-5">
-                      {moment(coupon.expired_at).fromNow()}
-                    </span>
-                    <span className="fs-5">x{coupon.qty}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
             {coupons.map((coupon) => (
               <div className="col-lg-12" key={coupon.coupon.id}>
                 <div className="col d-flex flex-row justify-content-between border border-2 rounded rounded-3 p-3">
