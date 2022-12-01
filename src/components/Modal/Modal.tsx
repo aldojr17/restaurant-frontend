@@ -44,7 +44,7 @@ const Modal = ({
       aria-labelledby="menuModalLabel"
       aria-hidden="true"
     >
-      <div className="modal-dialog modal-dialog-centered">
+      <div className="modal-dialog modal-dialog-centered modal-lg">
         <div className="modal-content">
           <div className="modal-header">
             <h1 className="modal-title fs-5" id="menuModalLabel">
@@ -95,7 +95,7 @@ const Modal = ({
                   name="name"
                   className="form-control"
                   onChange={handleChange}
-                  value={isUpdate ? input.name : ""}
+                  value={input.name}
                 />
               </div>
               <div className="d-flex flex-column gap-1">
@@ -108,7 +108,7 @@ const Modal = ({
                   className="form-control"
                   name="price"
                   onChange={handleChange}
-                  value={isUpdate ? input.price : 0}
+                  value={input.price}
                 />
               </div>
               <div className="d-flex flex-column gap-1">
@@ -120,7 +120,7 @@ const Modal = ({
                   id="category_id"
                   className="form-select"
                   onChange={handleChange}
-                  value={isUpdate ? input.category_id : 0}
+                  value={input.category_id}
                 >
                   <option value="0">Select Category</option>
                   {categories.map((category) => (
@@ -139,7 +139,7 @@ const Modal = ({
                   name="description"
                   className="form-control"
                   onChange={handleChange}
-                  value={isUpdate ? input.description : ""}
+                  value={input.description}
                 />
               </div>
             </div>

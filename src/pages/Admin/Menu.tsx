@@ -46,6 +46,14 @@ const Menu = () => {
   const handleCloseModal = () => {
     setShowModal(false);
     setPreviewImage(undefined);
+    setInput({
+      category_id: 0,
+      is_available: true,
+      name: "",
+      photo: "",
+      price: 0,
+      description: "",
+    });
   };
 
   const handleClick = (page: number) => {
@@ -60,11 +68,7 @@ const Menu = () => {
   ) => {
     setInput({
       ...input,
-      [event.currentTarget.name]:
-        event.currentTarget.name === "price" ||
-        event.currentTarget.name === "category_id"
-          ? parseInt(event.currentTarget.value)
-          : event.currentTarget.value,
+      [event.currentTarget.name]: event.currentTarget.value,
     });
   };
 
@@ -90,6 +94,8 @@ const Menu = () => {
       createMenu({
         ...input,
         photo: uploadPost.data.secure_url,
+        price: parseInt(String(input.price)),
+        category_id: parseInt(String(input.category_id)),
       })
     );
 
@@ -113,6 +119,8 @@ const Menu = () => {
         {
           ...input,
           photo: selectedFile ? uploadPost?.data.secure_url : input.photo,
+          price: parseInt(String(input.price)),
+          category_id: parseInt(String(input.category_id)),
         },
         id
       )
