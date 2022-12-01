@@ -110,15 +110,33 @@ const Profile = () => {
                 <label htmlFor="photo" className="form-label">
                   Change Profile Picture
                 </label>
-                <input
-                  type="file"
-                  name="photo"
-                  id="photo"
-                  onChange={handleChangeImage}
-                  disabled={isDisabled}
-                  className="form-control"
-                  accept="image/*"
-                />
+                <div className="d-flex gap-3">
+                  <input
+                    type="file"
+                    name="photo"
+                    id="photo"
+                    onChange={handleChangeImage}
+                    disabled={isDisabled}
+                    className="form-control col"
+                    accept="image/*"
+                  />
+                  {isDisabled ? (
+                    ""
+                  ) : (
+                    <button
+                      className="btn btn-danger col-lg-3"
+                      onClick={() => {
+                        setInput({
+                          ...input,
+                          profile_picture: "",
+                        });
+                        setFile(undefined);
+                      }}
+                    >
+                      Delete Photo
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
             <div className="d-flex flex-column">
