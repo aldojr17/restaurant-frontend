@@ -8,7 +8,7 @@ import { CouponWrapper } from "./style";
 import instance from "../../api/config/axios";
 import axios from "axios";
 import { UserDispatch } from "../../redux/user/types";
-import { changeProfile } from "../../redux/user/action";
+import { changeProfile, fetchCoupons } from "../../redux/user/action";
 import { formatCurrency } from "../../util/util";
 import Title from "../Cart/style";
 
@@ -62,6 +62,10 @@ const Profile = () => {
     );
     setIsDisabled(true);
   };
+
+  useEffect(() => {
+    dispatch(fetchCoupons());
+  }, []);
 
   useEffect(() => {
     setInput(user);

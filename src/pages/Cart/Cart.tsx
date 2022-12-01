@@ -1,6 +1,8 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchPayment, IPayment } from "../../api/api";
 import { TrashIcon } from "../../components/Icon";
+import ErrorModal from "../../components/Modal/ErrorModal";
 import Navbar from "../../components/Navbar/Navbar";
 import { RootState } from "../../redux";
 import {
@@ -12,6 +14,7 @@ import { CartDispatch } from "../../redux/cart/types";
 import {
   createOrder,
   createOrderDetails,
+  setError,
   setOrder,
 } from "../../redux/order/action";
 import { IOrderDetailPayload, OrderDispatch } from "../../redux/order/types";
@@ -35,6 +38,9 @@ const Cart = () => {
   );
   const [total, setTotal] = useState(subtotal);
   const [coupon, setCoupon] = useState("");
+  const [paymentId, setPaymentId] = useState(0);
+  const [payments, setPayments] = useState<IPayment[]>([]);
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
   useEffect(() => {
     setSubtotal(
@@ -61,7 +67,7 @@ const Cart = () => {
         coupon_id: coupon,
         id: 0,
         notes: null,
-        payment_id: 1,
+        payment_id: paymentId,
         status: "",
         total_price: total,
       })
@@ -76,8 +82,21 @@ const Cart = () => {
     setCoupon(event.currentTarget.value);
   };
 
+  const handlePaymentId = (event: FormEvent<HTMLSelectElement>) => {
+    setPaymentId(parseInt(event.currentTarget.value));
+  };
+
   const handleClearCart = () => {
     dispatch(deleteAllFromCart());
+  };
+
+  const handleCloseModal = () => {
+    setShowErrorModal(false);
+    dispatchOrder(setError(null));
+  };
+
+  const getPayments = async () => {
+    setPayments(await fetchPayment());
   };
 
   useEffect(() => {
@@ -99,7 +118,7 @@ const Cart = () => {
           coupon_id: "",
           id: 0,
           notes: null,
-          payment_id: 1,
+          payment_id: 0,
           status: "",
           total_price: 0,
         })
@@ -108,10 +127,22 @@ const Cart = () => {
     }
   }, [order]);
 
+  useEffect(() => {
+    if (status.error !== null) {
+      setShowErrorModal(true);
+    } else {
+      setShowErrorModal(false);
+    }
+  }, [status]);
+
+  useEffect(() => {
+    getPayments();
+  }, []);
+
   return (
     <>
       <Navbar isLogged={useIsLogged()} />
-      {status.isLoading ? (
+      {status.isLoading && status.error === "" ? (
         <LoadingWrapper className="d-flex justify-content-center align-items-center">
           <div className="spinner-border" role="status">
             <span className="visually-hidden">Loading...</span>
@@ -268,11 +299,28 @@ const Cart = () => {
                           {formatCurrency(total)}
                         </span>
                       </div>
+                      <div className="my-3 d-flex flex-column gap-2">
+                        <span>Payment</span>
+                        <select
+                          name="payment"
+                          id="payment"
+                          className="form-select"
+                          onChange={handlePaymentId}
+                        >
+                          <option value={0}>Select payment</option>
+                          {payments.length !== 0 &&
+                            payments.map((payment) => (
+                              <option key={payment.id} value={payment.id}>
+                                {payment.description}
+                              </option>
+                            ))}
+                        </select>
+                      </div>
                     </div>
                   </div>
                   <div className="col-12 d-flex justify-content-center">
                     <button className="btn btn-dark" onClick={handleCheckout}>
-                      CHECKOUT
+                      ORDER
                     </button>
                   </div>
                 </DivOrder>
@@ -283,6 +331,11 @@ const Cart = () => {
           </div>
         </div>
       )}
+      <ErrorModal
+        show={showErrorModal}
+        handleClose={handleCloseModal}
+        message={status.error!}
+      />
     </>
   );
 };

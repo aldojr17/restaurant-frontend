@@ -44,7 +44,7 @@ export const createOrder = (payload: IOrderPayload) => {
     await instance
       .post("/orders", payload)
       .then((response) => dispatch(setOrder(response.data.data)))
-      .catch((error) => dispatch(setError(error)))
+      .catch((error) => dispatch(setError(error.error)))
       .finally(() => setLoading(false));
   };
 };

@@ -7,6 +7,11 @@ export interface IRegisterPayload {
   password: string;
 }
 
+export interface IPayment {
+  id: number;
+  description: string;
+}
+
 export const registerApi = (payload: IRegisterPayload) => {
   return instance
     .post("/register", payload)
@@ -53,5 +58,12 @@ export const updateCoupon = (payload: ICoupon) => {
       valid_until: payload.valid_until,
     })
     .then((response) => response.data)
+    .catch((error) => error);
+};
+
+export const fetchPayment = () => {
+  return instance
+    .get("/payments")
+    .then((response) => response.data.data)
     .catch((error) => error);
 };

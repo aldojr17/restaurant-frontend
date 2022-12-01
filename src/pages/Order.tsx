@@ -152,10 +152,12 @@ const Order = () => {
                         <span>{menu.menu_detail?.name}</span>
                         <span>
                           {menu.menu_detail?.menu_option !== null &&
-                          menu.menu_detail?.menu_option.length !== 0
+                          menu.menu_detail?.menu_option.length !== 0 &&
+                          menu.option_id !== 0
                             ? "Options: " +
-                              menu.menu_detail?.menu_option[menu.option_id!]
-                                .name
+                              menu.menu_detail?.menu_option.find(
+                                (option) => option.id === menu.option_id
+                              )?.name
                             : ""}
                         </span>
                       </div>

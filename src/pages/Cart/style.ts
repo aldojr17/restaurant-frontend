@@ -9,7 +9,7 @@ export const SpanHeader = styled.span`
 `;
 
 export const DivOrder = styled.div`
-  height: 400px;
+  height: 500px;
 `;
 
 export const LoadingWrapper = styled.div`
