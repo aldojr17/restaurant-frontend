@@ -69,11 +69,6 @@ const Navbar = ({ ...props }: NavbarProps) => {
                     Menu
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    Promotions
-                  </a>
-                </li>
                 {props.isLogged ? (
                   <>
                     <li className="nav-item">
@@ -95,6 +90,11 @@ const Navbar = ({ ...props }: NavbarProps) => {
                       >
                         Profile
                       </Link>
+                    </li>
+                    <li className="nav-item">
+                      <a className="nav-link" href="#">
+                        Games
+                      </a>
                     </li>
                   </>
                 ) : (

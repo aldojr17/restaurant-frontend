@@ -130,14 +130,14 @@ const MenuDetail = () => {
                   <span className="fs-2 d-block">
                     Rp.{formatCurrency(menu.price)}
                   </span>
-                  {menu.description !== "" || menu.description !== null ? (
-                    <div className="d-flex flex-column mt-3">
-                      <span className="fs-4">Description:</span>
-                      <span className="fs-6">{menu.description}</span>
-                    </div>
-                  ) : (
-                    ""
-                  )}
+                  <div className="d-flex flex-column mt-3">
+                    <span className="fs-4">Description:</span>
+                    <span className="fs-6">
+                      {menu.description !== "" && menu.description !== null
+                        ? menu.description
+                        : "-"}
+                    </span>
+                  </div>
                 </div>
                 <div className="d-flex flex-column gap-3">
                   <div className="d-flex flex-column">
@@ -195,26 +195,33 @@ const MenuDetail = () => {
           <div className="container">
             <h2>Reviews</h2>
             <div className="row flex-column gap-3 px-2">
-              {menu.reviews.map((val) => (
-                <div className="col-lg-6 d-flex justify-content-between align-items-center border border-2 rounded-3 border-dark p-3">
-                  <div className="d-flex flex-column">
-                    <span>Nama</span>
-                    {val.description !== null ? (
-                      <span>{val.description}</span>
-                    ) : (
-                      ""
-                    )}
+              {menu.reviews.length === 0 ? (
+                <span className="fs-4 px-1">No Review</span>
+              ) : (
+                menu.reviews.map((val) => (
+                  <div
+                    key={val.id}
+                    className="col-lg-6 d-flex justify-content-between align-items-center border border-2 rounded-3 border-dark p-3"
+                  >
+                    <div className="d-flex flex-column">
+                      <span className="fs-4 fw-bold">{val.user.full_name}</span>
+                      {val.description !== null ? (
+                        <span>{val.description}</span>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                    <div>
+                      {Array.from(Array(val.rating).keys(), (index) => (
+                        <StarIcon key={index} size={24} />
+                      ))}
+                      {Array.from(Array(5 - val.rating).keys(), (index) => (
+                        <UnfillStarIcon key={index} />
+                      ))}
+                    </div>
                   </div>
-                  <div>
-                    {Array.from(Array(val.rating).keys(), (index) => (
-                      <StarIcon key={index} size={24} />
-                    ))}
-                    {Array.from(Array(5 - val.rating).keys(), (index) => (
-                      <UnfillStarIcon key={index} />
-                    ))}
-                  </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
         </>

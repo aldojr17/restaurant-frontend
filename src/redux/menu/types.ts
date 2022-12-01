@@ -1,5 +1,6 @@
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
+import { IUserPayload } from "../user/types";
 
 export interface IMenuPayload {
   id: number;
@@ -21,6 +22,7 @@ export interface IReviewPayload {
   menu_id: number;
   description: string;
   rating: number;
+  user: IUserPayload;
 }
 
 export interface IMenuOptions {

@@ -23,19 +23,52 @@ import RightIcon from "../../components/Icon/RightIcon";
 import { CartDispatch } from "../../redux/cart/types";
 import { addToCart } from "../../redux/cart/action";
 import { useNavigate } from "react-router-dom";
+import Toast from "../../components/Toast/Toast";
 
 const Home = () => {
-  const dispatch: MenuDispatch = useDispatch();
-  const dispatchCart: CartDispatch = useDispatch();
   const { menus, categories, newMenus } = useSelector(
     (state: RootState) => state.menuReducer
   );
+
+  const dispatch: MenuDispatch = useDispatch();
+  const dispatchCart: CartDispatch = useDispatch();
+
+  const navigate = useNavigate();
+  const isLogged = useIsLogged();
+
   const [filter, setFilter] = useState<IFilterPayload>({
     category: 1,
     limit: 4,
   });
   const [index, setIndex] = useState(0);
-  const navigate = useNavigate();
+  const [showToast, setShowToast] = useState(false);
+
+  const handleClick = (id: number) => {
+    setFilter({ ...filter, category: id });
+  };
+
+  const handleAddToCart = () => {
+    if (!isLogged) {
+      navigate("/login", { replace: true });
+      return;
+    }
+
+    dispatchCart(
+      addToCart({
+        menu_id: newMenus.at(index)?.id!,
+        option_id: null,
+        order_id: 0,
+        qty: 1,
+        menu_detail: newMenus.at(index),
+      })
+    );
+
+    setShowToast(true);
+
+    setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
+  };
 
   useEffect(() => {
     dispatch(fetchCategory());
@@ -46,26 +79,17 @@ const Home = () => {
     dispatch(fetchMenu(filter));
   }, [filter]);
 
-  const handleClick = (id: number) => {
-    setFilter({ ...filter, category: id });
-  };
-
-  const handleAddToCart = () => {
-    dispatchCart(
-      addToCart({
-        menu_id: newMenus.at(index)?.id!,
-        option_id: null,
-        order_id: 0,
-        qty: 1,
-        menu_detail: newMenus.at(index),
-      })
-    );
-  };
-
   return (
     <div className="pb-5">
       <Navbar isLogged={useIsLogged()} />
-      <HomeWrapper className="container px-5 mx-auto">
+      <HomeWrapper className="container px-5 mx-auto position-relative">
+        {showToast ? (
+          <div className="position-absolute end-0">
+            <Toast />
+          </div>
+        ) : (
+          ""
+        )}
         <div className="row align-items-center">
           <div className="col-lg-6 pt-5">
             <h3>NEW IN MENU</h3>
