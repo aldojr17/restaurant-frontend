@@ -5,6 +5,7 @@ import { HeartIcon, StarIcon } from "../../components/Icon";
 import UnfillStarIcon from "../../components/Icon/UnfillStarIcon";
 import Navbar from "../../components/Navbar/Navbar";
 import Quantity from "../../components/Quantity/Quantity";
+import Toast from "../../components/Toast/Toast";
 import { RootState } from "../../redux";
 import { addToCart } from "../../redux/cart/action";
 import { CartDispatch } from "../../redux/cart/types";
@@ -112,28 +113,7 @@ const MenuDetail = () => {
         <>
           <div className="position-relative">
             <div className="toast-container position-absolute end-0">
-              {showToast ? (
-                <div
-                  className="toast show"
-                  role="alert"
-                  aria-live="assertive"
-                  aria-atomic="true"
-                >
-                  <div className="toast-header">
-                    <strong className="me-auto">Cart</strong>
-                    <small className="text-muted">just now</small>
-                    <button
-                      type="button"
-                      className="btn-close"
-                      data-bs-dismiss="toast"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div className="toast-body">Item added to cart!</div>
-                </div>
-              ) : (
-                ""
-              )}
+              {showToast ? <Toast /> : ""}
             </div>
           </div>
           <div className="container py-5">

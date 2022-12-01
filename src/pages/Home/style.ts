@@ -25,7 +25,7 @@ const DivCategory = styled.div`
 `;
 
 export const HomeWrapper = styled.div`
-  min-height: 65vh;
+  min-height: 70vh;
 `;
 
 export const MenuTitle = styled.h1`
