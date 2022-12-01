@@ -20,9 +20,13 @@ const Favorites = () => {
       <div className="container">
         <h1 className="my-4">Favorites</h1>
         <div className="d-flex flex-wrap">
-          {user.favorites.map((fav) => (
-            <Card key={fav.menu_id} {...fav.menu!} />
-          ))}
+          {user.favorites.length !== 0 ? (
+            user.favorites.map((fav) => (
+              <Card key={fav.menu_id} {...fav.menu!} />
+            ))
+          ) : (
+            <span className="fs-3">You don't have any favorite menu.</span>
+          )}
         </div>
       </div>
     </>
