@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import {
   AuthRoutes,
   Cart,
+  CouponAdmin,
   Dashboard,
   Favorites,
   Home,
@@ -58,6 +59,7 @@ function App() {
           <Route element={<AdminRoutes />}>
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/menu" element={<MenuAdmin />} />
+            <Route path="/admin/coupon" element={<CouponAdmin />} />
           </Route>
         </Route>
 

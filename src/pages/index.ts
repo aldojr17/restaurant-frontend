@@ -14,3 +14,4 @@ export { default as Profile } from "./Profile/Profile";
 
 export { default as Dashboard } from "./Admin/Dashboard";
 export { default as MenuAdmin } from "./Admin/Menu";
+export { default as CouponAdmin } from "./Admin/Coupon";

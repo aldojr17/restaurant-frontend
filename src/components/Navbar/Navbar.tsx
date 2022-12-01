@@ -47,9 +47,14 @@ const Navbar = ({ ...props }: NavbarProps) => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
+                  <Link
+                    to={"/admin/coupon"}
+                    className={`nav-link ${
+                      props.active === "coupon" ? "active" : ""
+                    }`}
+                  >
                     Coupon
-                  </a>
+                  </Link>
                 </li>
               </>
             ) : (

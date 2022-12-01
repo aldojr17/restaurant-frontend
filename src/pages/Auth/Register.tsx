@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { registerApi } from "../../api/auth";
+import { registerApi } from "../../api/api";
 import AuthModal from "../../components/Modal/AuthModal";
 import Navbar from "../../components/Navbar/Navbar";
 import "./auth.scss";
