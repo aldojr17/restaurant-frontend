@@ -204,31 +204,36 @@ const Profile = () => {
           </div>
           <h1 className="d-block d-lg-none">Coupons</h1>
           <CouponWrapper className="col-lg-6 row flex-column flex-nowrap gap-3">
-            {coupons.map((coupon) => (
-              <div className="col-lg-12" key={coupon.coupon.id}>
-                <div className="col d-flex flex-row justify-content-between border border-2 border-dark rounded rounded-3 p-3">
-                  <div className="d-flex flex-column">
-                    <span className="fs-3">{coupon.coupon.code}</span>
-                    <span className="fs-4">
-                      Discount: Rp.{formatCurrency(coupon.coupon.discount)}
-                    </span>
-                  </div>
-                  <div className="d-flex flex-column align-items-end justify-content-between">
-                    {moment(coupon.expired_at).diff(moment(), "hours") <= 23 ? (
-                      <span className="fs-5 text-danger">
-                        Expiring {moment(coupon.expired_at).fromNow()}
+            {coupons.length === 0 ? (
+              <span className="fs-3">You don't have any coupon.</span>
+            ) : (
+              coupons.map((coupon) => (
+                <div className="col-lg-12" key={coupon.coupon.id}>
+                  <div className="col d-flex flex-row justify-content-between border border-2 border-dark rounded rounded-3 p-3">
+                    <div className="d-flex flex-column">
+                      <span className="fs-3">{coupon.coupon.code}</span>
+                      <span className="fs-4">
+                        Discount: Rp.{formatCurrency(coupon.coupon.discount)}
                       </span>
-                    ) : (
-                      <span className="fs-5">
-                        Valid till{" "}
-                        {moment(coupon.expired_at).format("DD MMM YYYY")}
-                      </span>
-                    )}
-                    <span className="fs-4">x{coupon.qty}</span>
+                    </div>
+                    <div className="d-flex flex-column align-items-end justify-content-between">
+                      {moment(coupon.expired_at).diff(moment(), "hours") <=
+                      23 ? (
+                        <span className="fs-5 text-danger">
+                          Expiring {moment(coupon.expired_at).fromNow()}
+                        </span>
+                      ) : (
+                        <span className="fs-5">
+                          Valid till{" "}
+                          {moment(coupon.expired_at).format("DD MMM YYYY")}
+                        </span>
+                      )}
+                      <span className="fs-4">x{coupon.qty}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </CouponWrapper>
         </div>
       </div>
