@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar/Navbar";
 import { RootState } from "../redux";
 import { IFilterPayload } from "../redux/menu/types";
 import useIsLogged from "../util/useIsLogged";
+import Title from "./Cart/style";
 
 const Menu = () => {
   const { menus } = useSelector((state: RootState) => state.menuReducer);
@@ -87,6 +88,9 @@ const Menu = () => {
   return (
     <>
       <Navbar active="menu" isLogged={useIsLogged()} />
+      <div className="container px-lg-5 my-3">
+        <Title>MENU</Title>
+      </div>
       <div className="container px-lg-5 row flex-column mx-auto gap-4 align-items-center align-items-lg-start">
         <Filter
           filter={filter}
