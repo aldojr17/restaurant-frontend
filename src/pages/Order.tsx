@@ -7,7 +7,7 @@ import UnfillStarIcon from "../components/Icon/UnfillStarIcon";
 import Navbar from "../components/Navbar/Navbar";
 import { RootState } from "../redux";
 import { IFilterPayload, IMenuPayload } from "../redux/menu/types";
-import { addReview } from "../redux/user/action";
+import { addReview, fetchOrders } from "../redux/user/action";
 import { IAddReviewPayload, UserDispatch } from "../redux/user/types";
 import { formatCurrency } from "../util/util";
 import Title, { LoadingWrapper } from "./Cart/style";
@@ -107,6 +107,10 @@ const Order = () => {
   const handleAddReview = () => {
     dispatch(addReview(review));
   };
+
+  useEffect(() => {
+    dispatch(fetchOrders(filter));
+  }, []);
 
   return (
     <>
