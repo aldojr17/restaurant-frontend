@@ -56,7 +56,7 @@ const Home = () => {
     dispatchCart(
       addToCart({
         menu_id: newMenus.at(index)?.id!,
-        option_id: null,
+        option_id: 0,
         order_id: 0,
         qty: 1,
         menu_detail: newMenus.at(index),

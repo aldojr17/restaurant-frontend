@@ -7,7 +7,7 @@ import UnfillStarIcon from "../components/Icon/UnfillStarIcon";
 import Navbar from "../components/Navbar/Navbar";
 import { RootState } from "../redux";
 import { IMenuPayload } from "../redux/menu/types";
-import { IOrderPayload } from "../redux/order/types";
+import { DeliveryStatus, IOrderPayload } from "../redux/order/types";
 import { addReview, fetchOrders } from "../redux/user/action";
 import { IAddReviewPayload, UserDispatch } from "../redux/user/types";
 import { formatCurrency } from "../util/util";
@@ -110,9 +110,13 @@ const OrderDetail = () => {
                     )}
                   </span>
                 </div>
-                <div className="col-lg-2 d-flex justify-content-end">
-                  <button className="btn btn-outline-dark">Add Review</button>
-                </div>
+                {order.status === DeliveryStatus.RECEIVED ? (
+                  <div className="col-lg-2 d-flex justify-content-end">
+                    <button className="btn btn-outline-dark">Add Review</button>
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
             ))}
           </div>

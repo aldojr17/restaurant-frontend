@@ -109,22 +109,18 @@ const Order = () => {
       <Navbar active="orders" isLogged />
       <div className="container">
         <Title>ORDERS</Title>
-        {orders.data.length !== 0 ? (
-          <div className="my-4 row flex-column mx-auto gap-4 align-items-center align-items-lg-start">
-            <Filter
-              filter={filter}
-              setFilter={setFilter}
-              type={"orders"}
-              pagination={{
-                current_page: orders.current_page,
-                limit: orders.limit,
-                total: orders.total,
-              }}
-            />
-          </div>
-        ) : (
-          ""
-        )}
+        <div className="my-4 row flex-column mx-auto gap-4 align-items-center align-items-lg-start">
+          <Filter
+            filter={filter}
+            setFilter={setFilter}
+            type={"orders"}
+            pagination={{
+              current_page: orders.current_page,
+              limit: orders.limit,
+              total: orders.total,
+            }}
+          />
+        </div>
         <div className="row gap-3 align-items-center px-2 flex-column">
           {orders.data.length !== 0 ? (
             orders.data.map((order) => (

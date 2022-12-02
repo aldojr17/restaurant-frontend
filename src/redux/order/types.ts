@@ -4,9 +4,9 @@ import { IMenuPayload, IStatusPayload } from "../menu/types";
 import { ICoupon, IOrderPagination } from "../user/types";
 
 export enum DeliveryStatus {
-  PREPARING = "PREPARING",
-  ON_THE_WAY = "ON_THE_WAY",
-  RECEIVED = "RECEIVED",
+  PREPARING = "Preparing",
+  ON_THE_WAY = "On The Way",
+  RECEIVED = "Received",
 }
 
 export interface IOrderDetailPayload {
