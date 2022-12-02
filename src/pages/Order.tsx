@@ -10,7 +10,7 @@ import { IFilterPayload, IMenuPayload } from "../redux/menu/types";
 import { addReview } from "../redux/user/action";
 import { IAddReviewPayload, UserDispatch } from "../redux/user/types";
 import { formatCurrency } from "../util/util";
-import Title from "./Cart/style";
+import Title, { LoadingWrapper } from "./Cart/style";
 
 const Order = () => {
   const { orders } = useSelector((state: RootState) => state.userReducer);
@@ -113,109 +113,123 @@ const Order = () => {
       <Navbar active="orders" isLogged />
       <div className="container">
         <Title>ORDERS</Title>
-        <div className="my-4 row flex-column mx-auto gap-4 align-items-center align-items-lg-start">
-          <Filter
-            filter={filter}
-            setFilter={setFilter}
-            type={"orders"}
-            pagination={{
-              current_page: orders.current_page,
-              limit: orders.limit,
-              total: orders.total,
-            }}
-          />
-        </div>
-        <div className="row gap-3 flex-column">
-          {orders.data.map((order) => (
-            <div
-              key={order.id}
-              className="col d-flex flex-column gap-3 border border-2 rounded rounded-4 p-3"
-            >
-              <div className="d-flex justify-content-between">
-                <span>{moment(order.order_date).format("DD MMM YYYY")}</span>
-                <span>{order.status}</span>
-              </div>
-              <div>
-                <span>
-                  Rp.{formatCurrency(order.total_price)} (
-                  {order.order_details?.length} menu)
-                </span>
-              </div>
-              {order.order_details?.length !== 0 ? (
-                <div className="row gap-3 flex-column p-3">
-                  {order.order_details?.map((menu, index) => (
-                    <div
-                      key={index}
-                      className="col d-flex flex-column gap-3 border border-2 rounded rounded-4 p-3"
-                    >
-                      <div className="d-flex justify-content-between">
-                        <span>{menu.menu_detail?.name}</span>
-                        <span>
-                          {menu.menu_detail?.menu_option !== null &&
-                          menu.menu_detail?.menu_option.length !== 0 &&
-                          menu.option_id !== 0
-                            ? "Options: " +
-                              menu.menu_detail?.menu_option.find(
-                                (option) => option.id === menu.option_id
-                              )?.name
-                            : ""}
-                        </span>
-                      </div>
-                      <div className="d-flex align-items-center justify-content-between">
-                        <span>Qty: {menu.qty}</span>
-                        <button
-                          className="btn btn-outline-dark"
-                          data-bs-toggle="modal"
-                          data-bs-target="#reviewModal"
-                          onClick={() => {
-                            setMenu(menu.menu_detail);
-                            setReview({
-                              ...review,
-                              menu_id: menu.menu_id,
-                            });
-                          }}
-                        >
-                          Add Review
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
-          ))}
-        </div>
-        <div className="my-3 d-flex justify-content-end gap-1">
-          <button
-            className="btn"
-            onClick={() => handleClick(orders.current_page - 1)}
-          >
-            Previous
-          </button>
-          {pagination.map((item, index) => (
-            <button
-              key={index}
-              className={`btn btn-outline-dark ${
-                orders.current_page === Number(item) ? "active" : ""
-              }`}
-              onClick={() => {
-                if (item !== "...") {
-                  handleClick(Number(item));
-                }
+        {orders.data.length !== 0 ? (
+          <div className="my-4 row flex-column mx-auto gap-4 align-items-center align-items-lg-start">
+            <Filter
+              filter={filter}
+              setFilter={setFilter}
+              type={"orders"}
+              pagination={{
+                current_page: orders.current_page,
+                limit: orders.limit,
+                total: orders.total,
               }}
-            >
-              {item}
-            </button>
-          ))}
-          <button
-            className="btn"
-            onClick={() => handleClick(orders.current_page + 1)}
-          >
-            Next
-          </button>
+            />
+          </div>
+        ) : (
+          ""
+        )}
+        <div className="row gap-3 flex-column">
+          {orders.data.length !== 0 ? (
+            orders.data.map((order) => (
+              <div
+                key={order.id}
+                className="col d-flex flex-column gap-3 border border-2 rounded rounded-4 p-3"
+              >
+                <div className="d-flex justify-content-between">
+                  <span>{moment(order.order_date).format("DD MMM YYYY")}</span>
+                  <span>{order.status}</span>
+                </div>
+                <div>
+                  <span>
+                    Rp.{formatCurrency(order.total_price)} (
+                    {order.order_details?.length} menu)
+                  </span>
+                </div>
+                {order.order_details?.length !== 0 ? (
+                  <div className="row gap-3 flex-column p-3">
+                    {order.order_details?.map((menu, index) => (
+                      <div
+                        key={index}
+                        className="col d-flex flex-column gap-3 border border-2 rounded rounded-4 p-3"
+                      >
+                        <div className="d-flex justify-content-between">
+                          <span>{menu.menu_detail?.name}</span>
+                          <span>
+                            {menu.menu_detail?.menu_option !== null &&
+                            menu.menu_detail?.menu_option.length !== 0 &&
+                            menu.option_id !== 0
+                              ? "Options: " +
+                                menu.menu_detail?.menu_option.find(
+                                  (option) => option.id === menu.option_id
+                                )?.name
+                              : ""}
+                          </span>
+                        </div>
+                        <div className="d-flex align-items-center justify-content-between">
+                          <span>Qty: {menu.qty}</span>
+                          <button
+                            className="btn btn-outline-dark"
+                            data-bs-toggle="modal"
+                            data-bs-target="#reviewModal"
+                            onClick={() => {
+                              setMenu(menu.menu_detail);
+                              setReview({
+                                ...review,
+                                menu_id: menu.menu_id,
+                              });
+                            }}
+                          >
+                            Add Review
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            ))
+          ) : (
+            <LoadingWrapper className="container d-flex justify-content-center align-items-center">
+              <span className="fs-3">You don't have any order.</span>
+            </LoadingWrapper>
+          )}
         </div>
+        {orders.data.length !== 0 ? (
+          <div className="my-3 d-flex justify-content-end gap-1">
+            <button
+              className="btn"
+              onClick={() => handleClick(orders.current_page - 1)}
+            >
+              Previous
+            </button>
+            {pagination.map((item, index) => (
+              <button
+                key={index}
+                className={`btn btn-outline-dark ${
+                  orders.current_page === Number(item) ? "active" : ""
+                }`}
+                onClick={() => {
+                  if (item !== "...") {
+                    handleClick(Number(item));
+                  }
+                }}
+              >
+                {item}
+              </button>
+            ))}
+            <button
+              className="btn"
+              onClick={() => handleClick(orders.current_page + 1)}
+            >
+              Next
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
 
       <div
