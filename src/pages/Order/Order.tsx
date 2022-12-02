@@ -8,6 +8,7 @@ import { StarIcon } from "../../components/Icon";
 import UnfillStarIcon from "../../components/Icon/UnfillStarIcon";
 import Navbar from "../../components/Navbar/Navbar";
 import { RootState } from "../../redux";
+import { fetchCategory } from "../../redux/menu/action";
 import { IFilterPayload, IMenuPayload } from "../../redux/menu/types";
 import { addReview, fetchOrders } from "../../redux/user/action";
 import { IAddReviewPayload, UserDispatch } from "../../redux/user/types";
@@ -102,6 +103,7 @@ const Order = () => {
   useEffect(() => {
     dispatch(fetchOrders(filter));
     getAllPayment();
+    dispatch(fetchCategory());
   }, []);
 
   return (
