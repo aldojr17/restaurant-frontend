@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { fetchPayment, IPayment } from "../api/api";
 import { StarIcon } from "../components/Icon";
 import UnfillStarIcon from "../components/Icon/UnfillStarIcon";
+import ReviewModal from "../components/Modal/ReviewModal";
 import Navbar from "../components/Navbar/Navbar";
 import { RootState } from "../redux";
 import { IMenuPayload } from "../redux/menu/types";
@@ -27,6 +28,11 @@ const OrderDetail = () => {
     menu_id: 0,
     rating: 0,
   });
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   const getPayments = async () => {
     setPayments(await fetchPayment());
@@ -41,6 +47,7 @@ const OrderDetail = () => {
 
   const handleAddReview = () => {
     dispatch(addReview(review));
+    setShowModal(false);
   };
 
   useEffect(() => {
@@ -112,7 +119,38 @@ const OrderDetail = () => {
                 </div>
                 {order.status === DeliveryStatus.RECEIVED ? (
                   <div className="col-lg-2 d-flex justify-content-end">
-                    <button className="btn btn-outline-dark">Add Review</button>
+                    {val.menu_detail?.reviews !== null &&
+                    val.menu_detail?.reviews.findIndex(
+                      (rev) => rev.user_id === order.user_id
+                    ) !== -1 ? (
+                      <button
+                        className="btn btn-outline-dark"
+                        onClick={() => {
+                          setMenu(val.menu_detail);
+                          setReview({
+                            ...review,
+                            menu_id: val.menu_id,
+                          });
+                          setShowModal(true);
+                        }}
+                      >
+                        Update Review
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-outline-dark"
+                        onClick={() => {
+                          setMenu(val.menu_detail);
+                          setReview({
+                            ...review,
+                            menu_id: val.menu_id,
+                          });
+                          setShowModal(true);
+                        }}
+                      >
+                        Add Review
+                      </button>
+                    )}
                   </div>
                 ) : (
                   ""
@@ -187,111 +225,17 @@ const OrderDetail = () => {
         </div>
       </div>
 
-      <div
-        className="modal fade"
-        id="reviewModal"
-        tabIndex={-1}
-        aria-labelledby="reviewModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5" id="reviewModalLabel">
-                Add Review
-              </h1>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <div className="d-flex flex-column gap-3">
-                <div className="d-flex flex-column gap-1">
-                  <label htmlFor="menuName" className="form-label">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    defaultValue={menu?.name}
-                    id="menuName"
-                    readOnly
-                    disabled
-                    className="form-control"
-                  />
-                </div>
-                <div className="d-flex flex-column gap-1">
-                  <label htmlFor="description" className="form-label">
-                    Description
-                  </label>
-                  <textarea
-                    id="description"
-                    name="description"
-                    className="form-control"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="d-flex align-items-center gap-2">
-                  <span>Rating : </span>
-                  <div className="d-flex align-items-center">
-                    {Array.from(Array(5).keys(), (value) => {
-                      return value < fillUnfill ? (
-                        <button
-                          key={value}
-                          type="button"
-                          className="btn"
-                          onClick={() => {
-                            setFillUnfill(value + 1);
-                            setReview({
-                              ...review,
-                              rating: value + 1,
-                            });
-                          }}
-                        >
-                          <StarIcon size={24} key={value} />
-                        </button>
-                      ) : (
-                        <button
-                          key={value}
-                          type="button"
-                          className="btn"
-                          onClick={() => {
-                            setFillUnfill(value + 1);
-                            setReview({
-                              ...review,
-                              rating: value + 1,
-                            });
-                          }}
-                        >
-                          <UnfillStarIcon key={value} />
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-outline-dark"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                className="btn btn-dark"
-                onClick={handleAddReview}
-              >
-                Add Review
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ReviewModal
+        fillUnfill={fillUnfill}
+        handleAddReview={handleAddReview}
+        handleChange={handleChange}
+        handleClose={handleCloseModal}
+        menu={menu!}
+        review={review}
+        setFillUnfill={setFillUnfill}
+        setReview={setReview}
+        show={showModal}
+      />
     </>
   );
 };
