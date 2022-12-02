@@ -7,11 +7,7 @@ const AuthRoutes = () => {
   const { user } = useSelector((state: RootState) => state.userReducer);
 
   if (isLogged !== null) {
-    if (user.role === 1) {
-      return <Navigate to="/" />;
-    } else {
-      return <Navigate to="/admin" />;
-    }
+    return <Navigate to="/" />;
   }
 
   return <Outlet />;

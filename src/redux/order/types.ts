@@ -3,6 +3,12 @@ import { ThunkDispatch } from "redux-thunk";
 import { IMenuPayload, IStatusPayload } from "../menu/types";
 import { IOrderPagination } from "../user/types";
 
+export enum DeliveryStatus {
+  PREPARING = "PREPARING",
+  ON_THE_WAY = "ON_THE_WAY",
+  RECEIVED = "RECEIVED",
+}
+
 export interface IOrderDetailPayload {
   menu_detail?: IMenuPayload;
   menu_id: number;

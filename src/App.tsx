@@ -38,33 +38,44 @@ function App() {
 
   return (
     <div className="container-fluid">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/menu" element={<Menu />} />
-        <Route path="/menu/:id" element={<MenuDetail />} />
+      {user.role !== 0 ? (
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/menu/:id" element={<MenuDetail />} />
 
-        <Route element={<AuthRoutes />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Route>
+          <Route element={<AuthRoutes />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
 
-        <Route element={<ProtectedRoutes />}>
-          <Route element={<UserRoutes />}>
-            <Route path="/orders" element={<Order />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/favorites" element={<Favorites />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route element={<UserRoutes />}>
+              <Route path="/orders" element={<Order />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/favorites" element={<Favorites />} />
+            </Route>
+          </Route>
+
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      ) : (
+        <Routes>
+          <Route element={<AuthRoutes />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Route>
 
           <Route element={<AdminRoutes />}>
-            <Route path="/admin" element={<Dashboard />} />
-            <Route path="/admin/menu" element={<MenuAdmin />} />
-            <Route path="/admin/coupon" element={<CouponAdmin />} />
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/menu" element={<MenuAdmin />} />
+            <Route path="/coupon" element={<CouponAdmin />} />
           </Route>
-        </Route>
 
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      )}
     </div>
   );
 }

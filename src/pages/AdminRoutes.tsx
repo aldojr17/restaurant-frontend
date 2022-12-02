@@ -5,8 +5,9 @@ import { RootState } from "../redux";
 
 const AdminRoutes = () => {
   const { user } = useSelector((state: RootState) => state.userReducer);
+  const isLogged = localStorage.getItem("sessionId");
 
-  if (user.role === 1) {
+  if (user.role === 1 || isLogged === null) {
     return <Navigate to="/" />;
   }
 

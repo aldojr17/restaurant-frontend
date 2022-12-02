@@ -18,7 +18,7 @@ const Navbar = ({ ...props }: NavbarProps) => {
   return (
     <nav className="navbar navbar-expand-lg mb-4">
       <div className="container">
-        <Link to={props.isAdmin ? "/admin" : "/"} className="navbar-brand">
+        <Link to={"/"} className="navbar-brand">
           Foodie
         </Link>
         <button
@@ -38,7 +38,7 @@ const Navbar = ({ ...props }: NavbarProps) => {
               <>
                 <li className="nav-item">
                   <Link
-                    to={"/admin/menu"}
+                    to={"/menu"}
                     className={`nav-link ${
                       props.active === "menu" ? "active" : ""
                     }`}
@@ -48,7 +48,7 @@ const Navbar = ({ ...props }: NavbarProps) => {
                 </li>
                 <li className="nav-item">
                   <Link
-                    to={"/admin/coupon"}
+                    to={"/coupon"}
                     className={`nav-link ${
                       props.active === "coupon" ? "active" : ""
                     }`}
