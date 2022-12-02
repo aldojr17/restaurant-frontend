@@ -16,6 +16,7 @@ const initialState: IOrderState = {
     payment_id: 1,
     status: "",
     total_price: 0,
+    subtotal: 0,
   },
   status: {
     error: null,

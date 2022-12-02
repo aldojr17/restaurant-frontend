@@ -1,6 +1,7 @@
 import moment from "moment";
 import { FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { fetchPayment, IPayment } from "../../api/api";
 import Filter from "../../components/Filter/Filter";
 import { StarIcon } from "../../components/Icon";
@@ -24,15 +25,9 @@ const Order = () => {
     limit: 5,
   });
   const [pagination, setPagination] = useState<string[]>([]);
-  const [review, setReview] = useState<IAddReviewPayload>({
-    description: "",
-    menu_id: 0,
-    rating: 0,
-  });
-  const [menu, setMenu] = useState<IMenuPayload>();
-  const [fillUnfill, setFillUnfill] = useState(0);
   const dispatch: UserDispatch = useDispatch();
   const [payments, setPayments] = useState<IPayment[]>([]);
+  const navigate = useNavigate();
 
   const handleClick = (page: number) => {
     setFilter({
@@ -100,17 +95,6 @@ const Order = () => {
     handlePagination(orders.total_page, orders.current_page);
   }, [orders]);
 
-  const handleChange = (event: FormEvent<HTMLTextAreaElement>) => {
-    setReview({
-      ...review,
-      description: event.currentTarget.value,
-    });
-  };
-
-  const handleAddReview = () => {
-    dispatch(addReview(review));
-  };
-
   const getAllPayment = async () => {
     setPayments(await fetchPayment());
   };
@@ -153,7 +137,7 @@ const Order = () => {
                     {moment(order.order_date).format("DD MMM YYYY")}
                   </span>
                   <span className="fs-5">
-                    Rp.{formatCurrency(order.total_price)}{" "}
+                    Rp.{formatCurrency(order.total_price!)}{" "}
                     <span className="text-muted">
                       ({order.order_details?.length} menu) -{" "}
                     </span>
@@ -174,7 +158,12 @@ const Order = () => {
                   </OrderStatusWrapper>
                 </div>
                 <div className="col-lg-4 d-flex justify-content-end align-items-center">
-                  <button className="btn btn-dark">Detail</button>
+                  <button
+                    className="btn btn-dark"
+                    onClick={() => navigate(`/orders/${order.id}`)}
+                  >
+                    Detail
+                  </button>
                 </div>
               </div>
             ))
@@ -217,112 +206,6 @@ const Order = () => {
         ) : (
           ""
         )}
-      </div>
-
-      <div
-        className="modal fade"
-        id="reviewModal"
-        tabIndex={-1}
-        aria-labelledby="reviewModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5" id="reviewModalLabel">
-                Add Review
-              </h1>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <div className="d-flex flex-column gap-3">
-                <div className="d-flex flex-column gap-1">
-                  <label htmlFor="menuName" className="form-label">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    defaultValue={menu?.name}
-                    id="menuName"
-                    readOnly
-                    disabled
-                    className="form-control"
-                  />
-                </div>
-                <div className="d-flex flex-column gap-1">
-                  <label htmlFor="description" className="form-label">
-                    Description
-                  </label>
-                  <textarea
-                    id="description"
-                    name="description"
-                    className="form-control"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="d-flex align-items-center gap-2">
-                  <span>Rating : </span>
-                  <div className="d-flex align-items-center">
-                    {Array.from(Array(5).keys(), (value) => {
-                      return value < fillUnfill ? (
-                        <button
-                          key={value}
-                          type="button"
-                          className="btn"
-                          onClick={() => {
-                            setFillUnfill(value + 1);
-                            setReview({
-                              ...review,
-                              rating: value + 1,
-                            });
-                          }}
-                        >
-                          <StarIcon size={24} key={value} />
-                        </button>
-                      ) : (
-                        <button
-                          key={value}
-                          type="button"
-                          className="btn"
-                          onClick={() => {
-                            setFillUnfill(value + 1);
-                            setReview({
-                              ...review,
-                              rating: value + 1,
-                            });
-                          }}
-                        >
-                          <UnfillStarIcon key={value} />
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-outline-dark"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                className="btn btn-dark"
-                onClick={handleAddReview}
-              >
-                Add Review
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </>
   );

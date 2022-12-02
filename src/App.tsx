@@ -13,6 +13,7 @@ import {
   MenuDetail,
   NotFound,
   Order,
+  OrderDetail,
   Profile,
   ProtectedRoutes,
   Register,
@@ -52,6 +53,7 @@ function App() {
           <Route element={<ProtectedRoutes />}>
             <Route element={<UserRoutes />}>
               <Route path="/orders" element={<Order />} />
+              <Route path="/orders/:id" element={<OrderDetail />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/favorites" element={<Favorites />} />

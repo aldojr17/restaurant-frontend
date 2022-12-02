@@ -44,7 +44,18 @@ const Cart = () => {
 
   useEffect(() => {
     setSubtotal(
-      cart.reduce((acc, val) => acc + val.menu_detail?.price! * val.qty, 0)
+      cart.reduce(
+        (acc, val) =>
+          acc +
+          (val.option_id! !== 0
+            ? val.menu_detail?.price! +
+              val.menu_detail?.menu_option.find(
+                (opt) => opt.id === val.option_id
+              )?.price!
+            : val.menu_detail?.price!) *
+            val.qty,
+        0
+      )
     );
   }, [cart]);
 
@@ -70,6 +81,7 @@ const Cart = () => {
         payment_id: paymentId,
         status: "",
         total_price: total,
+        subtotal: subtotal,
       })
     );
   };
@@ -121,6 +133,7 @@ const Cart = () => {
           payment_id: 0,
           status: "",
           total_price: 0,
+          subtotal: subtotal,
         })
       );
       dispatch(deleteAllFromCart());
@@ -231,7 +244,15 @@ const Cart = () => {
                   </div>
                   <div className="col-lg-2">
                     <span>
-                      Rp.{formatCurrency(val.menu_detail?.price! * val.qty)}
+                      Rp.
+                      {formatCurrency(
+                        (val.option_id! !== 0
+                          ? val.menu_detail?.price! +
+                            val.menu_detail?.menu_option.find(
+                              (opt) => opt.id === val.option_id
+                            )?.price!
+                          : val.menu_detail?.price!) * val.qty
+                      )}
                     </span>
                   </div>
                   <div
@@ -251,17 +272,17 @@ const Cart = () => {
                     <span className="fs-4 text-start">Your Order</span>
                     <div className="d-flex flex-column gap-2">
                       <div className="d-flex justify-content-between">
-                        <span>Items</span>
+                        <span className="fw-bold">Items</span>
                         <span>
                           {cart.reduce((acc, val) => acc + val.qty, 0)}
                         </span>
                       </div>
                       <div className="d-flex justify-content-between">
-                        <span>Subtotal</span>
+                        <span className="fw-bold">Subtotal</span>
                         <span>Rp.{formatCurrency(subtotal)}</span>
                       </div>
                       <div className="my-3 d-flex flex-column gap-2">
-                        <span>Coupon</span>
+                        <span className="fw-bold">Coupon</span>
                         <select
                           name="coupon"
                           id="coupon"
@@ -281,7 +302,7 @@ const Cart = () => {
                         </select>
                       </div>
                       <div className="d-flex justify-content-between">
-                        <span>Discount</span>
+                        <span className="fw-bold">Discount</span>
                         <span>
                           Rp.
                           {formatCurrency(
@@ -293,14 +314,14 @@ const Cart = () => {
                         </span>
                       </div>
                       <div className="d-flex justify-content-between">
-                        <span>Total</span>
+                        <span className="fw-bold">Total</span>
                         <span>
                           Rp.
                           {formatCurrency(total)}
                         </span>
                       </div>
                       <div className="my-3 d-flex flex-column gap-2">
-                        <span>Payment</span>
+                        <span className="fw-bold">Payment</span>
                         <select
                           name="payment"
                           id="payment"

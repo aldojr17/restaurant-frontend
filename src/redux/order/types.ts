@@ -1,7 +1,7 @@
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { IMenuPayload, IStatusPayload } from "../menu/types";
-import { IOrderPagination } from "../user/types";
+import { ICoupon, IOrderPagination } from "../user/types";
 
 export enum DeliveryStatus {
   PREPARING = "PREPARING",
@@ -27,6 +27,8 @@ export interface IOrderPayload {
   order_date?: string;
   order_details?: IOrderDetailPayload[];
   total_price: number;
+  subtotal: number;
+  coupon?: ICoupon;
 }
 
 export interface IOrderState {
