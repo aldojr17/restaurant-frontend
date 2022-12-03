@@ -12,9 +12,9 @@ const Menu = () => {
   const { menus } = useSelector((state: RootState) => state.menuReducer);
   const [filter, setFilter] = useState<IFilterPayload>({
     category: 0,
-    sortBy: "price",
+    sortBy: "rating",
     name: "",
-    sort: "asc",
+    sort: "desc",
     limit: 8,
   });
   const [pagination, setPagination] = useState<string[]>([]);

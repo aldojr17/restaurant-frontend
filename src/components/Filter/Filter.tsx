@@ -116,6 +116,7 @@ const Filter = ({
               name="sortBy"
               id="sortBy"
               onChange={handleChangeFilter}
+              value={filter.sortBy}
             >
               {type === "menu" ? (
                 <>
@@ -135,6 +136,7 @@ const Filter = ({
               name="sort"
               id="sort"
               onChange={handleChangeFilter}
+              value={filter.sort}
             >
               <option value="asc">Ascending</option>
               <option value="desc">Descending</option>

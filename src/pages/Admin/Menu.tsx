@@ -11,6 +11,7 @@ import { createMenu, deleteMenu, updateMenu } from "../../redux/menu/action";
 import {
   ICreateUpdateMenuPayload,
   IFilterPayload,
+  IMenuOptions,
 } from "../../redux/menu/types";
 import { OrderDispatch } from "../../redux/order/types";
 import useIsLogged from "../../util/useIsLogged";
@@ -36,6 +37,7 @@ const Menu = () => {
     photo: "",
     price: 0,
     description: "",
+    options: [],
   });
   const [selectedFile, setSelectedFile] = useState<File>();
   const [previewImage, setPreviewImage] = useState<string | undefined>();
@@ -43,6 +45,43 @@ const Menu = () => {
   const [showModal, setShowModal] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [id, setId] = useState(0);
+  const [options, setOptions] = useState<IMenuOptions[]>([]);
+
+  const handleAddOption = () => {
+    setOptions([
+      ...options,
+      {
+        id:
+          options.length !== 0
+            ? options.at(options.length - 1 > 0 ? options.length - 1 : 0)?.id! +
+              1
+            : 1,
+        menu_id: 0,
+        name: "",
+        price: 0,
+      },
+    ]);
+  };
+
+  const handleDeleteOption = (id: number) => {
+    setOptions(options.filter((opt) => opt.id !== id));
+  };
+
+  const handleChangeOption = (
+    event: FormEvent<HTMLInputElement>,
+    id: number
+  ) => {
+    setOptions(
+      options.map((opt) =>
+        opt.id === id
+          ? {
+              ...opt,
+              [event.currentTarget.name]: event.currentTarget.value,
+            }
+          : opt
+      )
+    );
+  };
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -54,6 +93,7 @@ const Menu = () => {
       photo: "",
       price: 0,
       description: "",
+      options: [],
     });
   };
 
@@ -83,24 +123,31 @@ const Menu = () => {
   };
 
   const handleAddMenu = async () => {
-    const formData = new FormData();
-    formData.append("file", selectedFile!);
-    formData.append("upload_preset", "final-project");
-    const uploadPost = await axios.post(
-      "https://api.cloudinary.com/v1_1/dcdexrr4n/image/upload",
-      formData
-    );
+    let uploadPost;
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile!);
+      formData.append("upload_preset", "final-project");
+      uploadPost = await axios.post(
+        "https://api.cloudinary.com/v1_1/dcdexrr4n/image/upload",
+        formData
+      );
+    }
 
     dispatch(
       createMenu({
         ...input,
-        photo: uploadPost.data.secure_url,
+        photo: selectedFile ? uploadPost?.data.secure_url : "",
         price: parseInt(String(input.price)),
         category_id: parseInt(String(input.category_id)),
+        options: options.map((opt) => ({
+          name: opt.name,
+          price: parseInt(String(opt.price)),
+        })),
       })
     );
-
     setShowModal(false);
+    setOptions([]);
   };
 
   const handleUpdateMenu = async () => {
@@ -237,6 +284,7 @@ const Menu = () => {
                   name: menu.name,
                   photo: menu.photo,
                   price: menu.price,
+                  options: [],
                 });
                 setId(menu.id);
               }}
@@ -313,6 +361,11 @@ const Menu = () => {
         input={input}
         handleUpdateMenu={handleUpdateMenu}
         handleDelete={handleDelete}
+        handleAddOption={handleAddOption}
+        handleChangeOption={handleChangeOption}
+        handleDeleteOption={handleDeleteOption}
+        options={options}
+        setOptions={setOptions}
       />
     </>
   );

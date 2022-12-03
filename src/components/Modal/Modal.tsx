@@ -1,9 +1,10 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, Dispatch, FormEvent, SetStateAction } from "react";
 import {
   ICategoryPayload,
   ICreateUpdateMenuPayload,
-  IMenuPayload,
+  IMenuOptions,
 } from "../../redux/menu/types";
+import { TrashIcon } from "../Icon";
 import { ModalWrapper } from "./style";
 
 interface IModalProps {
@@ -20,6 +21,11 @@ interface IModalProps {
   handleDelete: () => void;
   isUpdate: boolean;
   input: ICreateUpdateMenuPayload;
+  options: IMenuOptions[];
+  setOptions: Dispatch<SetStateAction<IMenuOptions[]>>;
+  handleAddOption: () => void;
+  handleDeleteOption: (id: number) => void;
+  handleChangeOption: (event: FormEvent<HTMLInputElement>, id: number) => void;
 }
 
 const Modal = ({
@@ -34,6 +40,11 @@ const Modal = ({
   handleUpdateMenu,
   input,
   handleDelete,
+  options,
+  setOptions,
+  handleAddOption,
+  handleChangeOption,
+  handleDeleteOption,
 }: IModalProps) => {
   return (
     <ModalWrapper
@@ -44,7 +55,7 @@ const Modal = ({
       aria-labelledby="menuModalLabel"
       aria-hidden="true"
     >
-      <div className="modal-dialog modal-dialog-centered modal-lg">
+      <div className="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
         <div className="modal-content">
           <div className="modal-header">
             <h1 className="modal-title fs-5" id="menuModalLabel">
@@ -57,7 +68,7 @@ const Modal = ({
               onClick={handleClose}
             ></button>
           </div>
-          <div className="modal-body">
+          <div className="modal-body mb-3">
             <div className="d-flex flex-column gap-3">
               <div className="d-flex flex-column gap-2">
                 <div className="col-lg-6 mx-auto">
@@ -173,6 +184,59 @@ const Modal = ({
                   {isUpdate ? "Update Menu" : "Add Menu"}
                 </button>
               </div>
+            </div>
+            <div>
+              <div className="d-flex justify-content-between">
+                <span className="fs-5 fw-bold">Menu Options</span>
+                <button
+                  className="btn btn-outline-dark"
+                  onClick={handleAddOption}
+                >
+                  Add Option
+                </button>
+              </div>
+              {options.length !== 0 ? (
+                <div className="row mt-3 mb-2">
+                  <div className="col-lg-7">
+                    <span className="fs-5">Name</span>
+                  </div>
+                  <div className="col-lg-5">
+                    <span className="fs-5">Price</span>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+              {options.map((val) => (
+                <div className="row mb-3" key={val.id}>
+                  <div className="col-lg-6">
+                    <input
+                      type="text"
+                      name="name"
+                      id="name"
+                      className="form-control"
+                      onChange={(e) => handleChangeOption(e, val.id)}
+                    />
+                  </div>
+                  <div className="col-lg-5">
+                    <input
+                      type="number"
+                      name="price"
+                      id="price"
+                      className="form-control"
+                      onChange={(e) => handleChangeOption(e, val.id)}
+                    />
+                  </div>
+                  <div className="col-lg-1">
+                    <button
+                      className="btn"
+                      onClick={() => handleDeleteOption(val.id)}
+                    >
+                      <TrashIcon />
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

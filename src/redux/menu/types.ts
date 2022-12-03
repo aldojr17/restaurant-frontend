@@ -66,6 +66,10 @@ export interface ICreateUpdateMenuPayload {
   category_id: number;
   is_available: boolean;
   description: string;
+  options: {
+    name: string;
+    price: number;
+  }[];
 }
 
 export interface IMenuState {

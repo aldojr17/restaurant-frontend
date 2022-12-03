@@ -29,7 +29,7 @@ export const HomeWrapper = styled.div`
 `;
 
 export const MenuTitle = styled.h1`
-  font-size: 108px;
+  font-size: 96px;
   word-break: break-word;
 
   @media screen and (max-width: 768px) {
