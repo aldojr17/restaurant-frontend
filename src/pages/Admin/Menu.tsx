@@ -15,6 +15,7 @@ import {
 import { OrderDispatch } from "../../redux/order/types";
 import useIsLogged from "../../util/useIsLogged";
 import { formatCurrency } from "../../util/util";
+import Title from "../Cart/style";
 
 const Menu = () => {
   const { menus, categories } = useSelector(
@@ -208,6 +209,9 @@ const Menu = () => {
   return (
     <>
       <Navbar isAdmin isLogged={useIsLogged()} active={"menu"} />
+      <div className="container px-lg-5 mb-4">
+        <Title>MENU</Title>
+      </div>
       <div className="container px-lg-5 row flex-column mx-auto gap-4 align-items-center">
         <FilterAdmin
           filter={filter}

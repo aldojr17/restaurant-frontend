@@ -39,7 +39,7 @@ function App() {
   }, [user.id]);
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid mb-5 mt-3">
       {user.role !== 0 ? (
         <Routes>
           <Route path="/" element={<Home />} />

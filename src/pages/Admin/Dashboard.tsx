@@ -123,7 +123,7 @@ const Dashboard = () => {
           {orders.data.map((order) => (
             <div
               key={order.id}
-              className="col row border border-2 rounded rounded-4 p-3"
+              className="col row border border-1 border-dark rounded rounded-4 p-3"
             >
               <div className=" col-lg-4 d-flex flex-column">
                 <span className="fs-5">
