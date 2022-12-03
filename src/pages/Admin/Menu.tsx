@@ -169,11 +169,18 @@ const Menu = () => {
           photo: selectedFile ? uploadPost?.data.secure_url : input.photo,
           price: parseInt(String(input.price)),
           category_id: parseInt(String(input.category_id)),
+          options: options
+            .filter((opt) => opt.menu_id === 0)
+            .map((val) => ({
+              name: val.name,
+              price: parseInt(String(val.price)),
+            })),
         },
         id
       )
     );
     setShowModal(false);
+    setOptions([]);
   };
 
   const handleDelete = () => {
@@ -287,6 +294,7 @@ const Menu = () => {
                   options: [],
                 });
                 setId(menu.id);
+                setOptions(menu.menu_option);
               }}
             >
               <div className="position-relative">
@@ -365,7 +373,6 @@ const Menu = () => {
         handleChangeOption={handleChangeOption}
         handleDeleteOption={handleDeleteOption}
         options={options}
-        setOptions={setOptions}
       />
     </>
   );

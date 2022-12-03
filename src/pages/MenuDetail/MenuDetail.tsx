@@ -128,7 +128,15 @@ const MenuDetail = () => {
                   <h1>{menu.name}</h1>
                   <span className="fs-4 d-block">{menu.category.name}</span>
                   <span className="fs-2 d-block">
-                    Rp.{formatCurrency(menu.price)}
+                    Rp.{formatCurrency(menu.price)}{" "}
+                    {input.option_id !== 0
+                      ? " + " +
+                        formatCurrency(
+                          menu.menu_option.find(
+                            (opt) => opt.id === input.option_id
+                          )?.price!
+                        )
+                      : ""}
                   </span>
                   <div className="d-flex flex-column mt-3">
                     <span className="fs-4">Description:</span>

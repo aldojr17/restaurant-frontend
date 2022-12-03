@@ -22,7 +22,6 @@ interface IModalProps {
   isUpdate: boolean;
   input: ICreateUpdateMenuPayload;
   options: IMenuOptions[];
-  setOptions: Dispatch<SetStateAction<IMenuOptions[]>>;
   handleAddOption: () => void;
   handleDeleteOption: (id: number) => void;
   handleChangeOption: (event: FormEvent<HTMLInputElement>, id: number) => void;
@@ -41,7 +40,6 @@ const Modal = ({
   input,
   handleDelete,
   options,
-  setOptions,
   handleAddOption,
   handleChangeOption,
   handleDeleteOption,
@@ -216,6 +214,7 @@ const Modal = ({
                       id="name"
                       className="form-control"
                       onChange={(e) => handleChangeOption(e, val.id)}
+                      value={val.name}
                     />
                   </div>
                   <div className="col-lg-5">
@@ -225,6 +224,7 @@ const Modal = ({
                       id="price"
                       className="form-control"
                       onChange={(e) => handleChangeOption(e, val.id)}
+                      value={val.price}
                     />
                   </div>
                   <div className="col-lg-1">
