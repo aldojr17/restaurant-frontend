@@ -1,17 +1,18 @@
 import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { fetchPayment, IPayment } from "../../api/api";
 import Filter from "../../components/Filter/Filter";
 import Navbar from "../../components/Navbar/Navbar";
 import { RootState } from "../../redux";
 import { IFilterPayload } from "../../redux/menu/types";
-import { fetchAllOrder } from "../../redux/order/action";
-import { OrderDispatch } from "../../redux/order/types";
 import useIsLogged from "../../util/useIsLogged";
 import { formatCurrency } from "../../util/util";
+import Title from "../Cart/style";
+import { OrderStatusWrapper } from "../Order/style";
 
 const Dashboard = () => {
-  const dispatch: OrderDispatch = useDispatch();
   const { orders } = useSelector((state: RootState) => state.orderReducer);
   const [filter, setFilter] = useState<IFilterPayload>({
     category: 0,
@@ -21,6 +22,12 @@ const Dashboard = () => {
     limit: 5,
   });
   const [pagination, setPagination] = useState<string[]>([]);
+  const [payments, setPayments] = useState<IPayment[]>([]);
+  const navigate = useNavigate();
+
+  const getAllPayment = async () => {
+    setPayments(await fetchPayment());
+  };
 
   const handleClick = (page: number) => {
     setFilter({
@@ -89,44 +96,90 @@ const Dashboard = () => {
   }, [orders]);
 
   useEffect(() => {
-    dispatch(fetchAllOrder(filter));
-  }, [filter]);
+    getAllPayment();
+  }, []);
+
   return (
     <>
       <Navbar isAdmin isLogged={useIsLogged()} />
-      <div className="container px-lg-5 row flex-column mx-auto gap-4 align-items-center align-items-lg-start">
+      <div className="container mb-4">
+        <Title>DASHBOARD</Title>
+      </div>
+      <div className="container px-lg-3 row flex-column mx-auto gap-4 align-items-center align-items-lg-start">
         <Filter
           filter={filter}
           setFilter={setFilter}
-          type={"order"}
+          type={"orders"}
           pagination={{
             current_page: orders.current_page,
             limit: orders.limit,
             total: orders.total,
           }}
+          isAdmin
         />
       </div>
-      <div className="container px-lg-5">
+      <div className="container">
         <div className="mx-1 my-3 row gap-3 flex-column">
           {orders.data.map((order) => (
             <div
               key={order.id}
-              className="col d-flex flex-column gap-3 border border-2 rounded rounded-4 p-3"
+              className="col row border border-2 rounded rounded-4 p-3"
             >
-              <div>
-                <span>{order.user_id}</span>
-              </div>
-              <div className="d-flex justify-content-between">
-                <span>{moment(order.order_date).format("DD MMM YYYY")}</span>
-                <span>{order.status}</span>
-              </div>
-              <div>
-                <span>
-                  Rp.{formatCurrency(order.total_price)} (
-                  {order.order_details?.length} menu)
+              <div className=" col-lg-4 d-flex flex-column">
+                <span className="fs-5">
+                  {order.user?.full_name} - {order.user?.email}
+                </span>
+                <span className="fw-bold fs-5">
+                  {moment(order.order_date).format("DD MMM YYYY")}
+                </span>
+                <span className="fs-5">
+                  Rp.{formatCurrency(order.total_price!)}{" "}
+                  <span className="text-muted">
+                    ({order.order_details?.length} menu) -{" "}
+                  </span>
+                  {
+                    payments.find((payment) => payment.id === order.payment_id)
+                      ?.description
+                  }
                 </span>
               </div>
+              <div className="col-lg-4 d-flex justify-content-center align-items-center">
+                <OrderStatusWrapper
+                  className={`px-3 py-1 rounded-4 delivery-${order.status
+                    .replaceAll(" ", "-")
+                    .toLowerCase()}`}
+                >
+                  <span>{order.status}</span>
+                </OrderStatusWrapper>
+              </div>
+              <div className="col-lg-4 d-flex justify-content-end align-items-center">
+                <button
+                  className="btn btn-dark"
+                  onClick={() => navigate(`/${order.id}`)}
+                >
+                  Detail
+                </button>
+              </div>
             </div>
+            // ))
+            // <div
+            //   key={order.id}
+            //   className="col d-flex flex-column gap-3 border border-2 rounded rounded-4 p-3"
+            // >
+            //   <div>
+            //     <span>{order.user_id}</span>
+            //   </div>
+            //   <div className="d-flex justify-content-between">
+            //     <span>{moment(order.order_date).format("DD MMM YYYY")}</span>
+            //     <span>{order.status}</span>
+            //   </div>
+            //   <div>
+            //     <span>
+            //       Rp.{formatCurrency(order.total_price)} (
+            //       {order.order_details?.length} menu)
+            //     </span>
+            //   </div>
+            // </div>
           ))}
         </div>
         <div className="my-3 mx-3 d-flex justify-content-end gap-1">

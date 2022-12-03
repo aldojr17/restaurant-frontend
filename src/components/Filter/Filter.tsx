@@ -4,6 +4,7 @@ import useDebounce from "../../hooks/useDebounce";
 import { RootState } from "../../redux";
 import { fetchCategory, fetchMenu } from "../../redux/menu/action";
 import { IFilterPayload, MenuDispatch } from "../../redux/menu/types";
+import { fetchAllOrder } from "../../redux/order/action";
 import { OrderDispatch } from "../../redux/order/types";
 import { fetchOrders } from "../../redux/user/action";
 
@@ -16,9 +17,16 @@ interface IFilterProps {
     limit: number;
     total: number;
   };
+  isAdmin?: boolean;
 }
 
-const Filter = ({ filter, setFilter, type, pagination }: IFilterProps) => {
+const Filter = ({
+  filter,
+  setFilter,
+  type,
+  pagination,
+  isAdmin,
+}: IFilterProps) => {
   const [searchText, setSearchText] = useState("");
   const dispatch: MenuDispatch = useDispatch();
   const dispatchOrder: OrderDispatch = useDispatch();
@@ -58,12 +66,21 @@ const Filter = ({ filter, setFilter, type, pagination }: IFilterProps) => {
         })
       );
     } else if (type == "orders") {
-      dispatchOrder(
-        fetchOrders({
-          ...filter,
-          name: searchText,
-        })
-      );
+      if (isAdmin) {
+        dispatchOrder(
+          fetchAllOrder({
+            ...filter,
+            name: searchText,
+          })
+        );
+      } else {
+        dispatchOrder(
+          fetchOrders({
+            ...filter,
+            name: searchText,
+          })
+        );
+      }
     }
   }, [debounce, filter]);
 

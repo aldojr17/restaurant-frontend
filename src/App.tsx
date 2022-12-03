@@ -14,6 +14,7 @@ import {
   NotFound,
   Order,
   OrderDetail,
+  OrderDetailAdmin,
   Profile,
   ProtectedRoutes,
   Register,
@@ -73,6 +74,7 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/menu" element={<MenuAdmin />} />
             <Route path="/coupon" element={<CouponAdmin />} />
+            <Route path="/:id" element={<OrderDetailAdmin />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />

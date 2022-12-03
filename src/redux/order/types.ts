@@ -1,7 +1,7 @@
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { IMenuPayload, IStatusPayload } from "../menu/types";
-import { ICoupon, IOrderPagination } from "../user/types";
+import { ICoupon, IOrderPagination, IUserPayload } from "../user/types";
 
 export enum DeliveryStatus {
   PREPARING = "Preparing",
@@ -29,6 +29,15 @@ export interface IOrderPayload {
   total_price: number;
   subtotal: number;
   coupon?: ICoupon;
+  user?: {
+    full_name: string;
+    email: string;
+  };
+}
+
+export interface IUpdateStatusPayload {
+  id: number;
+  status: string;
 }
 
 export interface IOrderState {
@@ -45,6 +54,7 @@ export enum OrderActionTypes {
   SET_ERROR = "SET_ERROR",
 
   FETCH_ALL_ORDER = "FETCH_ALL_ORDER",
+  UPDATE_ORDER_STATUS = "UPDATE_ORDER_STATUS",
 }
 
 export interface ICreateOrder {
@@ -72,10 +82,16 @@ export interface ICreateOrderDetails {
   payload: IOrderDetailPayload[];
 }
 
+export interface IUpdateOrderStatus {
+  type: OrderActionTypes.UPDATE_ORDER_STATUS;
+  payload: IUpdateStatusPayload;
+}
+
 export type OrderActions =
   | ICreateOrder
   | ICreateOrderDetails
   | ISetError
   | ISetLoading
-  | IFetchAllOrder;
-export type OrderDispatch = ThunkDispatch<ICreateOrder, any, AnyAction>;
+  | IFetchAllOrder
+  | IUpdateOrderStatus;
+export type OrderDispatch = ThunkDispatch<IOrderState, any, AnyAction>;

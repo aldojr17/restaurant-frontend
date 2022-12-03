@@ -4,6 +4,7 @@ import {
   IOrderState,
   ISetError,
   ISetLoading,
+  IUpdateOrderStatus,
   OrderActions,
   OrderActionTypes,
 } from "./types";
@@ -17,6 +18,10 @@ const initialState: IOrderState = {
     status: "",
     total_price: 0,
     subtotal: 0,
+    user: {
+      full_name: "",
+      email: "",
+    },
   },
   status: {
     error: null,
@@ -57,6 +62,18 @@ const setOrders = (state: IOrderState, action: IFetchAllOrder) => ({
   orders: action.payload,
 });
 
+const updateOrdeStatus = (state: IOrderState, action: IUpdateOrderStatus) => ({
+  ...state,
+  orders: {
+    ...state.orders,
+    data: state.orders.data.map((val) =>
+      val.id === action.payload.id
+        ? { ...val, status: action.payload.status }
+        : val
+    ),
+  },
+});
+
 const orderReducer = (
   state: IOrderState = initialState,
   action: OrderActions
@@ -70,6 +87,8 @@ const orderReducer = (
       return setLoading(state, action);
     case OrderActionTypes.FETCH_ALL_ORDER:
       return setOrders(state, action);
+    case OrderActionTypes.UPDATE_ORDER_STATUS:
+      return updateOrdeStatus(state, action);
     default:
       return state;
   }

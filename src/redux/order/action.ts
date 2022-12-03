@@ -5,6 +5,7 @@ import { IOrderPagination } from "../user/types";
 import {
   IOrderDetailPayload,
   IOrderPayload,
+  IUpdateStatusPayload,
   OrderActions,
   OrderActionTypes,
 } from "./types";
@@ -33,6 +34,15 @@ export const setError = (payload: string | null): OrderActions => {
 export const setOrders = (payload: IOrderPagination): OrderActions => {
   return {
     type: OrderActionTypes.FETCH_ALL_ORDER,
+    payload,
+  };
+};
+
+export const updateOrderStatus = (
+  payload: IUpdateStatusPayload
+): OrderActions => {
+  return {
+    type: OrderActionTypes.UPDATE_ORDER_STATUS,
     payload,
   };
 };
@@ -67,6 +77,19 @@ export const fetchAllOrder = (filter?: IFilterPayload) => {
       .get("/admin/orders", { params: filter })
       .then((response) => {
         dispatch(setOrders(response.data));
+      })
+      .catch((error) => error);
+  };
+};
+
+export const updateOrder = (payload: IUpdateStatusPayload) => {
+  return async (dispatch: Dispatch<OrderActions>) => {
+    await instance
+      .put(`/admin/orders/${payload.id}`, {
+        status: payload.status,
+      })
+      .then((response) => {
+        dispatch(updateOrderStatus(payload));
       })
       .catch((error) => error);
   };
