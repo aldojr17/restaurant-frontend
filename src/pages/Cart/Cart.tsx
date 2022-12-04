@@ -11,12 +11,7 @@ import {
   updateCart,
 } from "../../redux/cart/action";
 import { CartDispatch } from "../../redux/cart/types";
-import {
-  createOrder,
-  createOrderDetails,
-  setError,
-  setOrder,
-} from "../../redux/order/action";
+import { createOrder, setError, setOrder } from "../../redux/order/action";
 import { IOrderDetailPayload, OrderDispatch } from "../../redux/order/types";
 import useIsLogged from "../../util/useIsLogged";
 import { formatCurrency } from "../../util/util";

@@ -1,7 +1,6 @@
-import React, { FormEvent, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import useDebounce from "../../hooks/useDebounce";
-import { RootState } from "../../redux";
 import { fetchCategory, fetchMenu } from "../../redux/menu/action";
 import { IFilterPayload, MenuDispatch } from "../../redux/menu/types";
 import { OrderDispatch } from "../../redux/order/types";

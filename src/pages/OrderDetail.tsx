@@ -2,8 +2,6 @@ import { FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchPayment, IPayment } from "../api/api";
-import { StarIcon } from "../components/Icon";
-import UnfillStarIcon from "../components/Icon/UnfillStarIcon";
 import ReviewModal from "../components/Modal/ReviewModal";
 import Navbar from "../components/Navbar/Navbar";
 import { RootState } from "../redux";

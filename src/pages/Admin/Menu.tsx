@@ -7,12 +7,7 @@ import { StarIcon } from "../../components/Icon";
 import Modal from "../../components/Modal/Modal";
 import Navbar from "../../components/Navbar/Navbar";
 import { RootState } from "../../redux";
-import {
-  createMenu,
-  deleteMenu,
-  fetchMenu,
-  updateMenu,
-} from "../../redux/menu/action";
+import { createMenu, deleteMenu, updateMenu } from "../../redux/menu/action";
 import {
   ICreateUpdateMenuPayload,
   IFilterPayload,

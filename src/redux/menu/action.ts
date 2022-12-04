@@ -6,7 +6,6 @@ import {
   IFilterPayload,
   IMenuPagination,
   IMenuPayload,
-  IStatusPayload,
   MenuActions,
   MenuActionTypes,
 } from "./types";

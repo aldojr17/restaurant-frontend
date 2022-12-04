@@ -1,5 +1,5 @@
 import { IReviewPayload } from "../../redux/menu/types";
-import { StarIcon, TrashIcon } from "../Icon";
+import { StarIcon } from "../Icon";
 import UnfillStarIcon from "../Icon/UnfillStarIcon";
 import { ModalWrapper } from "./style";
 

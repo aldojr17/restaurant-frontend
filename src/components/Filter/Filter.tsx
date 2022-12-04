@@ -52,20 +52,20 @@ const Filter = ({
   };
 
   useEffect(() => {
-    if (type == "menu") {
+    if (type === "menu") {
       dispatch(fetchCategory());
     }
   }, []);
 
   useEffect(() => {
-    if (type == "menu") {
+    if (type === "menu") {
       dispatch(
         fetchMenu({
           ...filter,
           name: searchText,
         })
       );
-    } else if (type == "orders") {
+    } else if (type === "orders") {
       if (isAdmin) {
         dispatchOrder(
           fetchAllOrder({

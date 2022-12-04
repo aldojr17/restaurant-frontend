@@ -1,7 +1,6 @@
 import { Dispatch } from "react";
 import instance from "../../api/config/axios";
 import { IFilterPayload } from "../menu/types";
-import { IOrderPayload } from "../order/types";
 import {
   IAddReviewPayload,
   IApiPayload,

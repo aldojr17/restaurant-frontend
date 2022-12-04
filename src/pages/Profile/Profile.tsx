@@ -5,7 +5,6 @@ import { RootState } from "../../redux";
 import useIsLogged from "../../util/useIsLogged";
 import moment from "moment";
 import { CouponWrapper } from "./style";
-import instance from "../../api/config/axios";
 import axios from "axios";
 import { UserDispatch } from "../../redux/user/types";
 import { changeProfile, fetchCoupons } from "../../redux/user/action";

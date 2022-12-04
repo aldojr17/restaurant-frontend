@@ -1,18 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import CardImg from "../../components/Card/style";
 import Filter from "../../components/Filter/Filter";
-import FilterAdmin from "../../components/Filter/FilterAdmin";
 import { StarIcon } from "../../components/Icon";
 import UserReviewModal from "../../components/Modal/UserReviewModal";
 import Navbar from "../../components/Navbar/Navbar";
 import { RootState } from "../../redux";
-import { fetchMenu } from "../../redux/menu/action";
-import {
-  IFilterPayload,
-  IReviewPayload,
-  MenuDispatch,
-} from "../../redux/menu/types";
+import { IFilterPayload, IReviewPayload } from "../../redux/menu/types";
 import useIsLogged from "../../util/useIsLogged";
 import { formatCurrency } from "../../util/util";
 import Title from "../Cart/style";

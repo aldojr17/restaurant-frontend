@@ -1,7 +1,7 @@
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { IMenuPayload, IStatusPayload } from "../menu/types";
-import { ICoupon, IOrderPagination, IUserPayload } from "../user/types";
+import { ICoupon, IOrderPagination } from "../user/types";
 
 export enum DeliveryStatus {
   PREPARING = "Preparing",

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { FormEvent } from "react";
 import { IMenuPayload } from "../../redux/menu/types";
 import { IAddReviewPayload } from "../../redux/user/types";
 import { StarIcon } from "../Icon";

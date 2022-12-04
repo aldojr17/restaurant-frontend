@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { ICoupon } from "../../redux/user/types";
 import { ModalWrapper } from "./style";
 
