@@ -7,7 +7,12 @@ import { StarIcon } from "../../components/Icon";
 import Modal from "../../components/Modal/Modal";
 import Navbar from "../../components/Navbar/Navbar";
 import { RootState } from "../../redux";
-import { createMenu, deleteMenu, updateMenu } from "../../redux/menu/action";
+import {
+  createMenu,
+  deleteMenu,
+  fetchMenu,
+  updateMenu,
+} from "../../redux/menu/action";
 import {
   ICreateUpdateMenuPayload,
   IFilterPayload,
@@ -51,11 +56,12 @@ const Menu = () => {
     setOptions([
       ...options,
       {
-        id:
+        index:
           options.length !== 0
-            ? options.at(options.length - 1 > 0 ? options.length - 1 : 0)?.id! +
-              1
+            ? options.at(options.length - 1 > 0 ? options.length - 1 : 0)
+                ?.index! + 1
             : 1,
+        id: 0,
         menu_id: 0,
         name: "",
         price: 0,
@@ -63,17 +69,17 @@ const Menu = () => {
     ]);
   };
 
-  const handleDeleteOption = (id: number) => {
-    setOptions(options.filter((opt) => opt.id !== id));
+  const handleDeleteOption = (index: number) => {
+    setOptions(options.filter((opt) => opt.index !== index));
   };
 
   const handleChangeOption = (
     event: FormEvent<HTMLInputElement>,
-    id: number
+    index: number
   ) => {
     setOptions(
       options.map((opt) =>
-        opt.id === id
+        opt.index === index
           ? {
               ...opt,
               [event.currentTarget.name]: event.currentTarget.value,
@@ -169,12 +175,12 @@ const Menu = () => {
           photo: selectedFile ? uploadPost?.data.secure_url : input.photo,
           price: parseInt(String(input.price)),
           category_id: parseInt(String(input.category_id)),
-          options: options
-            .filter((opt) => opt.menu_id === 0)
-            .map((val) => ({
-              name: val.name,
-              price: parseInt(String(val.price)),
-            })),
+          options: options.map((val) => ({
+            id: val.id,
+            name: val.name,
+            menu_id: val.menu_id,
+            price: parseInt(String(val.price)),
+          })),
         },
         id
       )
@@ -294,7 +300,12 @@ const Menu = () => {
                   options: [],
                 });
                 setId(menu.id);
-                setOptions(menu.menu_option);
+                setOptions(
+                  menu.menu_option.map((val) => ({
+                    ...val,
+                    index: val.id,
+                  }))
+                );
               }}
             >
               <div className="position-relative">

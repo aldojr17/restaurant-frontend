@@ -61,7 +61,6 @@ const Register = () => {
     }
 
     const status = await registerApi(input);
-    console.log(status);
 
     if (status.isSuccess) {
       setIsShowModal(true);

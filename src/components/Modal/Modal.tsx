@@ -206,14 +206,14 @@ const Modal = ({
                 ""
               )}
               {options.map((val) => (
-                <div className="row mb-3" key={val.id}>
+                <div className="row mb-3" key={val.index}>
                   <div className="col-lg-6">
                     <input
                       type="text"
                       name="name"
                       id="name"
                       className="form-control"
-                      onChange={(e) => handleChangeOption(e, val.id)}
+                      onChange={(e) => handleChangeOption(e, val.index!)}
                       value={val.name}
                     />
                   </div>
@@ -223,14 +223,14 @@ const Modal = ({
                       name="price"
                       id="price"
                       className="form-control"
-                      onChange={(e) => handleChangeOption(e, val.id)}
+                      onChange={(e) => handleChangeOption(e, val.index!)}
                       value={val.price}
                     />
                   </div>
                   <div className="col-lg-1">
                     <button
                       className="btn"
-                      onClick={() => handleDeleteOption(val.id)}
+                      onClick={() => handleDeleteOption(val.index!)}
                     >
                       <TrashIcon />
                     </button>

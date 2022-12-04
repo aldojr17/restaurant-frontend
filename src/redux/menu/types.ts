@@ -26,6 +26,7 @@ export interface IReviewPayload {
 }
 
 export interface IMenuOptions {
+  index?: number;
   id: number;
   menu_id: number;
   name: string;
