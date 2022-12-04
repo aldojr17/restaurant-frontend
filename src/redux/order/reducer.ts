@@ -22,6 +22,7 @@ const initialState: IOrderState = {
       full_name: "",
       email: "",
     },
+    orders: [],
   },
   status: {
     error: null,

@@ -82,6 +82,13 @@ const Cart = () => {
         status: "",
         total_price: total,
         subtotal: subtotal,
+        orders: cart.map((val) => {
+          return {
+            menu_id: val.menu_id,
+            option_id: val.option_id !== 0 ? val.option_id : null,
+            qty: val.qty,
+          };
+        }),
       })
     );
   };
@@ -113,18 +120,18 @@ const Cart = () => {
 
   useEffect(() => {
     if (order.id !== 0) {
-      dispatchOrder(
-        createOrderDetails(
-          cart.map((val) => {
-            return {
-              menu_id: val.menu_id,
-              order_id: order.id,
-              option_id: val.option_id !== 0 ? val.option_id : null,
-              qty: val.qty,
-            };
-          })
-        )
-      );
+      // dispatchOrder(
+      //   createOrderDetails(
+      //     cart.map((val) => {
+      //       return {
+      //         menu_id: val.menu_id,
+      //         order_id: order.id,
+      //         option_id: val.option_id !== 0 ? val.option_id : null,
+      //         qty: val.qty,
+      //       };
+      //     })
+      //   )
+      // );
       dispatchOrder(
         setOrder({
           coupon_id: "",
@@ -134,6 +141,7 @@ const Cart = () => {
           status: "",
           total_price: 0,
           subtotal: subtotal,
+          orders: [],
         })
       );
       dispatch(deleteAllFromCart());

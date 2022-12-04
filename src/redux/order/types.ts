@@ -33,6 +33,11 @@ export interface IOrderPayload {
     full_name: string;
     email: string;
   };
+  orders: {
+    menu_id: number;
+    option_id: number | null;
+    qty: number;
+  }[];
 }
 
 export interface IUpdateStatusPayload {
