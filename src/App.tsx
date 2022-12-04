@@ -18,6 +18,7 @@ import {
   Profile,
   ProtectedRoutes,
   Register,
+  Review,
 } from "./pages";
 import { UserDispatch } from "./redux/user/types";
 import { useDispatch, useSelector } from "react-redux";
@@ -75,6 +76,7 @@ function App() {
             <Route path="/menu" element={<MenuAdmin />} />
             <Route path="/coupon" element={<CouponAdmin />} />
             <Route path="/:id" element={<OrderDetailAdmin />} />
+            <Route path="/review" element={<Review />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />

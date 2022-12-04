@@ -164,49 +164,55 @@ const Filter = ({
           </div>
         </div>
       </div>
-
-      <div className="d-flex align-items-center p-0">
-        <div className="col">
-          <span>
-            Showing{" "}
-            {pagination.limit * pagination.current_page - pagination.limit + 1}{" "}
-            to{" "}
-            {pagination.limit * pagination.current_page + 1 <= pagination.total
-              ? pagination.limit * pagination.current_page
-              : pagination.total}{" "}
-            of {pagination.total}
-          </span>
-        </div>
-        <div className="col d-flex align-items-center gap-3 justify-content-end">
-          <span>Row per page</span>
-          <div className="col-lg-2">
-            <select
-              name="limit"
-              id="limit"
-              className="form-select"
-              value={filter.limit}
-              onChange={handleChange}
-            >
-              {type === "menu" ? (
-                <>
-                  {" "}
-                  <option value={4}>4</option>
-                  <option value={8}>8</option>
-                  <option value={12}>12</option>
-                  <option value={20}>20</option>
-                </>
-              ) : (
-                <>
-                  <option value={5}>5</option>
-                  <option value={10}>10</option>
-                  <option value={20}>20</option>
-                  <option value={50}>50</option>
-                </>
-              )}
-            </select>
+      {isAdmin ? (
+        ""
+      ) : (
+        <div className="d-flex align-items-center p-0">
+          <div className="col">
+            <span>
+              Showing{" "}
+              {pagination.limit * pagination.current_page -
+                pagination.limit +
+                1}{" "}
+              to{" "}
+              {pagination.limit * pagination.current_page + 1 <=
+              pagination.total
+                ? pagination.limit * pagination.current_page
+                : pagination.total}{" "}
+              of {pagination.total}
+            </span>
+          </div>
+          <div className="col d-flex align-items-center gap-3 justify-content-end">
+            <span>Row per page</span>
+            <div className="col-lg-2">
+              <select
+                name="limit"
+                id="limit"
+                className="form-select"
+                value={filter.limit}
+                onChange={handleChange}
+              >
+                {type === "menu" ? (
+                  <>
+                    {" "}
+                    <option value={4}>4</option>
+                    <option value={8}>8</option>
+                    <option value={12}>12</option>
+                    <option value={20}>20</option>
+                  </>
+                ) : (
+                  <>
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
+                    <option value={50}>50</option>
+                  </>
+                )}
+              </select>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
