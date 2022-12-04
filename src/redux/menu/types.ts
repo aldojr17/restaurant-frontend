@@ -45,6 +45,7 @@ export interface IFilterPayload {
   limit?: number;
   sort?: string;
   page?: number;
+  date?: string;
 }
 
 export interface IStatusPayload {

@@ -165,7 +165,24 @@ const Filter = ({
         </div>
       </div>
       {isAdmin ? (
-        ""
+        <div className="col-lg-4 p-lg-0">
+          <div className="row align-items-center">
+            <span className="col-lg-5">Show Transaction</span>
+            <div className="col-lg-5">
+              <select
+                className="form-select"
+                name="date"
+                id="date"
+                onChange={handleChangeFilter}
+              >
+                <option value={""}>All</option>
+                <option value={"this_week"}>This Week</option>
+                <option value={"this_month"}>This Month</option>
+                <option value={"last_month"}>Last Month</option>
+              </select>
+            </div>
+          </div>
+        </div>
       ) : (
         <div className="d-flex align-items-center p-0">
           <div className="col">

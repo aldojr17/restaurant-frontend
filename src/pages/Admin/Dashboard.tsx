@@ -20,6 +20,7 @@ const Dashboard = () => {
     name: "",
     sort: "desc",
     limit: 5,
+    date: "",
   });
   const [pagination, setPagination] = useState<string[]>([]);
   const [payments, setPayments] = useState<IPayment[]>([]);
