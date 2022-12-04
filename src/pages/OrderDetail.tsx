@@ -208,7 +208,7 @@ const OrderDetail = () => {
                       <span>
                         {
                           payments.find(
-                            (payment) => payment.id == order?.payment_id
+                            (payment) => payment.id === order?.payment_id
                           )?.description
                         }
                       </span>
