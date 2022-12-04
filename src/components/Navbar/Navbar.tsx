@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { CartIcon, HeartIcon } from "../Icon";
+import { StyledTitle } from "./style";
 
 interface NavbarProps {
   active?: string;
@@ -19,7 +20,7 @@ const Navbar = ({ ...props }: NavbarProps) => {
     <nav className="navbar navbar-expand-lg mb-4">
       <div className="container">
         <Link to={"/"} className="navbar-brand">
-          Foodie
+          <StyledTitle>FoodLabs</StyledTitle>
         </Link>
         <button
           className="navbar-toggler"
