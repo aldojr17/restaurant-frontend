@@ -57,11 +57,17 @@ const Card = ({ ...props }: IMenuPayload) => {
           role={"button"}
           onClick={() => navigate(`/menu/${props.id}`, { replace: true })}
         >
-          <CardImg
-            src={`https://plus.unsplash.com/premium_photo-1667682209935-b6c87cced668?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80`}
-            className="card-img-top"
-            alt="menu"
-          />
+          <div className="img-wrapper">
+            <CardImg
+              src={
+                props.photo !== ""
+                  ? props.photo
+                  : "/assets/no-image-available.png"
+              }
+              className="card-img-top"
+              alt="menu"
+            />
+          </div>
           <div className="card-body">
             <h5 className="card-title">{props.name}</h5>
             <div className="d-flex justify-content-between align-items-center">

@@ -72,7 +72,6 @@ const Cart = () => {
       createOrder({
         coupon_id: coupon,
         id: 0,
-        notes: null,
         payment_id: paymentId,
         status: "",
         total_price: total,
@@ -115,23 +114,10 @@ const Cart = () => {
 
   useEffect(() => {
     if (order.id !== 0) {
-      // dispatchOrder(
-      //   createOrderDetails(
-      //     cart.map((val) => {
-      //       return {
-      //         menu_id: val.menu_id,
-      //         order_id: order.id,
-      //         option_id: val.option_id !== 0 ? val.option_id : null,
-      //         qty: val.qty,
-      //       };
-      //     })
-      //   )
-      // );
       dispatchOrder(
         setOrder({
           coupon_id: "",
           id: 0,
-          notes: null,
           payment_id: 0,
           status: "",
           total_price: 0,
@@ -195,7 +181,11 @@ const Cart = () => {
                 >
                   <div className="col-lg-3">
                     <img
-                      src={`https://plus.unsplash.com/premium_photo-1667682209935-b6c87cced668?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80`}
+                      src={
+                        val.menu_detail?.photo !== ""
+                          ? val.menu_detail?.photo
+                          : "/assets/no-image-available.png"
+                      }
                       alt="menu"
                       className="w-100"
                     />

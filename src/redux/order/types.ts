@@ -21,7 +21,6 @@ export interface IOrderPayload {
   id: number;
   user_id?: string | null;
   coupon_id: string | null;
-  notes: string | null;
   payment_id: number;
   status: string;
   order_date?: string;

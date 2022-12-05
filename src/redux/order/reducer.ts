@@ -13,7 +13,6 @@ const initialState: IOrderState = {
   order: {
     coupon_id: null,
     id: 0,
-    notes: null,
     payment_id: 1,
     status: "",
     total_price: 0,

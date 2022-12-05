@@ -10,6 +10,7 @@ import { IFilterPayload, IReviewPayload } from "../../redux/menu/types";
 import useIsLogged from "../../util/useIsLogged";
 import { formatCurrency } from "../../util/util";
 import Title from "../Cart/style";
+import { Wrapper } from "./style";
 
 const Review = () => {
   const { menus } = useSelector((state: RootState) => state.menuReducer);
@@ -126,11 +127,17 @@ const Review = () => {
             >
               <div className="position-relative">
                 <div className="card rounded rounded-4 shadow" role={"button"}>
-                  <CardImg
-                    src={`https://plus.unsplash.com/premium_photo-1667682209935-b6c87cced668?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80`}
-                    className="card-img-top"
-                    alt="menu"
-                  />
+                  <Wrapper>
+                    <CardImg
+                      src={
+                        menu.photo !== ""
+                          ? menu.photo
+                          : "/assets/no-image-available.png"
+                      }
+                      className="card-img-top"
+                      alt="menu"
+                    />
+                  </Wrapper>
                   <div className="card-body">
                     <h5 className="card-title">{menu.name}</h5>
                     <div className="d-flex justify-content-between align-items-center">
