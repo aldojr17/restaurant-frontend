@@ -10,9 +10,11 @@ const MenuList = ({ ...props }: MenuListProps) => {
     <>
       <div className="container mx-auto row mt-5">
         <div className="d-flex mx-auto gap-4 gap-lg-0 flex-wrap justify-content-center justify-content-lg-start">
-          {props.data.map((menu) => (
-            <Card key={menu.id} {...menu} />
-          ))}
+          {props.data.length !== 0 ? (
+            props.data.map((menu) => <Card key={menu.id} {...menu} />)
+          ) : (
+            <span className="fs-4 w-100 text-center">No Data</span>
+          )}
         </div>
       </div>
     </>

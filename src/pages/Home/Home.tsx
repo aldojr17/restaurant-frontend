@@ -103,7 +103,11 @@ const Home = () => {
           </div>
           <div className="col-lg-6 pt-5">
             <HomeImg
-              src={newMenus.at(index)?.photo}
+              src={
+                newMenus.at(index)?.photo === ""
+                  ? "/assets/no-image-available.png"
+                  : newMenus.at(index)?.photo
+              }
               className="w-100"
               alt="menu"
             />

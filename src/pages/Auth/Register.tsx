@@ -136,6 +136,7 @@ const Register = () => {
                 name="password"
                 id="password"
                 placeholder="Password"
+                minLength={6}
                 onChange={handleChange}
               />
               {isError.password ? (
@@ -153,6 +154,7 @@ const Register = () => {
                 name="confirmPassword"
                 id="confirmPassword"
                 placeholder="Confirm Password"
+                minLength={6}
                 onChange={handleChange}
               />
               {isError.confirmPassword ? (
