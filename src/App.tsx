@@ -6,6 +6,7 @@ import {
   CouponAdmin,
   Dashboard,
   Favorites,
+  Games,
   Home,
   Login,
   Menu,
@@ -59,6 +60,7 @@ function App() {
               <Route path="/cart" element={<Cart />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/favorites" element={<Favorites />} />
+              <Route path="/games" element={<Games />} />
             </Route>
           </Route>
 

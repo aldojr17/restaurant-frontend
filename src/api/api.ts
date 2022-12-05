@@ -67,3 +67,10 @@ export const fetchPayment = () => {
     .then((response) => response.data.data)
     .catch((error) => error);
 };
+
+export const fetchQuestion = () => {
+  return instance
+    .get("/questions")
+    .then((response) => response.data.data)
+    .catch((error) => error);
+};

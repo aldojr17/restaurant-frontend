@@ -3,6 +3,16 @@ import { ThunkDispatch } from "redux-thunk";
 import { IMenuPayload } from "../menu/types";
 import { IOrderPayload } from "../order/types";
 
+export interface IQuestionPayload {
+  id: number;
+  question: string;
+  correct_answer: string;
+  option_one: string;
+  option_two: string;
+  option_three: string;
+  option_four: string;
+}
+
 export interface IUserPayload {
   id: string;
   email: string;

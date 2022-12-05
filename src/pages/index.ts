@@ -6,6 +6,7 @@ export { default as Login } from "./Auth/Login";
 export { default as Register } from "./Auth/Register";
 export { default as Home } from "./Home/Home";
 export { default as Menu } from "./Menu";
+export { default as Games } from "./Games";
 export { default as Order } from "./Order/Order";
 export { default as Favorites } from "./Favorites";
 export { default as OrderDetail } from "./OrderDetail";
