@@ -13,6 +13,18 @@ export interface IQuestionPayload {
   option_four: string;
 }
 
+export interface ILeaderboardPayload {
+  id: number;
+  user_id: string;
+  accumulated_score: string;
+  user: IUserPayload;
+}
+
+export interface IGamePayload {
+  score: number;
+  created_at: string;
+}
+
 export interface IUserPayload {
   id: string;
   email: string;

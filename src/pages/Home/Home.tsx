@@ -85,7 +85,7 @@ const Home = () => {
       <HomeWrapper className="container px-5 mx-auto position-relative">
         {showToast ? (
           <div className="position-absolute end-0">
-            <Toast />
+            <Toast type="Cart" message="Item added to cart!" />
           </div>
         ) : (
           ""

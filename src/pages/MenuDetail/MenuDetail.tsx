@@ -113,7 +113,11 @@ const MenuDetail = () => {
         <>
           <div className="position-relative">
             <div className="toast-container position-absolute end-0">
-              {showToast ? <Toast /> : ""}
+              {showToast ? (
+                <Toast type="Cart" message="Item added to cart!" />
+              ) : (
+                ""
+              )}
             </div>
           </div>
           <div className="container py-5">

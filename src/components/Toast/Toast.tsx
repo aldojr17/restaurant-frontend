@@ -1,4 +1,9 @@
-const Toast = () => {
+interface IToastProps {
+  type: string;
+  message: string;
+}
+
+const Toast = ({ type, message }: IToastProps) => {
   return (
     <div
       className="toast show"
@@ -7,7 +12,7 @@ const Toast = () => {
       aria-atomic="true"
     >
       <div className="toast-header">
-        <strong className="me-auto">Cart</strong>
+        <strong className="me-auto">{type}</strong>
         <small className="text-muted">just now</small>
         <button
           type="button"
@@ -16,7 +21,7 @@ const Toast = () => {
           aria-label="Close"
         ></button>
       </div>
-      <div className="toast-body">Item added to cart!</div>
+      <div className="toast-body">{message}</div>
     </div>
   );
 };

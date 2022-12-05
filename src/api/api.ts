@@ -81,3 +81,17 @@ export const createGame = (score: number) => {
     .then((response) => response.data.data)
     .catch((error) => error);
 };
+
+export const fetchLeaderboards = () => {
+  return instance
+    .get("/leaderboards")
+    .then((response) => response.data.data)
+    .catch((error) => error);
+};
+
+export const fetchHistoryGame = () => {
+  return instance
+    .get("/game")
+    .then((response) => response.data.data)
+    .catch((error) => error);
+};
