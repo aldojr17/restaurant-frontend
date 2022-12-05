@@ -74,3 +74,10 @@ export const fetchQuestion = () => {
     .then((response) => response.data.data)
     .catch((error) => error);
 };
+
+export const createGame = (score: number) => {
+  return instance
+    .post("/game", { score })
+    .then((response) => response.data.data)
+    .catch((error) => error);
+};

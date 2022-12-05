@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
-import { fetchQuestion } from "../api/api";
+import { createGame, fetchQuestion } from "../api/api";
 import GameModal from "../components/Modal/GameModal";
 import Navbar from "../components/Navbar/Navbar";
 import { IQuestionPayload } from "../redux/user/types";
@@ -9,7 +9,7 @@ const Games = () => {
   const [showModal, setShowModal] = useState(false);
   const [questions, setQuestions] = useState<IQuestionPayload[]>([]);
   const [index, setIndex] = useState(0);
-  const [answer, setAnswer] = useState({});
+  const [answer, setAnswer] = useState([0, 0, 0, 0, 0]);
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -28,14 +28,16 @@ const Games = () => {
   };
 
   const handleChange = (event: FormEvent<HTMLInputElement>) => {
-    setAnswer({
-      ...answer,
-      [index]: event.currentTarget.value,
-    });
+    answer[index] =
+      event.currentTarget.value === questions.at(index)?.correct_answer
+        ? 20
+        : 0;
+    setAnswer(answer);
   };
 
-  const handleSubmit = () => {
-    console.log(answer);
+  const handleSubmit = async () => {
+    await createGame(answer.reduce((acc, val) => acc + val, 0));
+    setShowModal(false);
   };
 
   useEffect(() => {
